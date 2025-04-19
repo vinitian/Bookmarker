@@ -6,8 +6,11 @@ export default function HomeScreen() {
   return (
     <ThemedView>
       <ThemedText>Profile Page</ThemedText>
-      <Link href="user/1">
+      <Link href="/profile/user/1">
         <ThemedText>To user 1</ThemedText>
+      </Link>
+      <Link href="/">
+        <ThemedText>To login</ThemedText>
       </Link>
       <ThemedText></ThemedText>
     </ThemedView>
