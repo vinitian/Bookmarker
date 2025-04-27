@@ -4,10 +4,40 @@ import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { Link } from "expo-router";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 
-export default function Book() {
+export default function Book({ image, name, authors }) {
   return (
-    <View>
-      <Text>Book</Text>
+    <View style={{ display: "flex" }}>
+      <Image
+        source={{
+          uri: image,
+        }}
+        style={{ width: 200, height: 300, borderRadius: 8 }}
+      />
+      <View style={{ width: 200 }}>
+        <ThemedText
+          style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
+        >
+          {name}
+        </ThemedText>
+        <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
+          by {authors[0]} {authors.length > 1 ? `(+${authors.length - 1})` : ``}
+        </ThemedText>
+        <TouchableOpacity
+          onPress={() => {}}
+          style={{
+            backgroundColor: "#79AB57",
+            width: "full",
+            height: 30,
+            marginTop: 5,
+            padding: 5,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 50,
+          }}
+        >
+          <Text style={{ color: "#fff" }}>Bookmark!</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
