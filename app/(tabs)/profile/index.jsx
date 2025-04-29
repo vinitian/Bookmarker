@@ -4,11 +4,12 @@ import { Link } from "expo-router";
 import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
+import MyShelf from "@/components/MyShelf";
 
 export default function HomeScreen() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <ThemedView>
+      <ThemedView style={{ paddingBottom: 20 }}>
         <ThemedText>Profile Page</ThemedText>
         <Link href="/profile/user/1">
           <ThemedText>To user 1</ThemedText>
@@ -55,6 +56,7 @@ export default function HomeScreen() {
           </View>
         </ThemedView>
         <MyTopTen />
+        <MyShelf />
       </ThemedView>
     </ScrollView>
   );

@@ -3,10 +3,11 @@ import { ThemedView } from "@/components/ThemedView";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { Link } from "expo-router";
 import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
-import Book from "./Book";
+import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
-export default function MyTopTen() {
+export default function MyShelf() {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -35,7 +36,7 @@ export default function MyTopTen() {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: 10,
+            gap: 14,
             paddingHorizontal: 10,
           }}
         >
@@ -57,46 +58,62 @@ export default function MyTopTen() {
         marginTop: 20,
       }}
     >
-      <ThemedText
+      <View
         style={{
-          fontFamily: "Trirong_700Bold",
-          fontSize: 32,
-          lineHeight: 60,
-          paddingLeft: 15,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
         }}
       >
-        My Top Ten
-      </ThemedText>
+        <ThemedText
+          style={{
+            fontFamily: "Trirong_700Bold",
+            fontSize: 24,
+            paddingLeft: 15,
+            lineHeight: 48,
+          }}
+        >
+          My Shelf
+        </ThemedText>
+        <TouchableOpacity onPress={() => {}}>
+          <Feather
+            name="edit"
+            size={24}
+            color="#3C5433"
+            style={{ marginLeft: 10 }}
+          />
+        </TouchableOpacity>
+      </View>
       <CustomView>
-        <Book
+        <BookSmall
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
           name={"An Anthology of Australian Albums"}
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
-        <Book
+        <BookSmall
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
           name={"Web Search: Public Searching of the Web"}
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
-        <Book
+        <BookSmall
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
           name={"Web Search: Public Searching of the Web"}
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
-        <Book
+        <BookSmall
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
           name={"Web Search: Public Searching of the Web"}
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
-        <Book
+        <BookSmall
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
