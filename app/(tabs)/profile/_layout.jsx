@@ -8,6 +8,10 @@ export default function StackLayout() {
         options={{ headerShown: true, title: "My Profile" }}
       />
       <Stack.Screen name="user" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="logSession"
+        options={{ headerShown: true, title: "Log Session" }}
+      />
     </Stack>
   );
 }
