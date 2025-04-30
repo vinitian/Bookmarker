@@ -1,4 +1,11 @@
-import { View, Text, Image, Platform, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Platform,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -39,6 +46,8 @@ export default function logSession() {
         minutes.toString().padStart(2, "0")
     );
   };
+  const [startPage, setStartPage] = useState();
+  const [endPage, setEndPage] = useState();
 
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
@@ -145,29 +154,26 @@ export default function logSession() {
       </ThemedText>
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          borderWidth: 1,
-          borderColor: "red",
+          borderBottomWidth: 1,
+          borderColor: "#3C5433",
         }}
       >
-        <ThemedText>
-          {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Not Selected"}
-        </ThemedText>
         <TouchableOpacity
           onPress={() => {
             setShowDatePicker(true);
           }}
           style={{
-            marginLeft: 5,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
-            justifyContent: "center",
-            alignSelf: "center",
+            marginLeft: 5,
             borderRadius: 50,
           }}
         >
+          <ThemedText>
+            {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Not Selected"}
+          </ThemedText>
           <MaterialCommunityIcons
             name="calendar-today"
             size={24}
@@ -247,33 +253,30 @@ export default function logSession() {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-evenly",
               gap: 10,
             }}
           >
             <View
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                borderWidth: 1,
-                borderColor: "red",
+                borderBottomWidth: 1,
+                borderColor: "#3C5433",
+                flexGrow: 1,
               }}
             >
-              <ThemedText>From: {selectedStartTime}</ThemedText>
               <TouchableOpacity
                 onPress={() => {
                   setShowStartTimePicker(true);
                 }}
                 style={{
-                  marginLeft: 5,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
+                  marginLeft: 5,
                   borderRadius: 50,
                 }}
               >
+                <ThemedText>From: {selectedStartTime}</ThemedText>
                 <MaterialCommunityIcons
                   name="clock-outline"
                   size={24}
@@ -286,31 +289,30 @@ export default function logSession() {
                 date={selectedStartTime}
                 onConfirm={onStartTimePickerConfirm}
                 use24HourClock={true}
+                label="I start reading at..."
               />
             </View>
             <View
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                borderWidth: 1,
-                borderColor: "red",
+                borderBottomWidth: 1,
+                borderColor: "#3C5433",
+                flexGrow: 1,
               }}
             >
-              <ThemedText>To: {selectedEndTime}</ThemedText>
               <TouchableOpacity
                 onPress={() => {
                   setShowEndTimePicker(true);
                 }}
                 style={{
-                  marginLeft: 5,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                   alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
+                  marginLeft: 5,
                   borderRadius: 50,
                 }}
               >
+                <ThemedText>To: {selectedEndTime}</ThemedText>
                 <MaterialCommunityIcons
                   name="clock-outline"
                   size={24}
@@ -323,6 +325,66 @@ export default function logSession() {
                 date={selectedEndTime}
                 onConfirm={onEndTimePickerConfirm}
                 use24HourClock={true}
+                label="I read this until..."
+              />
+            </View>
+          </View>
+          <ThemedText
+            style={{
+              marginTop: 5,
+              fontFamily: "Trirong_700Bold",
+            }}
+          >
+            Page
+          </ThemedText>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                borderBottomWidth: 1,
+                borderColor: "#3C5433",
+                paddingLeft: 5,
+                flexGrow: 1,
+              }}
+            >
+              <ThemedText>From: </ThemedText>
+              <TextInput
+                value={startPage}
+                onEndEditing={setStartPage}
+                style={{ width: 130, height: 24, color: "#3C5433", padding: 0 }}
+              />
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                borderBottomWidth: 1,
+                borderColor: "#3C5433",
+                paddingLeft: 5,
+                flexGrow: 1,
+              }}
+            >
+              <ThemedText>To: </ThemedText>
+              <TextInput
+                value={endPage}
+                onEndEditing={setEndPage}
+                style={{
+                  width: 130,
+                  height: 24,
+                  color: "#3C5433",
+                  padding: 0,
+                }}
               />
             </View>
           </View>
