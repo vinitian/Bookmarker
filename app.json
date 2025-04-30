@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.booktracker",
+      "bundleIdentifier": "com.bookmarker",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
@@ -18,7 +18,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.booktracker",
+      "package": "com.bookmarker",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
@@ -31,6 +31,14 @@
       "@react-native-firebase/auth",
       "@react-native-firebase/crashlytics",
       "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
       [
         "expo-splash-screen",
         {
