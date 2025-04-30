@@ -5,21 +5,24 @@ import {
   Platform,
   TouchableOpacity,
   TextInput,
+  useWindowDimensions,
+  ScrollView,
 } from "react-native";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import React, { useState } from "react";
-import BookmarkButton from "../../../components/BookmarkButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { format } from "date-fns";
+import SavedBookmark from "@/components/SavedBookmark";
 
 export default function logSession() {
   const image =
     "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
   const name = "An Anthology of Australian Albums";
   const authors = ["Jon Stratton", "Jon Dale", "Tony Mitchell"];
+  const { height, width } = useWindowDimensions();
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const onDatePickerConfirm = ({ date }) => {
@@ -73,8 +76,8 @@ export default function logSession() {
       <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
     </TouchableOpacity>
   );
-  const CustomView = ({ children }) => {
-    if (Platform.OS === "web") {
+  const CustomBookView = ({ children }) => {
+    if ((Platform.OS === "web") & (width > 600)) {
       return (
         <View
           style={{
@@ -122,7 +125,7 @@ export default function logSession() {
     );
   };
   const CustomView2 = ({ children }) => {
-    if (Platform.OS === "web") {
+    if ((Platform.OS === "web") & (width > 600)) {
       return (
         <View
           style={{
@@ -193,16 +196,58 @@ export default function logSession() {
   );
 
   return (
-    <ThemedView style={{ paddingVertical: 20 }}>
-      <CustomView2>
-        <View style={{ width: "fit-content" }}>
-          <CustomView>
-            <View
-              style={{
-                maxWidth: 200,
-                width: "fit-content",
-              }}
-            >
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <ThemedView
+        style={{ paddingVertical: 20, display: "flex", alignItems: "center" }}
+      >
+        <CustomView2>
+          <View style={{ width: "fit-content" }}>
+            <CustomBookView>
+              <View
+                style={{
+                  maxWidth: 200,
+                  width: "fit-content",
+                }}
+              >
+                <ThemedText
+                  style={{
+                    fontSize: 18,
+                    lineHeight: 24,
+                    marginTop: 5,
+                    fontFamily: "Trirong_700Bold",
+                  }}
+                >
+                  {name}
+                </ThemedText>
+                <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
+                  by {authors[0]}{" "}
+                  {authors.length > 1 ? `(+${authors.length - 1})` : ``}
+                </ThemedText>
+                <Text
+                  style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
+                >
+                  Hours read: 00
+                </Text>
+                <Text
+                  style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
+                >
+                  Pages read: 000
+                </Text>
+              </View>
+            </CustomBookView>
+            <AddBookmarkButton />
+          </View>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: "red",
+              marginLeft: 8,
+              gap: 20,
+              display: "flex",
+              flexDirection: width < 900 ? "column" : "row",
+            }}
+          >
+            <View>
               <ThemedText
                 style={{
                   fontSize: 18,
@@ -211,185 +256,190 @@ export default function logSession() {
                   fontFamily: "Trirong_700Bold",
                 }}
               >
-                {name}
+                Edit Bookmark
               </ThemedText>
-              <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
-                by {authors[0]}{" "}
-                {authors.length > 1 ? `(+${authors.length - 1})` : ``}
-              </ThemedText>
-              <Text style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}>
-                Hours read: 00
-              </Text>
-              <Text style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}>
-                Pages read: 000
-              </Text>
-            </View>
-          </CustomView>
-          <AddBookmarkButton />
-        </View>
-        <View
-          style={{ borderWidth: 1, borderColor: "red", paddingHorizontal: 10 }}
-        >
-          <ThemedText
-            style={{
-              fontSize: 18,
-              lineHeight: 24,
-              marginTop: 5,
-              fontFamily: "Trirong_700Bold",
-            }}
-          >
-            Edit Bookmark
-          </ThemedText>
-          <DateSection />
-          <ThemedText
-            style={{
-              marginTop: 5,
-              fontFamily: "Trirong_700Bold",
-            }}
-          >
-            Time
-          </ThemedText>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 10,
-            }}
-          >
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "#3C5433",
-                flexGrow: 1,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  setShowStartTimePicker(true);
+              <DateSection />
+              <ThemedText
+                style={{
+                  marginTop: 5,
+                  fontFamily: "Trirong_700Bold",
                 }}
+              >
+                Time
+              </ThemedText>
+              <View
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: 5,
-                  borderRadius: 50,
+                  gap: 10,
                 }}
               >
-                <ThemedText>From: {selectedStartTime}</ThemedText>
-                <MaterialCommunityIcons
-                  name="clock-outline"
-                  size={24}
-                  color="#3C5433"
-                />
-              </TouchableOpacity>
-              <TimePickerModal
-                visible={showStartTimePicker}
-                onDismiss={() => setShowStartTimePicker(false)}
-                date={selectedStartTime}
-                onConfirm={onStartTimePickerConfirm}
-                use24HourClock={true}
-                label="I start reading at..."
-              />
-            </View>
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderColor: "#3C5433",
-                flexGrow: 1,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  setShowEndTimePicker(true);
+                <View
+                  style={{
+                    borderBottomWidth: 1,
+                    borderColor: "#3C5433",
+                    flexGrow: 1,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowStartTimePicker(true);
+                    }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginLeft: 5,
+                      borderRadius: 50,
+                    }}
+                  >
+                    <ThemedText>From: {selectedStartTime}</ThemedText>
+                    <MaterialCommunityIcons
+                      name="clock-outline"
+                      size={24}
+                      color="#3C5433"
+                    />
+                  </TouchableOpacity>
+                  <TimePickerModal
+                    visible={showStartTimePicker}
+                    onDismiss={() => setShowStartTimePicker(false)}
+                    date={selectedStartTime}
+                    onConfirm={onStartTimePickerConfirm}
+                    use24HourClock={true}
+                    label="I start reading at..."
+                  />
+                </View>
+                <View
+                  style={{
+                    borderBottomWidth: 1,
+                    borderColor: "#3C5433",
+                    flexGrow: 1,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => {
+                      setShowEndTimePicker(true);
+                    }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginLeft: 5,
+                      borderRadius: 50,
+                    }}
+                  >
+                    <ThemedText>To: {selectedEndTime}</ThemedText>
+                    <MaterialCommunityIcons
+                      name="clock-outline"
+                      size={24}
+                      color="#3C5433"
+                    />
+                  </TouchableOpacity>
+                  <TimePickerModal
+                    visible={showEndTimePicker}
+                    onDismiss={() => setShowEndTimePicker(false)}
+                    date={selectedEndTime}
+                    onConfirm={onEndTimePickerConfirm}
+                    use24HourClock={true}
+                    label="I read this until..."
+                  />
+                </View>
+              </View>
+              <ThemedText
+                style={{
+                  marginTop: 5,
+                  fontFamily: "Trirong_700Bold",
                 }}
+              >
+                Page
+              </ThemedText>
+              <View
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: 5,
-                  borderRadius: 50,
+                  gap: 10,
                 }}
               >
-                <ThemedText>To: {selectedEndTime}</ThemedText>
-                <MaterialCommunityIcons
-                  name="clock-outline"
-                  size={24}
-                  color="#3C5433"
-                />
-              </TouchableOpacity>
-              <TimePickerModal
-                visible={showEndTimePicker}
-                onDismiss={() => setShowEndTimePicker(false)}
-                date={selectedEndTime}
-                onConfirm={onEndTimePickerConfirm}
-                use24HourClock={true}
-                label="I read this until..."
-              />
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    borderBottomWidth: 1,
+                    borderColor: "#3C5433",
+                    paddingLeft: 5,
+                    flexGrow: 1,
+                  }}
+                >
+                  <ThemedText>From: </ThemedText>
+                  <TextInput
+                    value={startPage}
+                    onEndEditing={setStartPage}
+                    style={{
+                      width: 130,
+                      height: 24,
+                      color: "#3C5433",
+                      padding: 0,
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    borderBottomWidth: 1,
+                    borderColor: "#3C5433",
+                    paddingLeft: 5,
+                    flexGrow: 1,
+                  }}
+                >
+                  <ThemedText>To: </ThemedText>
+                  <TextInput
+                    value={endPage}
+                    onEndEditing={setEndPage}
+                    style={{
+                      width: 130,
+                      height: 24,
+                      color: "#3C5433",
+                      padding: 0,
+                    }}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-          <ThemedText
-            style={{
-              marginTop: 5,
-              fontFamily: "Trirong_700Bold",
-            }}
-          >
-            Page
-          </ThemedText>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 10,
-            }}
-          >
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                borderBottomWidth: 1,
-                borderColor: "#3C5433",
-                paddingLeft: 5,
-                flexGrow: 1,
-              }}
-            >
-              <ThemedText>From: </ThemedText>
-              <TextInput
-                value={startPage}
-                onEndEditing={setStartPage}
-                style={{ width: 130, height: 24, color: "#3C5433", padding: 0 }}
-              />
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                borderBottomWidth: 1,
-                borderColor: "#3C5433",
-                paddingLeft: 5,
-                flexGrow: 1,
-              }}
-            >
-              <ThemedText>To: </ThemedText>
-              <TextInput
-                value={endPage}
-                onEndEditing={setEndPage}
+            <View>
+              <ThemedText
                 style={{
-                  width: 130,
-                  height: 24,
-                  color: "#3C5433",
-                  padding: 0,
+                  fontSize: 18,
+                  lineHeight: 24,
+                  marginTop: 5,
+                  fontFamily: "Trirong_700Bold",
                 }}
-              />
+              >
+                Saved Bookmarks
+              </ThemedText>
+              <View
+                style={{
+                  marginTop: 5,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                }}
+              >
+                <SavedBookmark />
+                <SavedBookmark />
+                <SavedBookmark />
+                <SavedBookmark />
+              </View>
             </View>
           </View>
-        </View>
-      </CustomView2>
-    </ThemedView>
+        </CustomView2>
+      </ThemedView>
+    </ScrollView>
   );
 }
