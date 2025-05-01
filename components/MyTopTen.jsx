@@ -52,7 +52,7 @@ export default function MyTopTen() {
     <View
       style={{
         width: "100%",
-        maxWidth: 1100,
+        maxWidth: 1200,
         alignSelf: "center",
         marginTop: 20,
       }}

@@ -1,6 +1,12 @@
-import { Tabs } from "expo-router";
+import { Link, Slot, Tabs, useRouter } from "expo-router";
 import React from "react";
-import { Platform, StyleSheet } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -13,14 +19,90 @@ import {
   NotoSansThaiLooped_400Regular,
   useFonts,
 } from "@expo-google-fonts/noto-sans-thai-looped";
+import { Trirong_700Bold } from "@expo-google-fonts/trirong";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function TabLayout() {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
+    Trirong_700Bold,
   });
+
   if (!fontsLoaded) {
     return null;
+  }
+
+  if (Platform.OS === "web") {
+    return (
+      <>
+        <View style={{ backgroundColor: "#3C5433" }}>
+          <View
+            style={{
+              width: "100%",
+              maxWidth: 1200,
+              alignSelf: "center",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              paddingVertical: 4,
+              paddingRight: 20,
+              paddingLeft: 10,
+            }}
+          >
+            <Link
+              href="/home"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <MaterialIcons name="bookmark" size={22} color="#EBDF94" />
+              <Text
+                style={{
+                  fontFamily: "Trirong_700Bold",
+                  fontSize: 22,
+                  color: "#EBDF94",
+                }}
+              >
+                Bookmarker
+              </Text>
+            </Link>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "stretch",
+                gap: 16,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => router.navigate("/home")}
+                style={styles.webTab}
+              >
+                <Text style={styles.webTabText}>Home</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.navigate("/explore")}
+                style={styles.webTab}
+              >
+                <Text style={styles.webTabText}>Search</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.navigate("/profile")}
+                style={styles.webTab}
+              >
+                <Text style={styles.webTabText}>Profile</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <Slot />
+      </>
+    );
   }
 
   return (
@@ -78,4 +160,13 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   tab: { fontFamily: "NotoSansThaiLooped_400Regular" },
+  webTab: {
+    justifyContent: "center",
+  },
+  webTabText: {
+    fontFamily: "NotoSansThaiLooped_400Regular",
+    display: "flex",
+    color: "#EBDF94",
+    textAlignVertical: "center",
+  },
 });

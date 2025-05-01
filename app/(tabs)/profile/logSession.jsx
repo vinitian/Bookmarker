@@ -86,9 +86,11 @@ const CustomView2 = ({ children, width }) => {
     return (
       <View
         style={{
+          width: "100%",
+          maxWidth: 1200,
+          alignSelf: "center",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "center",
           gap: 5,
         }}
       >
@@ -148,7 +150,10 @@ export default function logSession() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
-        style={{ paddingVertical: 20, display: "flex", alignItems: "center" }}
+        style={{
+          paddingVertical: 20,
+          minHeight: height,
+        }}
       >
         <CustomView2 width={width}>
           {/* Book info part */}
@@ -156,6 +161,7 @@ export default function logSession() {
             style={{
               width: "fit-content",
               marginHorizontal: 10,
+              alignSelf: width > 600 ? "auto" : "center",
             }}
           >
             <CustomBookView width={width} image={image}>
@@ -200,10 +206,11 @@ export default function logSession() {
               gap: 20,
               display: "flex",
               flexDirection: width < 900 ? "column" : "row",
+              flexGrow: 1,
             }}
           >
             {/* Edit Bookmark */}
-            <View>
+            <View style={{ flexGrow: 1 }}>
               <ThemedText
                 style={{
                   fontSize: 18,
@@ -422,7 +429,7 @@ export default function logSession() {
               </View>
             </View>
             {/* Saved Bookmarks */}
-            <View>
+            <View style={{ flexGrow: 1 }}>
               <ThemedText
                 style={{
                   fontSize: 18,
