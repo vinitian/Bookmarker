@@ -17,6 +17,92 @@ import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { format } from "date-fns";
 import SavedBookmark from "@/components/SavedBookmark";
 
+const AddBookmarkButton = () => (
+  <TouchableOpacity
+    onPress={() => {}}
+    style={{
+      backgroundColor: "#79AB57",
+      height: 30,
+      marginTop: 10,
+      padding: 5,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 50,
+    }}
+  >
+    <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
+  </TouchableOpacity>
+);
+const CustomBookView = ({ children, width, image }) => {
+  if ((Platform.OS === "web") & (width > 600)) {
+    return (
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: 200,
+        }}
+      >
+        <Image
+          source={{
+            uri: image,
+          }}
+          style={{
+            width: 200,
+            height: 300,
+            borderRadius: 8,
+          }}
+        />
+        {children}
+      </View>
+    );
+  }
+  return (
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+        justifyContent: "center",
+      }}
+    >
+      <Image
+        source={{
+          uri: image,
+        }}
+        style={{
+          width: 150,
+          height: 225,
+          borderRadius: 8,
+        }}
+      />
+      {children}
+    </View>
+  );
+};
+const CustomView2 = ({ children, width }) => {
+  if ((Platform.OS === "web") & (width > 600)) {
+    return (
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          gap: 5,
+        }}
+      >
+        {children}
+      </View>
+    );
+  }
+  return (
+    <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+      {children}
+    </View>
+  );
+};
+
 export default function logSession() {
   const image =
     "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
@@ -58,151 +144,21 @@ export default function logSession() {
   if (!fontsLoaded) {
     return null;
   }
-  const AddBookmarkButton = () => (
-    <TouchableOpacity
-      onPress={() => {}}
-      style={{
-        backgroundColor: "#79AB57",
-        width: 200,
-        height: 30,
-        marginTop: 10,
-        padding: 5,
-        alignItems: "center",
-        justifyContent: "center",
-        alignSelf: "center",
-        borderRadius: 50,
-      }}
-    >
-      <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
-    </TouchableOpacity>
-  );
-  const CustomBookView = ({ children }) => {
-    if ((Platform.OS === "web") & (width > 600)) {
-      return (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: 200,
-          }}
-        >
-          <Image
-            source={{
-              uri: image,
-            }}
-            style={{
-              width: 200,
-              height: 300,
-              borderRadius: 8,
-            }}
-          />
-          {children}
-        </View>
-      );
-    }
-    return (
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: 8,
-          justifyContent: "center",
-        }}
-      >
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={{
-            width: 150,
-            height: 225,
-            borderRadius: 8,
-          }}
-        />
-        {children}
-      </View>
-    );
-  };
-  const CustomView2 = ({ children }) => {
-    if ((Platform.OS === "web") & (width > 600)) {
-      return (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: 5,
-          }}
-        >
-          {children}
-        </View>
-      );
-    }
-    return (
-      <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-        {children}
-      </View>
-    );
-  };
-  const DateSection = () => (
-    <View>
-      <ThemedText
-        style={{
-          marginTop: 5,
-          fontFamily: "Trirong_700Bold",
-        }}
-      >
-        Date
-      </ThemedText>
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderColor: "#3C5433",
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => {
-            setShowDatePicker(true);
-          }}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginLeft: 5,
-            borderRadius: 50,
-          }}
-        >
-          <ThemedText>
-            {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Not Selected"}
-          </ThemedText>
-          <MaterialCommunityIcons
-            name="calendar-today"
-            size={24}
-            color="#3C5433"
-          />
-        </TouchableOpacity>
-        <DatePickerModal
-          locale="en"
-          mode="single"
-          visible={showDatePicker}
-          onDismiss={() => setShowDatePicker(false)}
-          date={selectedDate}
-          onConfirm={onDatePickerConfirm}
-        />
-      </View>
-    </View>
-  );
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{ paddingVertical: 20, display: "flex", alignItems: "center" }}
       >
-        <CustomView2>
-          <View style={{ width: "fit-content" }}>
-            <CustomBookView>
+        <CustomView2 width={width}>
+          {/* Book info part */}
+          <View
+            style={{
+              width: "fit-content",
+              marginHorizontal: 10,
+            }}
+          >
+            <CustomBookView width={width} image={image}>
               <View
                 style={{
                   maxWidth: 200,
@@ -237,16 +193,16 @@ export default function logSession() {
             </CustomBookView>
             <AddBookmarkButton />
           </View>
+          {/* Edit Bookmark & Saved Bookmarks part */}
           <View
             style={{
-              borderWidth: 1,
-              borderColor: "red",
-              marginLeft: 8,
+              marginHorizontal: 10,
               gap: 20,
               display: "flex",
               flexDirection: width < 900 ? "column" : "row",
             }}
           >
+            {/* Edit Bookmark */}
             <View>
               <ThemedText
                 style={{
@@ -258,7 +214,54 @@ export default function logSession() {
               >
                 Edit Bookmark
               </ThemedText>
-              <DateSection />
+              <ThemedText
+                style={{
+                  marginTop: 5,
+                  fontFamily: "Trirong_700Bold",
+                }}
+              >
+                Date
+              </ThemedText>
+              {/* Date selector */}
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: "#3C5433",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowDatePicker(true);
+                  }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginLeft: 5,
+                    borderRadius: 50,
+                  }}
+                >
+                  <ThemedText>
+                    {selectedDate
+                      ? format(selectedDate, "dd/MM/yyyy")
+                      : "Not Selected"}
+                  </ThemedText>
+                  <MaterialCommunityIcons
+                    name="calendar-today"
+                    size={24}
+                    color="#3C5433"
+                  />
+                </TouchableOpacity>
+                <DatePickerModal
+                  locale="en"
+                  mode="single"
+                  visible={showDatePicker}
+                  onDismiss={() => setShowDatePicker(false)}
+                  date={selectedDate}
+                  onConfirm={onDatePickerConfirm}
+                />
+              </View>
               <ThemedText
                 style={{
                   marginTop: 5,
@@ -267,6 +270,7 @@ export default function logSession() {
               >
                 Time
               </ThemedText>
+              {/* Time (From & To) selector */}
               <View
                 style={{
                   display: "flex",
@@ -274,6 +278,7 @@ export default function logSession() {
                   gap: 10,
                 }}
               >
+                {/* Time (From) selector */}
                 <View
                   style={{
                     borderBottomWidth: 1,
@@ -310,6 +315,7 @@ export default function logSession() {
                     label="I start reading at..."
                   />
                 </View>
+                {/* Time (To) selector */}
                 <View
                   style={{
                     borderBottomWidth: 1,
@@ -355,6 +361,7 @@ export default function logSession() {
               >
                 Page
               </ThemedText>
+              {/* Page (From & To) input */}
               <View
                 style={{
                   display: "flex",
@@ -362,6 +369,7 @@ export default function logSession() {
                   gap: 10,
                 }}
               >
+                {/* Page (From) input */}
                 <View
                   style={{
                     display: "flex",
@@ -377,15 +385,16 @@ export default function logSession() {
                   <ThemedText>From: </ThemedText>
                   <TextInput
                     value={startPage}
-                    onEndEditing={setStartPage}
+                    onChangeText={setStartPage}
                     style={{
-                      width: 130,
+                      width: 100,
                       height: 24,
                       color: "#3C5433",
                       padding: 0,
                     }}
                   />
                 </View>
+                {/* Page (To) input */}
                 <View
                   style={{
                     display: "flex",
@@ -401,9 +410,9 @@ export default function logSession() {
                   <ThemedText>To: </ThemedText>
                   <TextInput
                     value={endPage}
-                    onEndEditing={setEndPage}
+                    onChangeText={setEndPage}
                     style={{
-                      width: 130,
+                      width: 100,
                       height: 24,
                       color: "#3C5433",
                       padding: 0,
@@ -412,6 +421,7 @@ export default function logSession() {
                 </View>
               </View>
             </View>
+            {/* Saved Bookmarks */}
             <View>
               <ThemedText
                 style={{
