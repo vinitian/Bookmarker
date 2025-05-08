@@ -29,7 +29,7 @@ interface PersonalBook {
     rating: number,
     cumul_time: number,
     pages_read: number,
-    read_record: ReadingSession[],
+    reading_sessions: ReadingSession[],
 }
 
 interface ReadingSession {
