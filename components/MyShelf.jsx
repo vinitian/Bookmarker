@@ -1,7 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
 import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
@@ -11,6 +11,8 @@ export default function MyShelf() {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
+
+  const router = useRouter();
 
   const CustomView = ({ children }) => {
     if (Platform.OS === "web") {
@@ -75,7 +77,11 @@ export default function MyShelf() {
         >
           My Shelf
         </ThemedText>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            router.push("/profile/myShelf");
+          }}
+        >
           <Feather
             name="edit"
             size={24}
@@ -86,6 +92,7 @@ export default function MyShelf() {
       </View>
       <CustomView>
         <BookSmall
+          handleBookmark={"handleBookmarkFunction"}
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
@@ -93,6 +100,7 @@ export default function MyShelf() {
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
         <BookSmall
+          handleBookmark={"handleBookmarkFunction"}
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
@@ -100,6 +108,7 @@ export default function MyShelf() {
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
         <BookSmall
+          handleBookmark={"handleBookmarkFunction"}
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
@@ -107,6 +116,7 @@ export default function MyShelf() {
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
         <BookSmall
+          handleBookmark={"handleBookmarkFunction"}
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }
@@ -114,6 +124,7 @@ export default function MyShelf() {
           authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
         />
         <BookSmall
+          handleBookmark={"handleBookmarkFunction"}
           image={
             "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
           }

@@ -24,6 +24,10 @@ export default function StackLayout() {
         name="logSession"
         options={{ headerShown: true, title: "Log Session" }}
       />
+      <Stack.Screen
+        name="myShelf"
+        options={{ headerShown: true, title: "My Shelf" }}
+      />
     </Stack>
   );
 }

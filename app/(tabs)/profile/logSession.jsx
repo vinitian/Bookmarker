@@ -152,6 +152,7 @@ export default function logSession() {
       <ThemedView
         style={{
           paddingVertical: 20,
+          paddingHorizontal: 10,
           minHeight: height,
         }}
       >
