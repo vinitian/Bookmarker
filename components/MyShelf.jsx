@@ -1,8 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { Link, useRouter } from "expo-router";
-import { Text, View, Image, TouchableOpacity, Platform } from "react-native";
+import { useRouter } from "expo-router";
+import { View, TouchableOpacity, Platform } from "react-native";
 import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";

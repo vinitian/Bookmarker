@@ -1,8 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { Link } from "expo-router";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 
 export default function Book({ image, name, authors }) {

@@ -1,6 +1,5 @@
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import React from "react";
 
 export default function UserInfo({ username, email, image }) {

@@ -1,26 +1,15 @@
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { Link } from "expo-router";
-import {
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Platform,
-  useWindowDimensions,
-} from "react-native";
+import { View, useWindowDimensions } from "react-native";
 import BookSmall from "@/components/BookSmall";
 import { ScrollView } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 export default function MyShelf() {
   const { width, height } = useWindowDimensions();
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={{ backgroundColor: "#F7F0DD" }}>
-        <ThemedView
+      <ThemedView>
+        <View
           style={{
             width: "100%",
             maxWidth: 1200,
@@ -86,8 +75,8 @@ export default function MyShelf() {
               authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
             />
           </View>
-        </ThemedView>
-      </View>
+        </View>
+      </ThemedView>
     </ScrollView>
   );
 }
