@@ -31,10 +31,10 @@ interface PersonalBook {
     rating: number,
     cumul_time: number,
     pages_read: number,
-    bookmark_list: ReadingSession[],
+    bookmark_list: Bookmark[],
 }
 
-interface ReadingSession {
+interface Bookmark {
     start_time: Date,
     end_time: Date,
     total_time: number,
