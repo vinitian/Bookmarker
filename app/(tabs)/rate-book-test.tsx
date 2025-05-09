@@ -9,7 +9,7 @@ export default function RateBookTest() {
 
     const testRate = {
         book_id: "iRAfHM8w5WXih6pfZjCQ", // what girls are made of
-        rating: 4.8,
+        rating: 5.0,
         user_id: "AtpPFvSFqi5qIAABOm1G" // iannnn
     }
 
