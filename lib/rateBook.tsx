@@ -17,9 +17,9 @@ export default function rateBook(
         if (!bookDoc)
             throw new Error("User with ID " + user_id + " does not exist")
 
-        let result_book = bookDoc.rating_list.find((rating: Rating) => rating.user_id === user_id);
+        const result_book = bookDoc.rating_list.find((rating: Rating) => rating.user_id === user_id);
         
-         // if Rating object already exists
+         // if Rating object already exists, remove it first
          if (result_book != undefined) {
             await updateDoc(bookRef, {
                 rating_list: arrayRemove({
@@ -45,9 +45,9 @@ export default function rateBook(
         if (!userDoc)
             throw new Error("User with ID " + user_id + " does not exist")
 
-        let result_user = userDoc.book_list.find((book: PersonalBook) => book.book_id === book_id);
+        const result_user = userDoc.book_list.find((book: PersonalBook) => book.book_id === book_id);
         
-        // if PersonalBook object already exists
+        // if PersonalBook object already exists, remove it first
         if (result_user != undefined) {
             await updateDoc(userRef, {
                 book_list: arrayRemove({
@@ -62,7 +62,7 @@ export default function rateBook(
 
         // add new PersonalBook object with updated rating
         // if the book wasn't added, create a new PersonalBook object with
-        // initial values for cumul_time, pages_read, and reading_sesssions
+        // initial values for cumul_time, pages_read, and bookmark_list
         await updateDoc(userRef,  {
             book_list: arrayUnion({
                 book_id: book_id,

@@ -110,6 +110,25 @@ const CustomView2 = ({ children, width }) => {
 };
 
 export default function logSession() {
+
+
+  // FOR TEST ----------
+
+  const bookmarkTest = {
+    start_time: new Date(),
+    end_time: new Date(new Date().getTime() + 3 * 60 * 60 * 1000), // read for 3 hours
+    total_time: 180,
+    start_page: 101,
+    end_page: 160, 
+    total_page: 59
+  }
+
+  const userTest = "AtpPFvSFqi5qIAABOm1G" // iannnn
+  const bookTest = "EsaXX8v0ywUEyiD9KoFs" // australian
+
+  const [ errorMessage, setErrorMessage ] = useState('');
+  // END TEST -----------------
+
   const image =
     "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
   const name = "An Anthology of Australian Albums";
@@ -207,7 +226,18 @@ export default function logSession() {
             {/* TEST */}
             <Button
               title="TEST addBookmark()"
-              onPress={() => {addBookmark()}}/>
+              onPress={() => {addBookmark({
+                bookmark: bookmarkTest,
+                user_id: userTest,
+                book_id: bookTest,
+                errorMessage: errorMessage,
+                setErrorMessage: setErrorMessage
+              })}}/>
+              { errorMessage ? 
+                <Text>{errorMessage}</Text>
+                :
+                <Text></Text> // empty text
+              }
             {/* END TEST */}
             
           </View>
