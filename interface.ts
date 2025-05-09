@@ -10,10 +10,12 @@ interface Book {
     avg_rating: number,
     total_page: number,
     img_url: string,
-    rating: {
-        user_id: string,
-        rating: number
-    }
+    rating_list: Rating[]
+}
+
+interface Rating {
+    user_id: string,
+    rating: number
 }
 
 interface User {
@@ -21,7 +23,7 @@ interface User {
     email: string,
     name: string,
     fav_list: string[10],
-    books: PersonalBook,
+    book_list: PersonalBook[],
 }
 
 interface PersonalBook {
