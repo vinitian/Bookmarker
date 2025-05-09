@@ -4,7 +4,7 @@ export default function StackLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="[id]"
+        name="[user_id]"
         options={{ headerShown: true, title: "View Profile" }}
       />
     </Stack>

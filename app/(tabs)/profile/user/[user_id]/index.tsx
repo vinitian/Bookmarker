@@ -6,15 +6,13 @@ import fetchUser from '@/lib/fetchUser';
 
 export default function UserProfile() {
   const local = useLocalSearchParams<{user_id: string}>();
-  const user_id:string = local.user_id;
-  
+  let user_id:string = local.user_id;
+
   const [ user, setUserData ] = useState<User|undefined>(undefined);
   const [ IsDataFetched, setIsDataFetched ] = useState<boolean>(false);
   useEffect( () => {
     fetchUser({user_id: user_id, setUserData: setUserData})
-  }, [])
-
-  console.log(user)
+  }, [user_id])
 
   return (
     <View>
@@ -24,8 +22,7 @@ export default function UserProfile() {
       // <Redirect href="../../app/+not-found" />
       :
       <div>
-        <Text>User_id: {user.user_id}</Text>
-        <Text>Name: {user.name}'s Profile</Text>
+        <Text>{user.name}'s Profile</Text>
       </div>
     }
     </View>
