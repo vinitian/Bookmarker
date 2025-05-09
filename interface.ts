@@ -5,7 +5,7 @@ interface Book {
     book_id: string,
     isbn: string,
     title: string,
-    author: string,
+    author: string[],
     genre: string[],
     avg_rating: number,
     total_page: number,
