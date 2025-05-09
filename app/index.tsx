@@ -40,6 +40,7 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
+import { createUser } from "@/lib/editUser";
 
 export default function login() {
   const [email, setEmail] = useState("");
@@ -83,6 +84,9 @@ export default function login() {
       .then((_) => {
         setEmail("");
         setPassword("");
+      })
+      .then((_) => {
+        createUser(auth);
       })
       .catch((e) => {
         console.log(e.code, e.message);
