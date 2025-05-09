@@ -2,7 +2,6 @@
 //TODO: decide whether to keep book_id, user_id
 
 interface Book {
-    book_id: string,
     isbn: string,
     title: string,
     author_list: string[],
@@ -19,7 +18,6 @@ interface Rating {
 }
 
 interface User {
-    user_id: string,
     email: string,
     name: string,
     fav_list: string[10],
