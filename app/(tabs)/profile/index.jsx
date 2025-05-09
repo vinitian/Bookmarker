@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import {
   Text,
   View,
@@ -12,8 +12,21 @@ import {
 import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
 import MyShelf from "@/components/MyShelf";
+import { auth } from "@/firebaseConfig";
+import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import { useState } from "react";
 
 export default function HomeScreen() {
+  const router = useRouter();
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserName(user.displayName);
+      setUserEmail(user.email);
+    }
+  });
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
@@ -46,12 +59,17 @@ export default function HomeScreen() {
             }}
           >
             <UserInfo
-              username="Usernameeee"
-              email="email@gmail.com"
+              username={userName}
+              email={userEmail}
               image="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             />
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                signOut(auth);
+                setTimeout(() => {
+                  router.navigate("/");
+                }, 100);
+              }}
               style={{
                 backgroundColor: "#3C5433",
                 width: 100,
@@ -62,7 +80,9 @@ export default function HomeScreen() {
                 borderRadius: 50,
               }}
             >
-              <Text style={{ color: "#EBDF94" }}>Sign Out</Text>
+              <Text style={{ color: "#EBDF94" }}>
+                {auth.currentUser ? "Sign Out" : "Sign In"}
+              </Text>
             </TouchableOpacity>
           </View>
         </ThemedView>

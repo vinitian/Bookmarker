@@ -7,12 +7,10 @@ import {
   TextInput,
   ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-// import auth from "@react-native-firebase/auth";
-// import { FirebaseError } from "firebase/app";
+import React, { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 import { registerTranslation } from "react-native-paper-dates";
 registerTranslation("en", {
@@ -35,33 +33,74 @@ registerTranslation("en", {
   hour: "Hour",
   minute: "minute",
 });
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "@/firebaseConfig";
+import { FirebaseError } from "firebase/app";
 
 export default function login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
-  const signUp = async () => {
-    setLoading(true);
-    try {
-      // await auth().createUserWithEmailAndPassword(email, password);
-    } catch (e: any) {
-      const err = e;
-      alert("Registration failed: " + err.message);
-    } finally {
-      setLoading(false);
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      router.navigate("/home");
     }
+  });
+
+  const signUp = () => {
+    setLoading(true);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() =>
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            console.log(user.uid);
+          }
+        })
+      )
+      .catch((e: FirebaseError) => {
+        if (e.code === "auth/weak-password") {
+          setError("Password should be longer than 6 characters");
+        } else if (e.code === "auth/email-already-in-use") {
+          setError("Email already exists");
+        } else if (e.code === "auth/invalid-email") {
+          setError("Invalid email");
+        } else {
+          setError(e.message);
+        }
+      });
+    setLoading(false);
   };
-  const signIn = async () => {
+  const signIn = () => {
     setLoading(true);
-    try {
-      // await auth().signInWithEmailAndPassword(email, password);
-    } catch (e: any) {
-      const err = e;
-      alert("Sign in failed: " + err.message);
-    } finally {
-      setLoading(false);
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((_) => {
+        setEmail("");
+        setPassword("");
+      })
+      .catch((e) => {
+        console.log(e.code, e.message);
+        if (e.code === "auth/invalid-email") {
+          setError("Invalid email");
+        } else if (e.code === "auth/wrong-password") {
+          setError("Wrong password");
+        } else if (e.code === "auth/invalid-credential") {
+          setError("Either email or password is incorrect");
+        } else if (e.code === "auth/user-not-found") {
+          setError("User not found");
+        } else if (e.code === "auth/missing-password") {
+          setError("Missing password");
+        } else {
+          setError(e.message);
+        }
+      });
+    setLoading(false);
   };
 
   return (
@@ -93,12 +132,13 @@ export default function login() {
           secureTextEntry
           placeholder="Password"
         />
+        {error ? <Text style={{ color: "red" }}>{error}</Text> : <></>}
         {loading ? (
           <ActivityIndicator size={"small"} style={{ margin: 28 }} />
         ) : (
           <>
-            <Button onPress={signIn} title="Login" />
-            <Button onPress={signUp} title="Create account" />
+            <Button onPress={signIn} title="Sign In" />
+            <Button onPress={signUp} title="Sign Up" />
           </>
         )}
       </KeyboardAvoidingView>
