@@ -16,6 +16,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { format } from "date-fns";
 import SavedBookmark from "@/components/SavedBookmark";
+import addBookmark from "@/lib/addBookmark.tsx"
+
+// for test button
+import { Button } from "react-native";
 
 const AddBookmarkButton = () => (
   <TouchableOpacity
@@ -199,6 +203,13 @@ export default function logSession() {
               </View>
             </CustomBookView>
             <AddBookmarkButton />
+
+            {/* TEST */}
+            <Button
+              title="TEST addBookmark()"
+              onPress={() => {addBookmark()}}/>
+            {/* END TEST */}
+            
           </View>
           {/* Edit Bookmark & Saved Bookmarks part */}
           <View
