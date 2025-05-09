@@ -46,7 +46,7 @@ export default function rateBook(
                     rating: result.rating ,
                     cumul_time: result.cumul_time,
                     pages_read: result.pages_read,
-                    reading_sessions: result.reading_sessions
+                    bookmark_list: result.bookmark_list
                 })
             })
         }
@@ -61,7 +61,7 @@ export default function rateBook(
                     rating: rating,
                     cumul_time: result ? result.cumul_time : 0,
                     pages_read: result ? result.pages_read : 0 ,
-                    reading_sessions: result ? result.reading_sessions : []
+                    bookmark_list: result ? result.bookmark_list : []
                 }
             ]
         })

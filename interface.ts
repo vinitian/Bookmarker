@@ -31,7 +31,7 @@ interface PersonalBook {
     rating: number,
     cumul_time: number,
     pages_read: number,
-    reading_sessions: ReadingSession[],
+    bookmark_list: ReadingSession[],
 }
 
 interface ReadingSession {
