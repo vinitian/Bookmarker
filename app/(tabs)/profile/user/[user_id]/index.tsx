@@ -11,6 +11,7 @@ import {
   ScrollView,
   Platform,
   useWindowDimensions,
+  RefreshControl,
 } from "react-native";
 import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
@@ -20,25 +21,33 @@ import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 
 export default function UserProfile() {
   const { height, width } = useWindowDimensions();
+  const router = useRouter();
   const local = useLocalSearchParams<{ user_id: string }>();
   let user_id: string = local.user_id;
-
-  const router = useRouter();
-  const [myUid, setMyUid] = useState<string | null>("");
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setMyUid(user.uid);
-    }
-  });
 
   const [user, setUserData] = useState<User | undefined>(undefined);
   const [myProfileName, setMyProfileName] = useState<undefined | "My" | string>(
     undefined
   );
-  const [IsDataFetched, setIsDataFetched] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+
+  const [myUid, setMyUid] = useState<string | null>("");
   useEffect(() => {
-    fetchUser({ user_id: user_id, setUserData: setUserData });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setMyUid(user.uid);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    loadUserData();
   }, [user_id]);
+
+  const loadUserData = () => {
+    fetchUser({ user_id: user_id, setUserData: setUserData });
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     if (user_id == myUid) {
@@ -88,7 +97,12 @@ export default function UserProfile() {
     );
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={loadUserData} />
+      }
+    >
       <ThemedView
         style={{
           minHeight: height,
