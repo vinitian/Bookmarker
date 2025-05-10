@@ -11,35 +11,22 @@ import {
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import React, { useState } from "react";
+import { useAppContext } from "@/app/_layout";
+import React, { useEffect, useState } from "react";
+import { auth } from "@/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { format } from "date-fns";
+import fetchBook from "@/lib/fetchBook.tsx"
 import SavedBookmark from "@/components/SavedBookmark";
 import addBookmark from "@/lib/addBookmark.tsx"
 
-// for test button
-import { Button } from "react-native";
 
-const AddBookmarkButton = () => (
-  <TouchableOpacity
-    onPress={() => {}}
-    style={{
-      backgroundColor: "#79AB57",
-      height: 30,
-      marginTop: 10,
-      padding: 5,
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 50,
-    }}
-  >
-    <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
-  </TouchableOpacity>
-);
 const CustomBookView = ({ children, width, image }) => {
   if ((Platform.OS === "web") & (width > 600)) {
     return (
+      
       <View
         style={{
           display: "flex",
@@ -73,7 +60,7 @@ const CustomBookView = ({ children, width, image }) => {
     >
       <Image
         source={{
-          uri: image,
+          uri: book.img_url,
         }}
         style={{
           width: 150,
@@ -110,29 +97,12 @@ const CustomView2 = ({ children, width }) => {
 };
 
 export default function logSession() {
+  const { bookId, setBookId } = useAppContext()
+  const [ book, setBookData ] = useState(undefined);
+  useEffect( () => {
+    fetchBook({book_id: bookId, setBookData: setBookData})
+  }, [bookId])
 
-
-  // FOR TEST ----------
-
-  const bookmarkTest = {
-    start_time: new Date(),
-    end_time: new Date(new Date().getTime() + 3 * 60 * 60 * 1000), // read for 3 hours
-    total_time: 180,
-    start_page: 101,
-    end_page: 160, 
-    total_page: 59
-  }
-
-  const userTest = "AtpPFvSFqi5qIAABOm1G" // iannnn
-  const bookTest = "EsaXX8v0ywUEyiD9KoFs" // australian
-
-  const [ errorMessage, setErrorMessage ] = useState('');
-  // END TEST -----------------
-
-  const image =
-    "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api";
-  const name = "An Anthology of Australian Albums";
-  const authors = ["Jon Stratton", "Jon Dale", "Tony Mitchell"];
   const { height, width } = useWindowDimensions();
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -160,8 +130,22 @@ export default function logSession() {
         minutes.toString().padStart(2, "0")
     );
   };
+  const dateWithHourMin = (date, time) => {
+    let newDate = new Date(date.setHours(Number(time.slice(0,2))));
+    newDate = new Date(newDate.setMinutes(Number(time.slice(3,5))));
+    newDate = new Date(newDate.setSeconds(0));
+    return newDate
+  }
   const [startPage, setStartPage] = useState();
   const [endPage, setEndPage] = useState();
+  const [ errorMessage, setErrorMessage ] = useState('');
+
+  const [userId, setUserId] = useState("");
+  useEffect(() => onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserId(user.uid);
+    }
+  }), [])
 
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
@@ -169,8 +153,41 @@ export default function logSession() {
   if (!fontsLoaded) {
     return null;
   }
+  
+  const AddBookmarkButton = () => (
+    <TouchableOpacity
+      onPress={() => {addBookmark({
+        bookmark: {
+          start_time: dateWithHourMin(selectedDate, selectedStartTime),
+          end_time: dateWithHourMin(selectedDate, selectedEndTime),
+          // start_time: selectedStartTime,
+          // end_time: selectedEndTime,
+          total_time: 180,
+          start_page: startPage,
+          end_page: endPage, 
+          total_page: endPage - startPage
+        },
+        user_id: userId,
+        book_id: bookId,
+        errorMessage: errorMessage,
+        setErrorMessage: setErrorMessage
+      })}}
+      style={{
+        backgroundColor: "#79AB57",
+        height: 30,
+        marginTop: 10,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 50,
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
+    </TouchableOpacity>
+  );
 
   return (
+    book ?
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
@@ -188,7 +205,7 @@ export default function logSession() {
               alignSelf: width > 600 ? "auto" : "center",
             }}
           >
-            <CustomBookView width={width} image={image}>
+            <CustomBookView width={width} image={book.img_url}>
               <View
                 style={{
                   maxWidth: 200,
@@ -203,11 +220,11 @@ export default function logSession() {
                     fontFamily: "Trirong_700Bold",
                   }}
                 >
-                  {name}
+                  {book.title}
                 </ThemedText>
                 <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
-                  by {authors[0]}{" "}
-                  {authors.length > 1 ? `(+${authors.length - 1})` : ``}
+                  by {book.author_list[0]}{" "}
+                  {book.author_list.length > 1 ? `(+${book.author_list.length - 1})` : ``}
                 </ThemedText>
                 <Text
                   style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
@@ -222,24 +239,13 @@ export default function logSession() {
               </View>
             </CustomBookView>
             <AddBookmarkButton />
-
-            {/* TEST */}
-            <Button
-              title="TEST addBookmark()"
-              onPress={() => {addBookmark({
-                bookmark: bookmarkTest,
-                user_id: userTest,
-                book_id: bookTest,
-                errorMessage: errorMessage,
-                setErrorMessage: setErrorMessage
-              })}}/>
-              { errorMessage ? 
-                <Text>{errorMessage}</Text>
-                :
-                <Text></Text> // empty text
-              }
-            {/* END TEST */}
-            
+            { errorMessage ? 
+              <Text>{errorMessage}</Text>
+              : errorMessage == "Bookmark updated successfully" ?
+              <Text>{errorMessage}</Text>
+              :
+              <Text></Text> // empty text
+            }    
           </View>
           {/* Edit Bookmark & Saved Bookmarks part */}
           <View
@@ -358,10 +364,13 @@ export default function logSession() {
                   <TimePickerModal
                     visible={showStartTimePicker}
                     onDismiss={() => setShowStartTimePicker(false)}
-                    date={selectedStartTime}
+                    date={(t) => {
+                      selectedStartTime(t);
+                      console.log(selectedDate + +selectedStartTime.slice(0,2)*60*60*1000 + +selectedStartTime.slice(3,5)*60*100)
+                    }}
                     onConfirm={onStartTimePickerConfirm}
                     use24HourClock={true}
-                    label="I start reading at..."
+                    label="I started reading at..."
                   />
                 </View>
                 {/* Time (To) selector */}
@@ -500,5 +509,6 @@ export default function logSession() {
         </CustomView2>
       </ThemedView>
     </ScrollView>
+    : <></>
   );
 }

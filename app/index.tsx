@@ -40,9 +40,12 @@ import {
 } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { FirebaseError } from "firebase/app";
+import { useAppContext } from "@/app/_layout";
 import { createUser } from "@/lib/editUser";
 
 export default function login() {
+
+  const { userId, setUserId } = useAppContext()
   const [isFirstButtonClicked, setIsFirstButtonClicked] = useState<boolean>(false);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [name, setName] = useState("");
@@ -65,6 +68,8 @@ export default function login() {
         auth.onAuthStateChanged((user) => {
           if (user) {
             console.log(user.uid);
+            setUserId(user.uid);
+            console.log(userId);
           }
         })
       )
@@ -91,6 +96,15 @@ export default function login() {
         setEmail("");
         setPassword("");
       })
+      .then(() =>
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            console.log(user.uid);
+            setUserId(user.uid);
+            console.log(userId)
+          }
+        })
+      )
       .catch((e) => {
         console.log(e.code, e.message);
         if (e.code === "auth/invalid-email") {
