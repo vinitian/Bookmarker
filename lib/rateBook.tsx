@@ -11,15 +11,27 @@ export default function rateBook(
         const bookRef = doc(db, "books", book_id);
         const userRef = doc(db, "users", user_id);
 
-        // 1) update  for book
+        // 1) update for book
         const bookSnap = await getDoc(bookRef);
         const bookDoc = bookSnap.data();
         if (!bookDoc)
-            throw new Error("User with ID " + user_id + " does not exist")
+            throw new Error("Book with ID " + book_id + " does not exist")
 
         const result_book = bookDoc.rating_list.find((rating: Rating) => rating.user_id === user_id);
+
+        // calculate new avg_rating
+        const len = bookDoc.rating_list.length
+        const new_len = result_book == null ? len + 1 : len
+        const new_avg_rating = (len*(bookDoc.avg_rating) + rating - (result_book == null ? 0 : result_book.rating)) / new_len
+
+        // update avg_rating of the book
+        await updateDoc(bookRef, {
+            avg_rating: new_avg_rating
+        })
+
         
-         // if Rating object already exists, remove it first
+        
+        // if Rating object already exists, remove it first
          if (result_book != undefined) {
             await updateDoc(bookRef, {
                 rating_list: arrayRemove({
@@ -72,7 +84,7 @@ export default function rateBook(
                 bookmark_list: result_user ? result_user.bookmark_list : []
             })
         })
-        
+
         console.log("Rating updated successfully")
         
       } catch (err) {  
