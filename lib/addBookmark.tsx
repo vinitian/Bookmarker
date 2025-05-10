@@ -10,19 +10,22 @@ export default function addBookmark(
   const addBookmark = async () => {
       try {
 
-        console.log(bookmark)
-        console.log(user_id)
-        console.log(book_id)
-
         const userRef = doc(db, "users", user_id);
         const userSnap = await getDoc(userRef);
         const userDoc = userSnap.data();
   
+        const bookRef = doc(db, "books", book_id);
+        const bookSnap = await getDoc(bookRef);
+        const bookDoc = bookSnap.data();
+
         // start checks #1
         const time_now = new Date();
         if (!userDoc) {
             setErrorMessage("User with ID " + user_id + " does not exist")
             throw new Error("User with ID " + user_id + " does not exist")
+        } else if (!bookDoc) {
+            setErrorMessage("Book with ID " + book_id + " does not exist")
+            throw new Error("Book with ID " + book_id + " does not exist")
         } else if (bookmark.start_time >= bookmark.end_time) {
             setErrorMessage("Start time must be before end time")
             throw new Error("Start time must be before end time")
@@ -35,67 +38,62 @@ export default function addBookmark(
         } else if (bookmark.total_page <= 0) {
             setErrorMessage("Number of pages read must be greater than 0")
             throw new Error("Number of pages read must be greater than 0")
+        } else if (bookmark.end_page > bookDoc.total_page) {
+            setErrorMessage("End page number read must not exceed book's total number of pages")
+            throw new Error("End page number read must not exceed book's total number of pages")
+        } else {
+            setErrorMessage('')
         }
         // end checks #1
 
-        console.log("error message now: " + errorMessage)
-        console.log("passed checks #1")
-
         const result = userDoc.book_list.find((book: PersonalBook) => book.book_id === book_id);
-        
-        // if PersonalBook object already exists, remove it first
-        if (result != undefined) {
-            await updateDoc(userRef, {
-                book_list: arrayRemove({
-                    book_id: book_id,
-                    rating: result.rating ,
-                    cumul_time: result.cumul_time,
-                    pages_read: result.pages_read,
-                    bookmark_list: result.bookmark_list
-                })
-            })
-        }
+
+        const toSec = (date: Date) => {return Math.floor(date.getTime()/1000)}
 
         // start checks #2
         if (result != undefined) {
-            const check_date = result.bookmark_list.find((bm: Bookmark) => bm.start_time === bookmark.start_time)
-            const check_page = result.bookmark_list.find((bm: Bookmark) => bm.start_page === bookmark.start_page)
 
-            if (check_date?.end_time === bookmark.end_time) {
-                setErrorMessage("A bookmark with the same start and end time already exists. Please either remove or edit the bookmark.")
-                throw new Error("A bookmark with the same start and end time already exists. Please either remove or edit the bookmark.")
-            } else if (check_page?.end_page === bookmark.end_page) {
-                setErrorMessage("A bookmark with the same start and end pages already exists. Please either remove or edit the bookmark.")
-                throw new Error("A bookmark with the same start and end pages already exists. Please either remove or edit the bookmark.")
+            const check_start_time = result.bookmark_list.find((bm: Bookmark) => bm.start_time === bookmark.start_time)
+            const check_end_time = result.bookmark_list.find((bm: Bookmark) => bm.end_time === bookmark.end_time)
+            const check_page = result.bookmark_list.find((bm: Bookmark) => bm.start_page === bookmark.start_page)
+            const check_time_overlap = result.bookmark_list.find((bm: any) => (((bm.start_time.seconds > toSec(bookmark.start_time)) && (bm.start_time.seconds < toSec(bookmark.end_time))) || ((bm.end_time.seconds > toSec(bookmark.start_time)) && (bm.end_time.seconds < toSec(bookmark.start_time)))))
+            
+           
+            if (check_start_time || check_end_time) {
+                setErrorMessage("A bookmark with the same start or end time already exists. Please either remove or edit the bookmark.")
+                throw new Error("A bookmark with the same start or end time already exists. Please either remove or edit the bookmark.")
+            } else if (check_page?.start_page === bookmark.start_page || check_page?.end_page === bookmark.end_page) {
+                setErrorMessage("A bookmark with the same start or end page already exists. Please either remove or edit the bookmark.")
+                throw new Error("A bookmark with the same start or end page already exists. Please either remove or edit the bookmark.")
+            } else if (check_time_overlap) {
+                setErrorMessage("A bookmark with overlapping duration already exists. Please either remove or edit the bookmark.")
+                throw new Error("A bookmark with overlapping duration already exists. Please either remove or edit the bookmark.")
             } else {
                 setErrorMessage('')
             }
         } else {
             setErrorMessage('')
         }
-        
         // end checks #2
 
-        console.log("error message now: " + errorMessage)
-        console.log("passed checks #2")
+        if (!errorMessage) {
 
-        if (errorMessage === '') {
             // add new PersonalBook object with updated bookmark_list
-            // if the book wasn't added, create a new PersonalBook object with
-            // initial values for rating, cumul_time, and pages_read
-            const new_bookmark_list = result ? result.bookmark_list.append(bookmark) : [bookmark]
+            // if the book wasn't added, create a new PersonalBook object 
+            // arrayUnion() is not currently supported inside arrays, `push` is used instead
+            const new_bookmark_list = result ? result.bookmark_list.concat([bookmark]) : [bookmark]
             await updateDoc(userRef,  {
                 book_list: [{
                     book_id: book_id,
                     rating: result ? result.rating : 0,
-                    cumul_time: result ? result.cumul_time : 0,
-                    pages_read: result ? result.pages_read : 0 ,
+                    cumul_time: result ? result.cumul_time + bookmark.total_time : bookmark.total_time,
+                    pages_read: result ? result.pages_read + bookmark.total_page : bookmark.total_page ,
                     bookmark_list: new_bookmark_list
                 }]
             })
             
             console.log("Bookmark updated successfully")
-            setErrorMessage(undefined)
+            setErrorMessage('Bookmark updated successfully')
         }  
       } catch (err) {  
         console.log("Error adding bookmark");
