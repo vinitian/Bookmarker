@@ -4,6 +4,7 @@
 interface Book {
     isbn: string,
     title: string,
+    description: string,
     author_list: string[],
     genre_list: string[],
     avg_rating: number,
@@ -37,6 +38,6 @@ interface Bookmark {
     end_time: Date,
     total_time: number,
     start_page: number,
-    end_page: number, 
+    end_page: number,
     total_page: number
 }
