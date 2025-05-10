@@ -30,28 +30,42 @@ export default function UserProfile() {
   });
 
   const [user, setUserData] = useState<User | undefined>(undefined);
+  const [myProfileName, setMyProfileName] = useState<undefined | "My" | string>(
+    undefined
+  );
   const [IsDataFetched, setIsDataFetched] = useState<boolean>(false);
   useEffect(() => {
     fetchUser({ user_id: user_id, setUserData: setUserData });
   }, [user_id]);
 
+  useEffect(() => {
+    if (user_id == myUid) {
+      setMyProfileName("My");
+    } else {
+      setMyProfileName(user?.name);
+    }
+  }, [myUid, user]);
+
   const BackButton = () => {
-    const path = myUid ? "profile/user/" + myUid : "/profile";
     return (
       <TouchableOpacity
-        onPress={() => router.replace(path)}
+        onPress={() => router.navigate("/profile")}
         style={{
-          backgroundColor: "#79AB57",
           height: 30,
           marginTop: 5,
           paddingVertical: 5,
           paddingHorizontal: 15,
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "center",
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#fff" }}>Go back to my profile</Text>
+        <Text style={{ color: "#3C5433", fontWeight: "bold" }}>
+          {"< "}
+          <Text style={{ textDecorationLine: "underline" }}>
+            Go back to my profile
+          </Text>
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -79,6 +93,7 @@ export default function UserProfile() {
           paddingTop: Platform.OS === "web" ? 0 : 50,
         }}
       >
+        {myProfileName == "My" ? <></> : <BackButton />}
         <ThemedView
           style={{
             alignItems: "center",
@@ -101,31 +116,35 @@ export default function UserProfile() {
               email={user.email}
               image="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
             />
-            <TouchableOpacity
-              onPress={() => {
-                signOut(auth);
-                setTimeout(() => {
-                  router.navigate("/");
-                }, 100);
-              }}
-              style={{
-                backgroundColor: "#3C5433",
-                width: 100,
-                height: 35,
-                padding: 5,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 50,
-              }}
-            >
-              <Text style={{ color: "#EBDF94" }}>
-                {auth.currentUser ? "Sign Out" : "Sign In"}
-              </Text>
-            </TouchableOpacity>
+            {myProfileName == "My" ? (
+              <TouchableOpacity
+                onPress={() => {
+                  signOut(auth);
+                  setTimeout(() => {
+                    router.navigate("/");
+                  }, 100);
+                }}
+                style={{
+                  backgroundColor: "#3C5433",
+                  width: 100,
+                  height: 35,
+                  padding: 5,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 50,
+                }}
+              >
+                <Text style={{ color: "#EBDF94" }}>
+                  {auth.currentUser ? "Sign Out" : "Sign In"}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
         </ThemedView>
-        <MyTopTen />
-        <MyShelf />
+        <MyTopTen myProfileName={myProfileName} />
+        <MyShelf myProfileName={myProfileName} bookList={user.book_list} />
       </ThemedView>
     </ScrollView>
   );

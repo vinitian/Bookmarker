@@ -4,7 +4,7 @@ import { View, Platform } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 
-export default function MyTopTen() {
+export default function MyTopTen({ myProfileName }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -63,7 +63,12 @@ export default function MyTopTen() {
           paddingLeft: 15,
         }}
       >
-        My Top Ten
+        {myProfileName == "My"
+          ? "My"
+          : myProfileName == undefined
+          ? "Their"
+          : myProfileName + "'s"}{" "}
+        Top Ten
       </ThemedText>
       <CustomView>
         <Book

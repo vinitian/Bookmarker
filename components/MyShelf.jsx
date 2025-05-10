@@ -6,7 +6,7 @@ import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-export default function MyShelf() {
+export default function MyShelf({ myProfileName, bookList }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -74,20 +74,29 @@ export default function MyShelf() {
             lineHeight: 48,
           }}
         >
-          My Shelf
+          {myProfileName == "My"
+            ? "My"
+            : myProfileName == undefined
+            ? "Their"
+            : myProfileName + "'s"}{" "}
+          Shelf
         </ThemedText>
-        <TouchableOpacity
-          onPress={() => {
-            router.push("/profile/myShelf");
-          }}
-        >
-          <Feather
-            name="edit"
-            size={24}
-            color="#3C5433"
-            style={{ marginLeft: 10 }}
-          />
-        </TouchableOpacity>
+        {myProfileName == "My" ? (
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/profile/myShelf");
+            }}
+          >
+            <Feather
+              name="edit"
+              size={24}
+              color="#3C5433"
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
       </View>
       <CustomView>
         <BookSmall
