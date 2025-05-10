@@ -29,51 +29,9 @@ export default function MyShelf() {
               justifyContent: "space-evenly",
             }}
           >
-            <BookSmall
-              handleBookmark={"handleBookmarkFunction"}
-              handleRemove={"handleRemoveFunction"}
-              image={
-                "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              }
-              name={"An Anthology of Australian Albums"}
-              authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-            />
-            <BookSmall
-              handleBookmark={"handleBookmarkFunction"}
-              handleRemove={"handleRemoveFunction"}
-              image={
-                "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              }
-              name={"Web Search: Public Searching of the Web"}
-              authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-            />
-            <BookSmall
-              handleBookmark={"handleBookmarkFunction"}
-              handleRemove={"handleRemoveFunction"}
-              image={
-                "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              }
-              name={"Web Search: Public Searching of the Web"}
-              authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-            />
-            <BookSmall
-              handleBookmark={"handleBookmarkFunction"}
-              handleRemove={"handleRemoveFunction"}
-              image={
-                "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              }
-              name={"Web Search: Public Searching of the Web"}
-              authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-            />
-            <BookSmall
-              handleBookmark={"handleBookmarkFunction"}
-              handleRemove={"handleRemoveFunction"}
-              image={
-                "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-              }
-              name={"Web Search: Public Searching of the Web"}
-              authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-            />
+            {/* <BookSmall
+              showRemove = {true}
+              /> */}
           </View>
         </View>
       </ThemedView>

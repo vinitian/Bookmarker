@@ -4,7 +4,7 @@ import { View, Platform } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 
-export default function MyTopTen({ myProfileName }) {
+export default function MyTopTen({ myProfileName, favList }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -71,41 +71,11 @@ export default function MyTopTen({ myProfileName }) {
         Top Ten
       </ThemedText>
       <CustomView>
-        <Book
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"An Anthology of Australian Albums"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <Book
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <Book
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <Book
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <Book
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
+        {favList.length > 0 ? (
+          favList.map((book_id) => <Book key={book_id} bookId={book_id} />)
+        ) : (
+          <ThemedText>The top ten list is empty</ThemedText>
+        )}
       </CustomView>
     </View>
   );

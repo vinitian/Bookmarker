@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  useWindowDimensions,
 } from "react-native";
 import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
@@ -18,6 +19,7 @@ import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
 
 export default function UserProfile() {
+  const { height, width } = useWindowDimensions();
   const local = useLocalSearchParams<{ user_id: string }>();
   let user_id: string = local.user_id;
 
@@ -89,6 +91,7 @@ export default function UserProfile() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
+          minHeight: height,
           paddingBottom: 20,
           paddingTop: Platform.OS === "web" ? 0 : 50,
         }}
@@ -143,7 +146,7 @@ export default function UserProfile() {
             )}
           </View>
         </ThemedView>
-        <MyTopTen myProfileName={myProfileName} />
+        <MyTopTen myProfileName={myProfileName} favList={user.fav_list} />
         <MyShelf myProfileName={myProfileName} bookList={user.book_list} />
       </ThemedView>
     </ScrollView>

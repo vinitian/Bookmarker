@@ -1,14 +1,25 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import BookmarkButton from "./BookmarkButton";
+import { useEffect, useState } from "react";
+import fetchBook from "@/lib/fetchBook";
 
-export default function BookSmall({
-  image,
-  name,
-  authors,
-  handleBookmark,
-  handleRemove = null,
-}) {
+export default function BookSmall({ bookId, showRemove = false }) {
+  const [bookData, setBookData] = useState(null);
+
+  const handleBookmark = () => {
+    // change context
+  };
+  const handleRemove = () => {
+    // remove book
+  };
+
+  useEffect(() => {
+    if (bookId) {
+      fetchBook({ book_id: bookId, setBookData: setBookData });
+    }
+  }, [bookId]);
+  if (!bookData) return <Text>Loading...</Text>;
   return (
     <View
       style={{
@@ -19,7 +30,7 @@ export default function BookSmall({
     >
       <Image
         source={{
-          uri: image,
+          uri: bookData.img_url,
         }}
         style={{
           width: 150,
@@ -31,15 +42,20 @@ export default function BookSmall({
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
         >
-          {name}
+          {bookData.title}
         </ThemedText>
         <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
-          by {authors[0]} {authors.length > 1 ? `(+${authors.length - 1})` : ``}
+          by {bookData.author_list[0]}{" "}
+          {bookData.author_list.length > 1
+            ? `(+${bookData.author_list.length - 1})`
+            : ``}
         </ThemedText>
         <BookmarkButton handleBookmark={handleBookmark} />
-        {handleRemove ? (
+        {showRemove ? (
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={() => {
+              handleRemove();
+            }}
             style={{
               backgroundColor: "#F28A8A",
               width: "full",

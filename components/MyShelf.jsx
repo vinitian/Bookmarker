@@ -99,46 +99,13 @@ export default function MyShelf({ myProfileName, bookList }) {
         )}
       </View>
       <CustomView>
-        <BookSmall
-          handleBookmark={"handleBookmarkFunction"}
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"An Anthology of Australian Albums"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <BookSmall
-          handleBookmark={"handleBookmarkFunction"}
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <BookSmall
-          handleBookmark={"handleBookmarkFunction"}
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <BookSmall
-          handleBookmark={"handleBookmarkFunction"}
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
-        <BookSmall
-          handleBookmark={"handleBookmarkFunction"}
-          image={
-            "http://books.google.com/books/content?id=yQvBDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-          }
-          name={"Web Search: Public Searching of the Web"}
-          authors={["Jon Stratton", "Jon Dale", "Tony Mitchell"]}
-        />
+        {bookList.length > 0 ? (
+          bookList.map((book) => (
+            <BookSmall key={book.book_id} bookId={book.book_id} />
+          ))
+        ) : (
+          <ThemedText>The shelf is empty</ThemedText>
+        )}
       </CustomView>
     </View>
   );
