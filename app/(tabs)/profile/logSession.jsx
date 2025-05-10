@@ -23,10 +23,10 @@ import SavedBookmark from "@/components/SavedBookmark";
 import addBookmark from "@/lib/addBookmark.tsx"
 
 
-const CustomBookView = ({ children, width, image }) => {
+const CustomBookView = ({ children, width, image, book }) => {
   if ((Platform.OS === "web") & (width > 600)) {
     return (
-      
+      book ?
       <View
         style={{
           display: "flex",
@@ -46,9 +46,11 @@ const CustomBookView = ({ children, width, image }) => {
         />
         {children}
       </View>
+      : <></>
     );
   }
   return (
+    book ?
     <View
       style={{
         display: "flex",
@@ -70,11 +72,13 @@ const CustomBookView = ({ children, width, image }) => {
       />
       {children}
     </View>
+    : <></>
   );
 };
-const CustomView2 = ({ children, width }) => {
+const CustomView2 = ({ children, width, book }) => {
   if ((Platform.OS === "web") & (width > 600)) {
     return (
+      book ?
       <View
         style={{
           width: "100%",
@@ -86,13 +90,16 @@ const CustomView2 = ({ children, width }) => {
         }}
       >
         {children}
-      </View>
+      </View> 
+      : <></>
     );
   }
   return (
+    book ? 
     <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
       {children}
     </View>
+    : <></>
   );
 };
 
@@ -196,7 +203,7 @@ export default function logSession() {
           minHeight: height,
         }}
       >
-        <CustomView2 width={width}>
+        <CustomView2 width={width} book={book}>
           {/* Book info part */}
           <View
             style={{
@@ -205,7 +212,7 @@ export default function logSession() {
               alignSelf: width > 600 ? "auto" : "center",
             }}
           >
-            <CustomBookView width={width} image={book.img_url}>
+            <CustomBookView width={width} image={book.img_url} book={book}>
               <View
                 style={{
                   maxWidth: 200,
