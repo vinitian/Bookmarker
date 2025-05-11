@@ -21,6 +21,7 @@ import CustomBookView from "@/components/CustomBookView";
 import CustomView2 from "@/components/CustomView2";
 import fetchUser from "@/lib/fetchUser";
 import rateBook from "@/lib/rateBook";
+import addToTopTen from "@/lib/addToTopTen";
 
 export default function BookInfoPage() {
   const router = useRouter();
@@ -129,6 +130,7 @@ export default function BookInfoPage() {
         justifyContent: "center",
         borderRadius: 50,
       }}
+      key={genre}
     >
       <Text style={{ color: "#F7F0DD" }}>
         {genre}
