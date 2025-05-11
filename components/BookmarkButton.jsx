@@ -26,7 +26,7 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff" }}>Bookmark!</Text>
+      <Text style={{ color: "#fff", fontWeight: "bold" }}>Bookmark!</Text>
     </TouchableOpacity>
   );
 }
