@@ -82,21 +82,23 @@ export default function BookInfoPage() {
   );
 
   const AddToTopTenButton = () => (
-    <TouchableOpacity
-      //TODO: ADD FUNCTION HERE
-      onPress={() => console.log("addToTopTen()")}
-      style={{
-        backgroundColor: "#3C5433",
-        height: 30,
-        marginTop: 10,
-        padding: 5,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-      }}
-    >
-      <Text style={{ color: "#fff", fontWeight: "bold" }}>Add to My Top Ten</Text>
-    </TouchableOpacity>
+    userId ?
+      <TouchableOpacity
+        //TODO: ADD FUNCTION HERE
+        onPress={() => addToTopTen({ book_id: book_id, user_id: userId })}
+        style={{
+          backgroundColor: "#3C5433",
+          height: 30,
+          marginTop: 10,
+          padding: 5,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 50,
+        }}
+      >
+        <Text style={{ color: "#fff", fontWeight: "bold" }}>Add to My Top Ten</Text>
+      </TouchableOpacity>
+      : <></>
   );
 
   const ShowMoreButton = () => (
