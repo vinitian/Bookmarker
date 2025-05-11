@@ -185,7 +185,7 @@ export default function logSession() {
     return null;
   }
 
-  const AddBookmarkButton = () => (
+  const SaveBookmarkButton = () => (
     <TouchableOpacity
       onPress={() => {
         addBookmark({
@@ -215,7 +215,39 @@ export default function logSession() {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff" }}>Add a Bookmark</Text>
+      <Text style={{ color: "#fff" }}>Save Bookmark</Text>
+    </TouchableOpacity>
+  );
+  const DeleteBookmarkButton = () => (
+    <TouchableOpacity
+      onPress={() => {}}
+      style={{
+        backgroundColor: "#F28A8A",
+        height: 30,
+        marginTop: 10,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 50,
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Delete Bookmark</Text>
+    </TouchableOpacity>
+  );
+  const AddBookmarkButton = () => (
+    <TouchableOpacity
+      onPress={() => {}}
+      style={{
+        backgroundColor: "#3C5433",
+        height: 30,
+        marginTop: 10,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 50,
+      }}
+    >
+      <Text style={{ color: "#F7F0DD" }}>Add a Bookmark</Text>
     </TouchableOpacity>
   );
 
@@ -273,27 +305,12 @@ export default function logSession() {
               </View>
             </CustomBookView>
             <AddBookmarkButton />
-            {
-              errorMessage ? (
-                errorMessage == "Bookmark updated successfully" ? (
-                  <Text style={{ color: "green", lineHeight: 20 }}>
-                    {errorMessage}
-                  </Text>
-                ) : (
-                  <Text style={{ color: "red", lineHeight: 20 }}>
-                    {errorMessage}
-                  </Text>
-                )
-              ) : (
-                <Text style={{ lineHeight: 20 }}></Text>
-              ) // empty text
-            }
           </View>
           {/* Edit Bookmark & Saved Bookmarks part */}
           <View
             style={{
               marginHorizontal: 10,
-              gap: 20,
+              gap: 10,
               display: "flex",
               flexDirection: width < 900 ? "column" : "row",
               flexGrow: 1,
@@ -524,6 +541,23 @@ export default function logSession() {
                   />
                 </View>
               </View>
+              {
+                errorMessage ? (
+                  errorMessage == "Bookmark updated successfully" ? (
+                    <Text style={{ color: "green", lineHeight: 20 }}>
+                      {errorMessage}
+                    </Text>
+                  ) : (
+                    <Text style={{ color: "red", lineHeight: 20 }}>
+                      {errorMessage}
+                    </Text>
+                  )
+                ) : (
+                  <Text style={{ lineHeight: 20 }}></Text>
+                ) // empty text
+              }
+              <SaveBookmarkButton />
+              <DeleteBookmarkButton />
             </View>
             {/* Saved Bookmarks */}
             <View style={{ flexGrow: 1 }}>
