@@ -45,10 +45,15 @@ export default function BookInfoPage() {
   );
 
   const fullAuthorList = book?.author_list.join(", ").replace(new RegExp('\,(?=[^,]*$)'), ' and')
-  const [IsfullDescription, setIsFullDescription] = useState<boolean>(false)
   const [rating, setRating] = useState(0);
   const [IsRated, setIsRated] = useState(false);
-
+  const [isfullDescription, setIsFullDescription] = useState<boolean>(false)
+  const CHARACTER_LIMIT = 400;
+  const isShortText = book ? book.description.length < CHARACTER_LIMIT : false;
+  const cutDescription = book ? book.description.slice(0, CHARACTER_LIMIT) + (isShortText ? '' : '...') : '';
+  useEffect(() => {
+    setIsFullDescription(isShortText)
+  }, [])
 
   const { height, width } = useWindowDimensions();
 
@@ -103,7 +108,7 @@ export default function BookInfoPage() {
 
   const ShowMoreButton = () => (
     <TouchableOpacity
-      onPress={() => setIsFullDescription(!IsfullDescription)}
+      onPress={() => setIsFullDescription(!isfullDescription)}
       style={{
         backgroundColor: "#EBDF94",
         height: 30,
@@ -116,7 +121,7 @@ export default function BookInfoPage() {
       }}
     >
       <Text style={{ color: "#3C5433" }}>
-        {IsfullDescription ? "Collapse" : "Show more"}
+        {isfullDescription ? "Collapse" : "Show more"}
       </Text>
     </TouchableOpacity>
   );
@@ -357,23 +362,14 @@ export default function BookInfoPage() {
 
                 {/* Book description */}
                 <View>
-                  {IsfullDescription ?
-                    <ThemedText
-                      style={{ fontSize: 20, lineHeight: 28, color: "#3C5433" }}
-                    >
-                      {book.description}
-                    </ThemedText>
-                    :
-                    <ThemedText
-                      style={{ fontSize: 20, lineHeight: 28, color: "#3C5433" }}
-                      ellipsizeMode="tail"
-                      numberOfLines={5}
+                  <ThemedText
+                    style={{ fontSize: 20, lineHeight: 28, color: "#3C5433" }}
+                  >
+                    {isfullDescription ? book.description : cutDescription}
+                  </ThemedText>
+                  {isShortText ? <></> :
+                    <ShowMoreButton />}
 
-                    >
-                      {book.description}
-                    </ThemedText>
-                  }
-                  <ShowMoreButton />
 
 
 
