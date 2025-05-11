@@ -50,7 +50,7 @@ export default function BookSmall({ bookId, showRemove = false }) {
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
-        <BookmarkButton handleBookmark={handleBookmark} />
+        <BookmarkButton thisBookId={bookId} />
         {showRemove ? (
           <TouchableOpacity
             onPress={() => {

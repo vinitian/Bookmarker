@@ -1,14 +1,19 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import { useAppContext } from "@/app/_layout";
 
-export default function BookmarkButton({ color = "#79AB57", handleBookmark }) {
+export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
   const router = useRouter();
+  const { bookId, setBookId } = useAppContext();
+
   return (
     <TouchableOpacity
       onPress={() => {
-        router.push("/profile/logSession");
-        // run handleBookmarkFunction
+        if (thisBookId) {
+          setBookId(thisBookId);
+          setTimeout(() => router.push("/profile/logSession"), 100);
+        }
       }}
       style={{
         backgroundColor: color,

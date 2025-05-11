@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import React from "react";
+import { format } from "date-fns";
 
-export default function SavedBookmark() {
+export default function SavedBookmark({ bookmark }) {
   const EditButton = () => (
     <TouchableOpacity
       onPress={() => {}}
@@ -25,17 +25,39 @@ export default function SavedBookmark() {
         <ThemedText
           style={{ fontWeight: "bold", fontSize: 18, marginVertical: 5 }}
         >
-          11/08/2025
+          {format(new Date(bookmark.start_time.seconds * 1000), "dd/MM/yyyy")}
         </ThemedText>
         <EditButton />
       </View>
       <View style={styles.infoContainer}>
-        <ThemedText>12:00 - 16:25</ThemedText>
-        <ThemedText>265 min</ThemedText>
+        <ThemedText>
+          {new Date(bookmark.start_time.seconds * 1000)
+            .getHours()
+            .toString()
+            .padStart(2, "0")}
+          :
+          {new Date(bookmark.start_time.seconds * 1000)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}{" "}
+          -{" "}
+          {new Date(bookmark.end_time.seconds * 1000)
+            .getHours()
+            .toString()
+            .padStart(2, "0")}
+          :
+          {new Date(bookmark.end_time.seconds * 1000)
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}
+        </ThemedText>
+        <ThemedText>{bookmark.total_time} min</ThemedText>
       </View>
       <View style={styles.infoContainer}>
-        <ThemedText>page 51 - 152</ThemedText>
-        <ThemedText>102 pages</ThemedText>
+        <ThemedText>
+          page {bookmark.start_page} - {bookmark.end_page}
+        </ThemedText>
+        <ThemedText>{bookmark.total_page} pages</ThemedText>
       </View>
     </View>
   );

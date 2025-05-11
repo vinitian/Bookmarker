@@ -12,21 +12,20 @@ import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useAppContext } from "@/app/_layout";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { DatePickerModal, TimePickerModal } from "react-native-paper-dates";
 import { format } from "date-fns";
-import fetchBook from "@/lib/fetchBook.tsx"
+import fetchBook from "@/lib/fetchBook.tsx";
 import SavedBookmark from "@/components/SavedBookmark";
-import addBookmark from "@/lib/addBookmark.tsx"
-
+import addBookmark from "@/lib/addBookmark.tsx";
+import { fetchUserBook } from "@/lib/fetchUser";
 
 const CustomBookView = ({ children, width, image, book }) => {
   if ((Platform.OS === "web") & (width > 600)) {
-    return (
-      book ?
+    return book ? (
       <View
         style={{
           display: "flex",
@@ -46,11 +45,11 @@ const CustomBookView = ({ children, width, image, book }) => {
         />
         {children}
       </View>
-      : <></>
+    ) : (
+      <></>
     );
   }
-  return (
-    book ?
+  return book ? (
     <View
       style={{
         display: "flex",
@@ -72,13 +71,13 @@ const CustomBookView = ({ children, width, image, book }) => {
       />
       {children}
     </View>
-    : <></>
+  ) : (
+    <></>
   );
 };
 const CustomView2 = ({ children, width, book }) => {
   if ((Platform.OS === "web") & (width > 600)) {
-    return (
-      book ?
+    return book ? (
       <View
         style={{
           width: "100%",
@@ -90,25 +89,28 @@ const CustomView2 = ({ children, width, book }) => {
         }}
       >
         {children}
-      </View> 
-      : <></>
+      </View>
+    ) : (
+      <></>
     );
   }
-  return (
-    book ? 
+  return book ? (
     <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
       {children}
     </View>
-    : <></>
+  ) : (
+    <></>
   );
 };
 
 export default function logSession() {
-  const { bookId, setBookId } = useAppContext()
-  const [ book, setBookData ] = useState(undefined);
-  useEffect( () => {
-    fetchBook({book_id: bookId, setBookData: setBookData})
-  }, [bookId])
+  const { bookId, setBookId } = useAppContext();
+  const [book, setBookData] = useState(undefined);
+  useEffect(() => {
+    if (bookId) {
+      fetchBook({ book_id: bookId, setBookData: setBookData });
+    }
+  }, [bookId]);
 
   const { height, width } = useWindowDimensions();
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -118,7 +120,7 @@ export default function logSession() {
     setSelectedDate(date);
   };
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
-  const [selectedStartTime, setSelectedStartTime] = useState("None");
+  const [selectedStartTime, setSelectedStartTime] = useState();
   const onStartTimePickerConfirm = ({ hours, minutes }) => {
     setShowStartTimePicker(false);
     setSelectedStartTime(
@@ -128,7 +130,7 @@ export default function logSession() {
     );
   };
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
-  const [selectedEndTime, setSelectedEndTime] = useState("None");
+  const [selectedEndTime, setSelectedEndTime] = useState();
   const onEndTimePickerConfirm = ({ hours, minutes }) => {
     setShowEndTimePicker(false);
     setSelectedEndTime(
@@ -138,21 +140,43 @@ export default function logSession() {
     );
   };
   const dateWithHourMin = (date, time) => {
-    let newDate = new Date(date.setHours(Number(time.slice(0,2))));
-    newDate = new Date(newDate.setMinutes(Number(time.slice(3,5))));
+    if (!date || !time) return;
+    let newDate = new Date(date.setHours(Number(time.slice(0, 2))));
+    newDate = new Date(newDate.setMinutes(Number(time.slice(3, 5))));
     newDate = new Date(newDate.setSeconds(0));
-    return newDate
-  }
+    return newDate;
+  };
   const [startPage, setStartPage] = useState();
   const [endPage, setEndPage] = useState();
-  const [ errorMessage, setErrorMessage ] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const [userId, setUserId] = useState("");
-  useEffect(() => onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUserId(user.uid);
+  const [userId, setUserId] = useState();
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUserId(user.uid);
+        }
+      }),
+    []
+  );
+
+  const [userBookData, setUserBookData] = useState();
+  useEffect(() => {
+    loadUserBookData();
+  }, [userId, bookId]);
+
+  const [refreshing, setRefreshing] = useState(true);
+  const loadUserBookData = () => {
+    if (userId && bookId) {
+      fetchUserBook({
+        user_id: userId,
+        book_id: bookId,
+        setUserBookData: setUserBookData,
+      });
+      setRefreshing(false);
     }
-  }), [])
+  };
 
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
@@ -160,25 +184,27 @@ export default function logSession() {
   if (!fontsLoaded) {
     return null;
   }
-  
+
   const AddBookmarkButton = () => (
     <TouchableOpacity
-      onPress={() => {addBookmark({
-        bookmark: {
-          start_time: dateWithHourMin(selectedDate, selectedStartTime),
-          end_time: dateWithHourMin(selectedDate, selectedEndTime),
-          // start_time: selectedStartTime,
-          // end_time: selectedEndTime,
-          total_time: 180,
-          start_page: startPage,
-          end_page: endPage, 
-          total_page: endPage - startPage
-        },
-        user_id: userId,
-        book_id: bookId,
-        errorMessage: errorMessage,
-        setErrorMessage: setErrorMessage
-      })}}
+      onPress={() => {
+        addBookmark({
+          bookmark: {
+            start_time: dateWithHourMin(selectedDate, selectedStartTime),
+            end_time: dateWithHourMin(selectedDate, selectedEndTime),
+            total_time: 180,
+            start_page: startPage,
+            end_page: endPage,
+            total_page: endPage - startPage,
+          },
+          user_id: userId,
+          book_id: bookId,
+          errorMessage: errorMessage,
+          setErrorMessage: setErrorMessage,
+          loadUserBookData: loadUserBookData,
+        });
+        setTimeout(() => setErrorMessage(""), 10000);
+      }}
       style={{
         backgroundColor: "#79AB57",
         height: 30,
@@ -193,8 +219,7 @@ export default function logSession() {
     </TouchableOpacity>
   );
 
-  return (
-    book ?
+  return book ? (
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
@@ -231,28 +256,38 @@ export default function logSession() {
                 </ThemedText>
                 <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
                   by {book.author_list[0]}{" "}
-                  {book.author_list.length > 1 ? `(+${book.author_list.length - 1})` : ``}
+                  {book.author_list.length > 1
+                    ? `(+${book.author_list.length - 1})`
+                    : ``}
                 </ThemedText>
                 <Text
                   style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
                 >
-                  Hours read: 00
+                  Hours read: {userBookData?.cumul_time / 60}
                 </Text>
                 <Text
                   style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
                 >
-                  Pages read: 000
+                  Pages read: {userBookData?.pages_read}
                 </Text>
               </View>
             </CustomBookView>
             <AddBookmarkButton />
-            { errorMessage ? 
-              <Text>{errorMessage}</Text>
-              : errorMessage == "Bookmark updated successfully" ?
-              <Text>{errorMessage}</Text>
-              :
-              <Text></Text> // empty text
-            }    
+            {
+              errorMessage ? (
+                errorMessage == "Bookmark updated successfully" ? (
+                  <Text style={{ color: "green", lineHeight: 20 }}>
+                    {errorMessage}
+                  </Text>
+                ) : (
+                  <Text style={{ color: "red", lineHeight: 20 }}>
+                    {errorMessage}
+                  </Text>
+                )
+              ) : (
+                <Text style={{ lineHeight: 20 }}></Text>
+              ) // empty text
+            }
           </View>
           {/* Edit Bookmark & Saved Bookmarks part */}
           <View
@@ -373,7 +408,11 @@ export default function logSession() {
                     onDismiss={() => setShowStartTimePicker(false)}
                     date={(t) => {
                       selectedStartTime(t);
-                      console.log(selectedDate + +selectedStartTime.slice(0,2)*60*60*1000 + +selectedStartTime.slice(3,5)*60*100)
+                      console.log(
+                        selectedDate +
+                          +selectedStartTime.slice(0, 2) * 60 * 60 * 1000 +
+                          +selectedStartTime.slice(3, 5) * 60 * 100
+                      );
                     }}
                     onConfirm={onStartTimePickerConfirm}
                     use24HourClock={true}
@@ -502,20 +541,20 @@ export default function logSession() {
                 style={{
                   marginTop: 5,
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: "column-reverse",
                   gap: 10,
                 }}
               >
-                <SavedBookmark />
-                <SavedBookmark />
-                <SavedBookmark />
-                <SavedBookmark />
+                {userBookData?.bookmark_list.map((bookmark, i) => (
+                  <SavedBookmark key={i} bookmark={bookmark} />
+                ))}
               </View>
             </View>
           </View>
         </CustomView2>
       </ThemedView>
     </ScrollView>
-    : <></>
+  ) : (
+    <></>
   );
 }

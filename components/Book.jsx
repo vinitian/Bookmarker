@@ -38,7 +38,7 @@ export default function Book({ bookId }) {
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
-        <BookmarkButton />
+        <BookmarkButton thisBookId={bookId} />
       </View>
     </View>
   );
