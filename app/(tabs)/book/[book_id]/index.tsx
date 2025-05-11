@@ -6,6 +6,7 @@ import {
   useWindowDimensions,
   ScrollView,
   Platform,
+  Pressable,
 } from "react-native";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
@@ -234,15 +235,27 @@ export default function BookInfoPage() {
           flexDirection: "row",
         }}
       >
-        <Image
-          source={{
-            uri: userData.image,
+        <Pressable
+          onPress={() => {
+            router.navigate(`../../profile/user/${user_id}`);
           }}
-          style={{ width: 40, height: 40, borderRadius: 50 }}
-        />
+        >
+          <Image
+            source={{
+              uri: userData.image,
+            }}
+            style={{ width: 40, height: 40, borderRadius: 50 }}
+          />
+        </Pressable>
         <Text style={{ color: "#3C5433", fontSize: 20 }}>
-          <Text style={{ fontWeight: "bold" }}>{userData.name}</Text> gave this
-          book <Text style={{ fontWeight: "bold" }}>{rating}</Text>{" "}
+          <Pressable
+            onPress={() => {
+              router.navigate(`../../profile/user/${user_id}`);
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>{userData.name}</Text>
+          </Pressable>{" "}
+          gave this book <Text style={{ fontWeight: "bold" }}>{rating}</Text>{" "}
           {rating > 1 ? "stars" : "star"}!
         </Text>
       </View>
