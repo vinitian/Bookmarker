@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
@@ -76,16 +77,18 @@ export default function BookInfoPage() {
       }}
       style={{
         backgroundColor: "#79AB57",
-        height: 30,
+        height: 50,
         width: 200,
         marginTop: 10,
-        padding: 5,
+        padding: 10,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold" }}>Bookmark!</Text>
+      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>
+        Bookmark!
+      </Text>
     </TouchableOpacity>
   );
 
@@ -95,7 +98,7 @@ export default function BookInfoPage() {
         onPress={() => addToTopTen({ book_id: book_id, user_id: userId })}
         style={{
           backgroundColor: "#3C5433",
-          height: 30,
+          height: 50,
           width: 200,
           marginTop: 10,
           padding: 5,
@@ -104,7 +107,7 @@ export default function BookInfoPage() {
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#fff", fontWeight: "bold" }}>
+        <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
           Add to My Top Ten
         </Text>
       </TouchableOpacity>
@@ -117,16 +120,16 @@ export default function BookInfoPage() {
       onPress={() => setIsFullDescription(!isfullDescription)}
       style={{
         backgroundColor: "#EBDF94",
-        height: 30,
+        height: 40,
+        width: 120,
         marginTop: 10,
-        padding: 5,
+        padding: 10,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        width: 100,
       }}
     >
-      <Text style={{ color: "#3C5433" }}>
+      <Text style={{ color: "#3C5433", fontSize: 16 }}>
         {isfullDescription ? "Collapse" : "Show more"}
       </Text>
     </TouchableOpacity>
@@ -139,15 +142,16 @@ export default function BookInfoPage() {
       }}
       style={{
         backgroundColor: "#79AB57",
-        height: 30,
+        height: 40,
         padding: 10,
+        paddingHorizontal: 15,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
       }}
       key={genre}
     >
-      <Text style={{ color: "#F7F0DD" }}>{genre}</Text>
+      <Text style={{ color: "#F7F0DD", fontSize: 16 }}>{genre}</Text>
     </TouchableOpacity>
   );
 
@@ -234,7 +238,7 @@ export default function BookInfoPage() {
           source={{
             uri: userData.image,
           }}
-          style={{ width: 40, height: 40, borderRadius: "50%" }}
+          style={{ width: 40, height: 40, borderRadius: 50 }}
         />
         <Text style={{ color: "#3C5433", fontSize: 20 }}>
           <Text style={{ fontWeight: "bold" }}>{userData.name}</Text> gave this
@@ -296,18 +300,31 @@ export default function BookInfoPage() {
           >
             {/* Book title, authors, and average rating for small screen */}
             {width <= 600 ? (
-              <View style={{ marginBottom: 10 }}>
+              <View
+                style={{
+                  marginBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 5,
+                }}
+              >
                 <ThemedText
                   style={{
                     fontSize: 36,
                     lineHeight: 36,
                     marginTop: 5,
+                    paddingTop: 30,
                     fontFamily: "Trirong_700Bold",
                   }}
                 >
                   {book.title}
                 </ThemedText>
-                <ThemedText style={{ fontSize: 20, lineHeight: 28 }}>
+                <ThemedText
+                  style={{
+                    fontSize: 20,
+                    marginTop: Platform.OS !== "web" ? -10 : 0,
+                  }}
+                >
                   by {fullAuthorList}
                 </ThemedText>
 
@@ -331,6 +348,7 @@ export default function BookInfoPage() {
                       alignSelf: "center",
                       fontWeight: "bold",
                       fontSize: width <= 750 && width > 600 ? 16 : 32,
+                      lineHeight: width <= 750 && width > 600 ? 16 : 32,
                     }}
                   >
                     {/* Round avg_rating to 2 decimal places */}
@@ -394,6 +412,7 @@ export default function BookInfoPage() {
                   style={{
                     textAlign: "center",
                     color: "#3C5433",
+                    fontSize: 16,
                   }}
                 >
                   You rated this book{" "}
@@ -416,60 +435,59 @@ export default function BookInfoPage() {
             }}
           >
             <View style={{ flexGrow: 1, gap: 20 }}>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                {/* Book title, authors, and average rating for large screen */}
-                {width > 600 ? (
-                  <>
+              {/* Book title, authors, and average rating for large screen */}
+              {width > 600 ? (
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 5,
+                  }}
+                >
+                  <ThemedText
+                    style={{
+                      fontSize: 36,
+                      lineHeight: 36,
+                      marginTop: 5,
+                      fontFamily: "Trirong_700Bold",
+                    }}
+                  >
+                    {book.title}
+                  </ThemedText>
+                  <ThemedText style={{ fontSize: 20 }}>
+                    by {fullAuthorList}
+                  </ThemedText>
+
+                  {/* Average rating */}
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      marginLeft: -5,
+                    }}
+                  >
+                    <StarRatingDisplay
+                      rating={book.avg_rating}
+                      color="#e2bd04"
+                      starSize={width <= 750 && width > 600 ? 18 : 32}
+                      starStyle={{ alignSelf: "center" }}
+                    />
                     <ThemedText
                       style={{
-                        fontSize: 36,
-                        lineHeight: 36,
-                        marginTop: 5,
-                        fontFamily: "Trirong_700Bold",
+                        alignSelf: "center",
+                        fontWeight: "bold",
+                        fontSize: width <= 750 && width > 600 ? 16 : 32,
                       }}
                     >
-                      {book.title}
+                      {/* Round avg_rating to 2 decimal places */}
+                      {+book.avg_rating.toFixed(2)}
                     </ThemedText>
-                    <ThemedText style={{ fontSize: 20, lineHeight: 28 }}>
-                      by {fullAuthorList}
-                    </ThemedText>
-
-                    {/* Average rating */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        marginLeft: -5,
-                      }}
-                    >
-                      <StarRatingDisplay
-                        rating={book.avg_rating}
-                        color="#e2bd04"
-                        starSize={width <= 750 && width > 600 ? 18 : 32}
-                        starStyle={{ alignSelf: "center" }}
-                      />
-                      <ThemedText
-                        style={{
-                          alignSelf: "center",
-                          fontWeight: "bold",
-                          fontSize: width <= 750 && width > 600 ? 16 : 32,
-                        }}
-                      >
-                        {/* Round avg_rating to 2 decimal places */}
-                        {+book.avg_rating.toFixed(2)}
-                      </ThemedText>
-                    </View>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </View>
+                  </View>
+                </View>
+              ) : (
+                <></>
+              )}
 
               {/* Book description */}
               <View>
@@ -491,7 +509,13 @@ export default function BookInfoPage() {
                     marginTop: 10,
                   }}
                 >
-                  <Text style={{ color: "#3C5433", alignSelf: "center" }}>
+                  <Text
+                    style={{
+                      color: "#3C5433",
+                      alignSelf: "center",
+                      fontSize: 16,
+                    }}
+                  >
                     Genres:{" "}
                   </Text>
                   {book.genre_list.map((genre) => renderGenre(genre))}
@@ -506,6 +530,7 @@ export default function BookInfoPage() {
                   marginTop: 5,
                   fontFamily: "Trirong_700Bold",
                   fontSize: 32,
+                  lineHeight: 40,
                 }}
               >
                 Ratings
@@ -530,6 +555,7 @@ export default function BookInfoPage() {
                   marginTop: 5,
                   fontFamily: "Trirong_700Bold",
                   fontSize: 32,
+                  lineHeight: 40,
                 }}
               >
                 Latest Reviews
