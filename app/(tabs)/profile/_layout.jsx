@@ -21,8 +21,8 @@ export default function StackLayout() {
       />
       <Stack.Screen name="user" options={{ headerShown: false }} />
       <Stack.Screen
-        name="logSession"
-        options={{ headerShown: true, title: "Log Session" }}
+        name="logBookmark"
+        options={{ headerShown: true, title: "Log Bookmark" }}
       />
       <Stack.Screen
         name="myShelf"

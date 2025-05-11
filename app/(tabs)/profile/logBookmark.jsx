@@ -26,7 +26,7 @@ import { fetchUserBook } from "@/lib/fetchUser";
 import CustomBookView from "@/components/CustomBookView";
 import CustomView2 from "@/components/CustomView2";
 
-export default function logSession() {
+export default function logBookmark() {
   const { bookId, setBookId } = useAppContext();
   const [book, setBookData] = useState(undefined);
   useEffect(() => {

@@ -12,7 +12,7 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
       onPress={() => {
         if (thisBookId) {
           setBookId(thisBookId);
-          setTimeout(() => router.push("/profile/logSession"), 100);
+          setTimeout(() => router.push("/profile/logBookmark"), 100);
         }
       }}
       style={{
