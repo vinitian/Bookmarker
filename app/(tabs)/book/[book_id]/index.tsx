@@ -187,6 +187,7 @@ export default function BookInfoPage() {
             height: 5,
             flexDirection: "row",
             flexGrow: 1,
+            flexShrink: 1,
             paddingVertical: 5,
             alignSelf: "center",
             borderRadius: 50,
