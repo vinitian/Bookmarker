@@ -1,7 +1,8 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, Pressable, TouchableOpacity } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import fetchBook from "@/lib/fetchBook";
 
 export default function BookSmall({ bookId, showRemove = false }) {
@@ -13,6 +14,8 @@ export default function BookSmall({ bookId, showRemove = false }) {
   const handleRemove = () => {
     // remove book
   };
+
+  const router = useRouter();
 
   useEffect(() => {
     if (bookId) {
@@ -28,19 +31,22 @@ export default function BookSmall({ bookId, showRemove = false }) {
         gap: 8,
       }}
     >
-      <Image
-        source={{
-          uri: bookData.img_url,
-        }}
-        style={{
-          width: 150,
-          height: 225,
-          borderRadius: 8,
-        }}
-      />
+      <Pressable onPress={() => { router.navigate(`/book/${bookId}`) }}>
+        <Image
+          source={{
+            uri: bookData.img_url,
+          }}
+          style={{
+            width: 150,
+            height: 225,
+            borderRadius: 8,
+          }}
+        />
+      </Pressable>
       <View style={{ width: 170 }}>
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
+          onPress={() => { router.navigate(`/book/${bookId}`) }}
         >
           {bookData.title}
         </ThemedText>
