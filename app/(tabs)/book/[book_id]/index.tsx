@@ -6,7 +6,6 @@ import {
   useWindowDimensions,
   ScrollView,
   Platform,
-  Pressable,
 } from "react-native";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
@@ -19,7 +18,6 @@ import { auth } from "@/firebaseConfig";
 import fetchBook from "@/lib/fetchBook";
 import StarRating from "react-native-star-rating-widget";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
-import CustomBookView from "@/components/CustomBookView";
 import CustomView2 from "@/components/CustomView2";
 import fetchUser from "@/lib/fetchUser";
 import rateBook from "@/lib/rateBook";
@@ -233,9 +231,10 @@ export default function BookInfoPage() {
           gap: 10,
           display: "flex",
           flexDirection: "row",
+          alignContent: "center",
         }}
       >
-        <Pressable
+        <TouchableOpacity
           onPress={() => {
             router.navigate(`../../profile/user/${user_id}`);
           }}
@@ -246,15 +245,21 @@ export default function BookInfoPage() {
             }}
             style={{ width: 40, height: 40, borderRadius: 50 }}
           />
-        </Pressable>
-        <Text style={{ color: "#3C5433", fontSize: 20 }}>
-          <Pressable
+        </TouchableOpacity>
+        <Text style={{ color: "#3C5433", fontSize: 20, alignSelf: "center" }}>
+          <Text
+            style={{
+              color: "#3C5433",
+              fontSize: 20,
+              fontWeight: "bold",
+              // top: 6,
+            }}
             onPress={() => {
               router.navigate(`../../profile/user/${user_id}`);
             }}
           >
-            <Text style={{ fontWeight: "bold" }}>{userData.name}</Text>
-          </Pressable>{" "}
+            {userData.name}
+          </Text>{" "}
           gave this book <Text style={{ fontWeight: "bold" }}>{rating}</Text>{" "}
           {rating > 1 ? "stars" : "star"}!
         </Text>
