@@ -22,86 +22,8 @@ import fetchBook from "@/lib/fetchBook.tsx";
 import SavedBookmark from "@/components/SavedBookmark";
 import addBookmark from "@/lib/addBookmark.tsx";
 import { fetchUserBook } from "@/lib/fetchUser";
-
-const CustomBookView = ({ children, width, image, book }) => {
-  if ((Platform.OS === "web") & (width > 600)) {
-    return book ? (
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: 200,
-        }}
-      >
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={{
-            width: 200,
-            height: 300,
-            borderRadius: 8,
-          }}
-        />
-        {children}
-      </View>
-    ) : (
-      <></>
-    );
-  }
-  return book ? (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: 8,
-        justifyContent: "center",
-      }}
-    >
-      <Image
-        source={{
-          uri: book.img_url,
-        }}
-        style={{
-          width: 150,
-          height: 225,
-          borderRadius: 8,
-        }}
-      />
-      {children}
-    </View>
-  ) : (
-    <></>
-  );
-};
-const CustomView2 = ({ children, width, book }) => {
-  if ((Platform.OS === "web") & (width > 600)) {
-    return book ? (
-      <View
-        style={{
-          width: "100%",
-          maxWidth: 1200,
-          alignSelf: "center",
-          display: "flex",
-          flexDirection: "row",
-          gap: 5,
-        }}
-      >
-        {children}
-      </View>
-    ) : (
-      <></>
-    );
-  }
-  return book ? (
-    <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-      {children}
-    </View>
-  ) : (
-    <></>
-  );
-};
+import CustomBookView from "@/components/CustomBookView";
+import CustomView2 from "@/components/CustomView2";
 
 export default function logSession() {
   const { bookId, setBookId } = useAppContext();
@@ -125,8 +47,8 @@ export default function logSession() {
     setShowStartTimePicker(false);
     setSelectedStartTime(
       hours.toString().padStart(2, "0") +
-        ":" +
-        minutes.toString().padStart(2, "0")
+      ":" +
+      minutes.toString().padStart(2, "0")
     );
   };
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
@@ -135,8 +57,8 @@ export default function logSession() {
     setShowEndTimePicker(false);
     setSelectedEndTime(
       hours.toString().padStart(2, "0") +
-        ":" +
-        minutes.toString().padStart(2, "0")
+      ":" +
+      minutes.toString().padStart(2, "0")
     );
   };
   const dateWithHourMin = (date, time) => {
@@ -220,7 +142,7 @@ export default function logSession() {
   );
   const DeleteBookmarkButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => { }}
       style={{
         backgroundColor: "#F28A8A",
         height: 30,
@@ -236,7 +158,7 @@ export default function logSession() {
   );
   const AddBookmarkButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => { }}
       style={{
         backgroundColor: "#3C5433",
         height: 30,
@@ -427,8 +349,8 @@ export default function logSession() {
                       selectedStartTime(t);
                       console.log(
                         selectedDate +
-                          +selectedStartTime.slice(0, 2) * 60 * 60 * 1000 +
-                          +selectedStartTime.slice(3, 5) * 60 * 100
+                        +selectedStartTime.slice(0, 2) * 60 * 60 * 1000 +
+                        +selectedStartTime.slice(3, 5) * 60 * 100
                       );
                     }}
                     onConfirm={onStartTimePickerConfirm}
