@@ -1,8 +1,9 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Link } from "expo-router";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 import fetchBook from "@/lib/fetchBook";
 
 export default function Book({ bookId }) {
@@ -12,6 +13,8 @@ export default function Book({ bookId }) {
     // change context
   };
 
+  const router = useRouter();
+
   useEffect(() => {
     if (bookId) {
       fetchBook({ book_id: bookId, setBookData: setBookData });
@@ -20,15 +23,18 @@ export default function Book({ bookId }) {
   if (!bookData) return <Text>Loading...</Text>;
   return (
     <View style={{ display: "flex" }}>
-      <Image
-        source={{
-          uri: bookData.img_url,
-        }}
-        style={{ width: 200, height: 300, borderRadius: 8 }}
-      />
+      <Pressable onPress={() => { router.navigate(`/book/${bookId}`) }}>
+        <Image
+          source={{
+            uri: bookData.img_url,
+          }}
+          style={{ width: 200, height: 300, borderRadius: 8 }}
+        />
+      </Pressable>
       <View style={{ width: 200 }}>
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
+          onPress={() => { router.navigate(`/book/${bookId}`) }}
         >
           {bookData.title}
         </ThemedText>
