@@ -142,6 +142,22 @@ export default function logSession() {
       <Text style={{ color: "#fff" }}>Save Bookmark</Text>
     </TouchableOpacity>
   );
+  const SaveChangeButton = () => (
+    <TouchableOpacity
+      onPress={() => {}}
+      style={{
+        backgroundColor: "#79AB57",
+        height: 30,
+        marginTop: 10,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 50,
+      }}
+    >
+      <Text style={{ color: "#fff" }}>Save Changes</Text>
+    </TouchableOpacity>
+  );
   const DeleteBookmarkButton = () => (
     <TouchableOpacity
       onPress={() => {}}
@@ -486,8 +502,15 @@ export default function logSession() {
                   <Text style={{ lineHeight: 20 }}></Text>
                 ) // empty text
               }
-              <SaveBookmarkButton />
-              {selectedKey == -1 ? <></> : <DeleteBookmarkButton />}
+
+              {selectedKey == -1 ? (
+                <SaveBookmarkButton />
+              ) : (
+                <>
+                  <SaveChangeButton />
+                  <DeleteBookmarkButton />
+                </>
+              )}
             </View>
             {/* Saved Bookmarks */}
             <View style={{ flexGrow: 1 }}>
@@ -516,6 +539,11 @@ export default function logSession() {
                     setSelectedKey={setSelectedKey}
                     selectedKey={selectedKey}
                     bookmark={bookmark}
+                    setSelectedDate={setSelectedDate}
+                    setStartHourMin={onStartTimePickerConfirm}
+                    setEndHourMin={onEndTimePickerConfirm}
+                    setStartPage={setStartPage}
+                    setEndPage={setEndPage}
                   />
                 ))}
               </View>

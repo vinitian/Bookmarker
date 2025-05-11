@@ -8,6 +8,11 @@ export default function SavedBookmark({
   setSelectedKey,
   selectedKey,
   bookmark,
+  setSelectedDate,
+  setStartHourMin,
+  setEndHourMin,
+  setStartPage,
+  setEndPage,
 }) {
   const [borderWidth, setBorderWidth] = useState(0);
   useEffect(() => {
@@ -18,6 +23,25 @@ export default function SavedBookmark({
     <TouchableOpacity
       onPress={() => {
         setSelectedKey(bookKey);
+        setSelectedDate(new Date(bookmark.start_time.seconds * 1000));
+        setStartHourMin({
+          hours: new Date(bookmark.start_time.seconds * 1000)
+            .getHours()
+            .toString(),
+          minutes: new Date(bookmark.start_time.seconds * 1000)
+            .getMinutes()
+            .toString(),
+        });
+        setEndHourMin({
+          hours: new Date(bookmark.end_time.seconds * 1000)
+            .getHours()
+            .toString(),
+          minutes: new Date(bookmark.end_time.seconds * 1000)
+            .getMinutes()
+            .toString(),
+        });
+        setStartPage(bookmark.start_page);
+        setEndPage(bookmark.end_page);
       }}
       style={{
         backgroundColor: "#79AB57",
