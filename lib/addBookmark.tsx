@@ -136,20 +136,37 @@ export default function addBookmark({
         const new_bookmark_list = result
           ? result.bookmark_list.concat([bookmark])
           : [bookmark];
+        const new_book_list = result
+          ? userDoc.book_list
+              .filter((book: PersonalBook) => book.book_id != book_id)
+              .concat([
+                {
+                  book_id: book_id,
+                  rating: result ? result.rating : 0,
+                  cumul_time: result
+                    ? result.cumul_time + bookmark.total_time
+                    : bookmark.total_time,
+                  pages_read: result
+                    ? result.pages_read + bookmark.total_page
+                    : bookmark.total_page,
+                  bookmark_list: new_bookmark_list,
+                },
+              ])
+          : userDoc.book_list.concat([
+              {
+                book_id: book_id,
+                rating: result ? result.rating : 0,
+                cumul_time: result
+                  ? result.cumul_time + bookmark.total_time
+                  : bookmark.total_time,
+                pages_read: result
+                  ? result.pages_read + bookmark.total_page
+                  : bookmark.total_page,
+                bookmark_list: new_bookmark_list,
+              },
+            ]);
         await updateDoc(userRef, {
-          book_list: [
-            {
-              book_id: book_id,
-              rating: result ? result.rating : 0,
-              cumul_time: result
-                ? result.cumul_time + bookmark.total_time
-                : bookmark.total_time,
-              pages_read: result
-                ? result.pages_read + bookmark.total_page
-                : bookmark.total_page,
-              bookmark_list: new_bookmark_list,
-            },
-          ],
+          book_list: new_book_list,
         });
 
         console.log("Bookmark updated successfully");

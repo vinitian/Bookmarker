@@ -117,7 +117,12 @@ export default function logSession() {
           bookmark: {
             start_time: dateWithHourMin(selectedDate, selectedStartTime),
             end_time: dateWithHourMin(selectedDate, selectedEndTime),
-            total_time: 180,
+            total_time: Math.round(
+              (dateWithHourMin(selectedDate, selectedEndTime) -
+                dateWithHourMin(selectedDate, selectedStartTime)) /
+                60 /
+                1000
+            ),
             start_page: startPage,
             end_page: endPage,
             total_page: endPage - startPage,
