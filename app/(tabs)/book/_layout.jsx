@@ -5,7 +5,7 @@ export default function StackLayout() {
     <Stack>
       <Stack.Screen
         name="[book_id]"
-        options={{ headerShown: true, title: "Book Details Profile" }}
+        options={{ headerShown: false }}
       />
     </Stack>
   );
