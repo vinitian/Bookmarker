@@ -185,23 +185,21 @@ export default function BookInfoPage() {
           style={{
             backgroundColor: "#D2D2D2",
             height: 5,
-            display: "flex",
             flexDirection: "row",
             flexGrow: 1,
-            flexShrink: 1,
-            padding: 5,
+            paddingVertical: 5,
             alignSelf: "center",
             borderRadius: 50,
+            justifyContent: "flex-start",
           }}
         >
           {/* Green bar */}
           <View
             style={{
               backgroundColor: "#79AB57",
-              width: `${percentOfUsers + 5}%`, // add 5 to cover for marginLeft
-              display: "flex",
+              width: `${percentOfUsers}%`, // add 5 to cover for marginLeft
               flexDirection: "row",
-              marginLeft: -5,
+              marginLeft: 0,
               padding: 5,
               alignSelf: "center",
               borderRadius: 50,
