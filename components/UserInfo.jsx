@@ -17,7 +17,7 @@ export default function UserInfo({ username, email, image }) {
         source={{
           uri: image,
         }}
-        style={{ width: 70, height: 70, borderRadius: "50%" }}
+        style={{ width: 70, height: 70, borderRadius: 100 }}
       />
       <View
         style={{
@@ -26,7 +26,9 @@ export default function UserInfo({ username, email, image }) {
           alignItems: "flex-start",
         }}
       >
-        <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>{username}</ThemedText>
+        <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
+          {username}
+        </ThemedText>
         <ThemedText style={{ fontSize: 14 }}>{email}</ThemedText>
       </View>
     </View>
