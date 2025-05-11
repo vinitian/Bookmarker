@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import fetchBook from "@/lib/fetchBook.tsx";
 import SavedBookmark from "@/components/SavedBookmark";
 import addBookmark from "@/lib/addBookmark.tsx";
+import deleteBookmark from "@/lib/deleteBookmark.tsx";
 import { fetchUserBook } from "@/lib/fetchUser";
 import CustomBookView from "@/components/CustomBookView";
 import CustomView2 from "@/components/CustomView2";
@@ -127,7 +128,7 @@ export default function logSession() {
           setErrorMessage: setErrorMessage,
           loadUserBookData: loadUserBookData,
         });
-        setTimeout(() => setErrorMessage(""), 10000);
+        setTimeout(() => setErrorMessage(""), 6000);
       }}
       style={{
         backgroundColor: "#79AB57",
@@ -160,7 +161,18 @@ export default function logSession() {
   );
   const DeleteBookmarkButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => {
+        setErrorMessage("");
+        deleteBookmark({
+          user_id: userId,
+          book_id: bookId,
+          selectedKey: selectedKey,
+          setSelectedKey: setSelectedKey,
+          setErrorMessage: setErrorMessage,
+          loadUserBookData: loadUserBookData,
+        });
+        setTimeout(() => setErrorMessage(""), 6000);
+      }}
       style={{
         backgroundColor: "#F28A8A",
         height: 30,
@@ -237,12 +249,13 @@ export default function logSession() {
                 <Text
                   style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
                 >
-                  Hours read: {userBookData?.cumul_time / 60}
+                  Hours read:{" "}
+                  {userBookData?.cumul_time ? userBookData?.cumul_time / 60 : 0}
                 </Text>
                 <Text
                   style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
                 >
-                  Pages read: {userBookData?.pages_read}
+                  Pages read: {userBookData?.pages_read ?? 0}
                 </Text>
               </View>
             </CustomBookView>
@@ -482,7 +495,8 @@ export default function logSession() {
               </View>
               {
                 errorMessage ? (
-                  errorMessage == "Bookmark updated successfully" ? (
+                  errorMessage == "Bookmark updated successfully" ||
+                  errorMessage == "Bookmark deleted successfully" ? (
                     <Text style={{ color: "green", lineHeight: 20 }}>
                       {errorMessage}
                     </Text>
@@ -525,20 +539,24 @@ export default function logSession() {
                   gap: 10,
                 }}
               >
-                {userBookData?.bookmark_list.map((bookmark, i) => (
-                  <SavedBookmark
-                    key={i}
-                    bookKey={i}
-                    setSelectedKey={setSelectedKey}
-                    selectedKey={selectedKey}
-                    bookmark={bookmark}
-                    setSelectedDate={setSelectedDate}
-                    setStartHourMin={onStartTimePickerConfirm}
-                    setEndHourMin={onEndTimePickerConfirm}
-                    setStartPage={setStartPage}
-                    setEndPage={setEndPage}
-                  />
-                ))}
+                {userBookData?.bookmark_list.length > 0 ? (
+                  userBookData?.bookmark_list.map((bookmark, i) => (
+                    <SavedBookmark
+                      key={i}
+                      bookKey={i}
+                      setSelectedKey={setSelectedKey}
+                      selectedKey={selectedKey}
+                      bookmark={bookmark}
+                      setSelectedDate={setSelectedDate}
+                      setStartHourMin={onStartTimePickerConfirm}
+                      setEndHourMin={onEndTimePickerConfirm}
+                      setStartPage={setStartPage}
+                      setEndPage={setEndPage}
+                    />
+                  ))
+                ) : (
+                  <ThemedText>No bookmark yet</ThemedText>
+                )}
               </View>
             </View>
           </View>

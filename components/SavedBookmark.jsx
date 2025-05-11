@@ -95,7 +95,9 @@ export default function SavedBookmark({
         <ThemedText>
           page {bookmark.start_page} - {bookmark.end_page}
         </ThemedText>
-        <ThemedText>{bookmark.total_page} pages</ThemedText>
+        <ThemedText>
+          {bookmark.total_page} {bookmark.total_page > 1 ? "pages" : "page"}
+        </ThemedText>
       </View>
     </View>
   );
