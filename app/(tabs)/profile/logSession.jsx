@@ -369,14 +369,7 @@ export default function logSession() {
                   <TimePickerModal
                     visible={showStartTimePicker}
                     onDismiss={() => setShowStartTimePicker(false)}
-                    date={(t) => {
-                      selectedStartTime(t);
-                      console.log(
-                        selectedDate +
-                          +selectedStartTime.slice(0, 2) * 60 * 60 * 1000 +
-                          +selectedStartTime.slice(3, 5) * 60 * 100
-                      );
-                    }}
+                    date={selectedStartTime}
                     onConfirm={onStartTimePickerConfirm}
                     use24HourClock={true}
                     label="I started reading at..."

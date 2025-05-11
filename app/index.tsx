@@ -42,8 +42,8 @@ import { FirebaseError } from "firebase/app";
 import { createUser } from "@/lib/editUser";
 
 export default function login() {
-
-  const [isFirstButtonClicked, setIsFirstButtonClicked] = useState<boolean>(false);
+  const [isFirstButtonClicked, setIsFirstButtonClicked] =
+    useState<boolean>(false);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -69,7 +69,7 @@ export default function login() {
         })
       )
       .then((_) => {
-        createUser({auth, name});
+        createUser({ auth, name });
       })
       .catch((e: FirebaseError) => {
         if (e.code === "auth/weak-password") {
@@ -131,53 +131,73 @@ export default function login() {
         Bookmarker
       </ThemedText>
       <KeyboardAvoidingView behavior="padding">
-        { isFirstButtonClicked ? // hide fields if Signup nor Signin button has been clicked yet
-        <>
-          { isSignUp ? <TextInput // hide Name field if user is not signing up
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            autoCapitalize="none"
-            placeholder="Name"
-          /> : null
-          }
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholder="Email"
-          />
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholder="Password"
-          />
-        </> : null 
-        }
+        {isFirstButtonClicked ? ( // hide fields if Signup nor Signin button has been clicked yet
+          <>
+            {isSignUp ? (
+              <TextInput // hide Name field if user is not signing up
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="none"
+                placeholder="Name"
+              />
+            ) : null}
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="Email"
+            />
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              placeholder="Password"
+            />
+          </>
+        ) : null}
         {error ? <Text style={{ color: "red" }}>{error}</Text> : <></>}
         {loading ? (
           <ActivityIndicator size={"small"} style={{ margin: 28 }} />
         ) : (
-          <> { !isFirstButtonClicked ?
-            <>
-              <Button onPress={()=>{setIsSignUp(true);setIsFirstButtonClicked(true)}} title="Sign Up" />
-              <Button onPress={()=>{setIsSignUp(false);setIsFirstButtonClicked(true)}} title="Sign In" />
-            </>
-            : isSignUp ?
-            <>
-              <Button onPress={signUp} title="Sign Up" />
-              <Button onPress={()=>setIsSignUp(false)} title="Already have an account? Click here to sign in" />
-            </>
-            :
-            <>
-              <Button onPress={signIn} title="Sign In" />
-              <Button onPress={()=>setIsSignUp(true)} title="No account? Click here in sign up" />
-            </>
-          }
+          <>
+            {!isFirstButtonClicked ? (
+              <>
+                <Button
+                  onPress={() => {
+                    setIsSignUp(true);
+                    setIsFirstButtonClicked(true);
+                  }}
+                  title="Sign Up"
+                />
+                <Button
+                  onPress={() => {
+                    setIsSignUp(false);
+                    setIsFirstButtonClicked(true);
+                  }}
+                  title="Sign In"
+                />
+              </>
+            ) : isSignUp ? (
+              <>
+                <Button onPress={signUp} title="Sign Up" />
+                <Button
+                  onPress={() => setIsSignUp(false)}
+                  title="Already have an account? Click here to sign in"
+                />
+              </>
+            ) : (
+              <>
+                <Button onPress={signIn} title="Sign In" />
+                <Button
+                  onPress={() => setIsSignUp(true)}
+                  title="No account? Click here in sign up"
+                />
+              </>
+            )}
           </>
         )}
       </KeyboardAvoidingView>
