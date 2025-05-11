@@ -1,11 +1,24 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 
-export default function SavedBookmark({ bookmark }) {
+export default function SavedBookmark({
+  bookKey,
+  setSelectedKey,
+  selectedKey,
+  bookmark,
+}) {
+  const [borderWidth, setBorderWidth] = useState(0);
+  useEffect(() => {
+    setBorderWidth(bookKey == selectedKey ? 2 : 0);
+  }, [selectedKey]);
+
   const EditButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => {
+        setSelectedKey(bookKey);
+      }}
       style={{
         backgroundColor: "#79AB57",
         paddingVertical: 5,
@@ -19,6 +32,7 @@ export default function SavedBookmark({ bookmark }) {
       <Text style={{ color: "#fff" }}>Edit</Text>
     </TouchableOpacity>
   );
+  const styles = getStyles(borderWidth);
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
@@ -63,20 +77,23 @@ export default function SavedBookmark({ bookmark }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#fff",
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingTop: 12,
-    paddingBottom: 8,
-    gap: 2,
-  },
-  infoContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 50,
-  },
-});
+const getStyles = (borderWidth) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: "#fff",
+      borderRadius: 18,
+      paddingHorizontal: 14,
+      paddingTop: 12,
+      paddingBottom: 8,
+      gap: 2,
+      borderWidth: borderWidth,
+      borderColor: "#79AB57",
+    },
+    infoContainer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: 50,
+    },
+  });

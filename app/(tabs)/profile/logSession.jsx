@@ -178,6 +178,8 @@ export default function logSession() {
     }
   };
 
+  const [selectedKey, setSelectedKey] = useState(-1); // key of editing bookmark || -1 for new bookmark
+
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -234,9 +236,11 @@ export default function logSession() {
       <Text style={{ color: "#fff" }}>Delete Bookmark</Text>
     </TouchableOpacity>
   );
-  const AddBookmarkButton = () => (
+  const NewBookmarkButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => {
+        setSelectedKey(-1);
+      }}
       style={{
         backgroundColor: "#3C5433",
         height: 30,
@@ -247,7 +251,7 @@ export default function logSession() {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#F7F0DD" }}>Add a Bookmark</Text>
+      <Text style={{ color: "#F7F0DD" }}>New Bookmark</Text>
     </TouchableOpacity>
   );
 
@@ -304,7 +308,11 @@ export default function logSession() {
                 </Text>
               </View>
             </CustomBookView>
-            <AddBookmarkButton />
+            {selectedKey == -1 ? (
+              <View style={{ height: 40 }} />
+            ) : (
+              <NewBookmarkButton />
+            )}
           </View>
           {/* Edit Bookmark & Saved Bookmarks part */}
           <View
@@ -326,7 +334,7 @@ export default function logSession() {
                   fontFamily: "Trirong_700Bold",
                 }}
               >
-                Edit Bookmark
+                {selectedKey == -1 ? "New" : "Edit"} Bookmark
               </ThemedText>
               <ThemedText
                 style={{
@@ -557,7 +565,7 @@ export default function logSession() {
                 ) // empty text
               }
               <SaveBookmarkButton />
-              <DeleteBookmarkButton />
+              {selectedKey == -1 ? <></> : <DeleteBookmarkButton />}
             </View>
             {/* Saved Bookmarks */}
             <View style={{ flexGrow: 1 }}>
@@ -580,7 +588,13 @@ export default function logSession() {
                 }}
               >
                 {userBookData?.bookmark_list.map((bookmark, i) => (
-                  <SavedBookmark key={i} bookmark={bookmark} />
+                  <SavedBookmark
+                    key={i}
+                    bookKey={i}
+                    setSelectedKey={setSelectedKey}
+                    selectedKey={selectedKey}
+                    bookmark={bookmark}
+                  />
                 ))}
               </View>
             </View>
