@@ -131,7 +131,7 @@ export default function UserProfile() {
             <UserInfo
               username={user.name}
               email={user.email}
-              image="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              image={user.image}
             />
             {myProfileName == "My" ? (
               <TouchableOpacity

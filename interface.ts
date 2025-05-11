@@ -21,6 +21,7 @@ interface Rating {
 interface User {
     email: string,
     name: string,
+    image: string,
     fav_list: string[10],
     book_list: PersonalBook[],
 }
