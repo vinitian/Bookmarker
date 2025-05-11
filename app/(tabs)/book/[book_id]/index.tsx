@@ -75,6 +75,7 @@ export default function BookInfoPage() {
       style={{
         backgroundColor: "#79AB57",
         height: 30,
+        width: 200,
         marginTop: 10,
         padding: 5,
         alignItems: "center",
@@ -89,11 +90,11 @@ export default function BookInfoPage() {
   const AddToTopTenButton = () => (
     userId ?
       <TouchableOpacity
-        //TODO: ADD FUNCTION HERE
         onPress={() => addToTopTen({ book_id: book_id, user_id: userId })}
         style={{
           backgroundColor: "#3C5433",
           height: 30,
+          width: 200,
           marginTop: 10,
           padding: 5,
           alignItems: "center",
@@ -212,7 +213,7 @@ export default function BookInfoPage() {
             }}
             style={{ width: 40, height: 40, borderRadius: "50%" }}
           />
-          <Text style={{ color: "#3C5433" }}><Text style={{ fontWeight: "bold" }}>{userData.name}</Text> gave this book <Text style={{ fontWeight: "bold" }}>{rating}</Text> {rating > 1 ? "stars" : "star"}!</Text>
+          <Text style={{ color: "#3C5433", fontSize: 20 }}><Text style={{ fontWeight: "bold" }}>{userData.name}</Text> gave this book <Text style={{ fontWeight: "bold" }}>{rating}</Text> {rating > 1 ? "stars" : "star"}!</Text>
         </View>
         : <></>
     )
@@ -222,20 +223,23 @@ export default function BookInfoPage() {
     const len = book ? book.rating_list.length : 0
 
     return (
-      <View style={{
-        marginTop: 10,
-        gap: 10,
-        display: "flex",
-        flexDirection: "column",
-      }}>
-        {book?.rating_list.slice(len - 3 > 0 ? len - 3 : 0, len).reverse().map((obj) => (
-          <UserReview
-            user_id={obj.user_id}
-            rating={obj.rating}
-            key={obj.user_id}
-          />
-        ))}
-      </View>
+      len > 0 ?
+        <View style={{
+          marginTop: 10,
+          gap: 10,
+          display: "flex",
+          flexDirection: "column",
+        }}>
+          {book?.rating_list.slice(len - 3 > 0 ? len - 3 : 0, len).reverse().map((obj) => (
+            <UserReview
+              user_id={obj.user_id}
+              rating={obj.rating}
+              key={obj.user_id}
+            />
+          ))}
+        </View>
+        :
+        <Text style={{ color: "#3C5433", marginTop: 10, fontSize: 20 }}>This book has no reviews yet.</Text>
     )
   }
 
@@ -257,79 +261,18 @@ export default function BookInfoPage() {
                 alignSelf: width > 600 ? "auto" : "center",
               }}
             >
-              <CustomBookView width={width} image={book.img_url}>
-                <View
+              {/* Book title, authors, and average rating for small screen */}
+              {width <= 600 ?
+                <View style={{ marginBottom: 10 }}><ThemedText
                   style={{
-                    maxWidth: 200,
+                    fontSize: 36,
+                    lineHeight: 36,
+                    marginTop: 5,
+                    fontFamily: "Trirong_700Bold",
                   }}
                 >
-
-
-                </View>
-              </CustomBookView>
-              <AddBookmarkButton />
-              <AddToTopTenButton />
-              <Text
-                style={{
-                  marginTop: 10,
-                  color: "#3C5433",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                  textAlign: "center"
-                }}
-              >
-                Rate this book
-              </Text>
-              <StarRating
-                rating={rating}
-                color="#e2bd04"
-                enableHalfStar={false}
-                onChange={(rating) => {
-                  setRating(rating);
-                  if (userId)
-                    rateBook({ book_id: book_id, user_id: userId, rating: rating })
-                  setIsRated(true)
-                }}
-              />
-              {
-                IsRated ?
-                  <Text style={{
-                    textAlign: "center",
-                    color: "#3C5433",
-                  }}>
-                    You rated this book <Text style={{ fontWeight: "bold" }}>{rating}</Text> stars
-                    {userId ? '' : "Please sign in to save your rating."}
-                  </Text>
-                  :
-                  <></>
-              }
-
-            </View>
-            <View
-              style={{
-                marginHorizontal: 10,
-                gap: 20,
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-                flexShrink: 1,
-              }}
-            >
-              <View style={{ flexGrow: 1, gap: 20 }}>
-                <View style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}>
-                  <ThemedText
-                    style={{
-                      fontSize: 36,
-                      lineHeight: 36,
-                      marginTop: 5,
-                      fontFamily: "Trirong_700Bold",
-                    }}
-                  >
-                    {book.title}
-                  </ThemedText>
+                  {book.title}
+                </ThemedText>
                   <ThemedText style={{ fontSize: 20, lineHeight: 28 }}>
                     by {fullAuthorList}
                   </ThemedText>
@@ -352,12 +295,132 @@ export default function BookInfoPage() {
                     <ThemedText style={{
                       alignSelf: "center",
                       fontWeight: "bold",
-                      fontSize: width > 750 ? 28 : 16
+                      fontSize: width <= 750 && width > 600 ? 16 : 32
                     }}>
                       {/* Round avg_rating to 2 decimal places */}
                       {+book.avg_rating.toFixed(2)}
                     </ThemedText>
                   </View>
+                </View> : <></>
+              }
+
+              <View style={{ alignItems: "center" }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: 200,
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri: book.img_url,
+                    }}
+                    style={{
+                      width: 200,
+                      height: 300,
+                      borderRadius: 8,
+                    }}
+                  />
+                </View>
+                <AddBookmarkButton />
+                <AddToTopTenButton />
+                <Text
+                  style={{
+                    marginTop: 10,
+                    color: "#3C5433",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    textAlign: "center"
+                  }}
+                >
+                  Rate this book
+                </Text>
+                <StarRating
+                  rating={rating}
+                  color="#e2bd04"
+                  enableHalfStar={false}
+                  onChange={(rating) => {
+                    setRating(rating);
+                    if (userId)
+                      rateBook({ book_id: book_id, user_id: userId, rating: rating })
+                    setIsRated(true)
+                  }}
+                />
+                {
+                  IsRated ?
+                    <Text style={{
+                      textAlign: "center",
+                      color: "#3C5433",
+                    }}>
+                      You rated this book <Text style={{ fontWeight: "bold" }}>{rating}</Text> stars
+                      {userId ? '' : "Please sign in to save your rating."}
+                    </Text>
+                    :
+                    <></>
+                }
+              </View>
+
+            </View>
+            <View
+              style={{
+                marginHorizontal: 10,
+                gap: 20,
+                display: "flex",
+                flexDirection: "column",
+                flexGrow: 1,
+                flexShrink: 1,
+              }}
+            >
+              <View style={{ flexGrow: 1, gap: 20 }}>
+                <View style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}>
+                  {/* Book title, authors, and average rating for large screen */}
+                  {width > 600 ?
+                    <><ThemedText
+                      style={{
+                        fontSize: 36,
+                        lineHeight: 36,
+                        marginTop: 5,
+                        fontFamily: "Trirong_700Bold",
+                      }}
+                    >
+                      {book.title}
+                    </ThemedText>
+                      <ThemedText style={{ fontSize: 20, lineHeight: 28 }}>
+                        by {fullAuthorList}
+                      </ThemedText>
+
+                      {/* Average rating */}
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                          marginLeft: -5
+                        }}
+                      >
+                        <StarRatingDisplay
+                          rating={book.avg_rating}
+                          color="#e2bd04"
+                          starSize={width <= 750 && width > 600 ? 18 : 32}
+                          starStyle={{ alignSelf: "center" }}
+                        />
+                        <ThemedText style={{
+                          alignSelf: "center",
+                          fontWeight: "bold",
+                          fontSize: width <= 750 && width > 600 ? 16 : 32
+                        }}>
+                          {/* Round avg_rating to 2 decimal places */}
+                          {+book.avg_rating.toFixed(2)}
+                        </ThemedText>
+                      </View>
+                    </> : <></>
+                  }
+
+
                 </View>
 
                 {/* Book description */}
@@ -406,7 +469,7 @@ export default function BookInfoPage() {
                     fontSize: 20
                   }}
                 >
-                  {Intl.NumberFormat("en-US").format(book.rating_list.length)} ratings
+                  {Intl.NumberFormat("en-US").format(book.rating_list.length)} total ratings
                 </ThemedText>
                 {[5, 4, 3, 2, 1].map((rating: number) => (
                   <DetailedStarRating
@@ -426,7 +489,7 @@ export default function BookInfoPage() {
                 >
                   Latest Reviews
                 </ThemedText>
-                <LatestReviews reviews={3} />
+                <LatestReviews reviews={5} />
               </View>
 
 
