@@ -211,6 +211,7 @@ export default function login() {
         <ThemedText
           style={{
             fontSize: 32,
+            lineHeight: 32,
             fontWeight: "bold",
             fontFamily: "Trirong_700Bold",
             textAlign: "center",
