@@ -30,7 +30,7 @@ export const SearchBar = ({}) => {
   const router = useRouter();
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [option, setOption] = useState("1");
+  const [option, setOption] = useState("title");
 
   const handleKeyDown = (e: any) => {
     if (e.nativeEvent.key === "Enter") {
