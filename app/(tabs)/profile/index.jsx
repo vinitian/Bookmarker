@@ -27,7 +27,7 @@ export default function HomeScreen() {
       <ThemedText>You're not logged in</ThemedText>
       <TouchableOpacity
         onPress={() => {
-          router.push("/");
+          router.push("/login");
         }}
         style={{
           backgroundColor: "#79AB57",
