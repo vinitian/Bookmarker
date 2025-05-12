@@ -325,6 +325,17 @@ export default function logBookmark() {
                     lineHeight: 24,
                   }}
                 >
+                  Total page:{" "}
+                  {Intl.NumberFormat("en-US").format(book.total_page)}
+                </Text>
+                <Text
+                  style={{
+                    color: "#79AB57",
+                    fontFamily: "Trirong_700Bold",
+                    fontSize: 17,
+                    lineHeight: 24,
+                  }}
+                >
                   Hours read:{" "}
                   {userBookData?.cumul_time
                     ? Intl.NumberFormat("en-US").format(
