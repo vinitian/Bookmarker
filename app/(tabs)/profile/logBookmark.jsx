@@ -326,7 +326,11 @@ export default function logBookmark() {
                   }}
                 >
                   Hours read:{" "}
-                  {userBookData?.cumul_time ? userBookData?.cumul_time / 60 : 0}
+                  {userBookData?.cumul_time
+                    ? Intl.NumberFormat("en-US").format(
+                        (userBookData?.cumul_time / 60).toFixed(2)
+                      )
+                    : 0}
                 </Text>
                 <Text
                   style={{
@@ -336,7 +340,10 @@ export default function logBookmark() {
                     lineHeight: 24,
                   }}
                 >
-                  Pages read: {userBookData?.pages_read ?? 0}
+                  Pages read:{" "}
+                  {Intl.NumberFormat("en-US").format(
+                    userBookData?.pages_read
+                  ) ?? 0}
                 </Text>
               </View>
             </CustomBookView>

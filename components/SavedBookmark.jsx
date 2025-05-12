@@ -89,14 +89,18 @@ export default function SavedBookmark({
             .toString()
             .padStart(2, "0")}
         </ThemedText>
-        <ThemedText>{bookmark.total_time} min</ThemedText>
+        <ThemedText>
+          {Intl.NumberFormat("en-US").format(bookmark.total_time)} min
+        </ThemedText>
       </View>
       <View style={styles.infoContainer}>
         <ThemedText>
-          page {bookmark.start_page} - {bookmark.end_page}
+          page {Intl.NumberFormat("en-US").format(bookmark.start_page)} -{" "}
+          {Intl.NumberFormat("en-US").format(bookmark.end_page)}
         </ThemedText>
         <ThemedText>
-          {bookmark.total_page} {bookmark.total_page > 1 ? "pages" : "page"}
+          {Intl.NumberFormat("en-US").format(bookmark.total_page)}{" "}
+          {bookmark.total_page > 1 ? "pages" : "page"}
         </ThemedText>
       </View>
     </View>
