@@ -1,4 +1,5 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, Text, Pressable, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -11,6 +12,7 @@ import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
     Trirong_700Bold,
@@ -46,6 +48,29 @@ export default function HomeScreen() {
         </ThemedText>
         <SearchBar />
         <MostPopularBooks />
+        {/* Horizontal line */}
+        <View
+          style={{
+            marginVertical: 30,
+            width: "100%",
+            paddingVertical: 0.5,
+            backgroundColor: "#3C5433",
+          }}
+        />
+        {/* Sign in / sign up button */}
+        <Pressable
+          onPress={() => router.navigate("/login")}
+          style={{
+            borderRadius: 50,
+            backgroundColor: "#3C5433",
+            padding: 10,
+            paddingHorizontal: 20,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
+            Sign in / Sign up
+          </Text>
+        </Pressable>
       </ThemedView>
     </ParallaxScrollView>
   );
