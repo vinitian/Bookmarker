@@ -8,7 +8,7 @@ interface Book {
     author_list: string[],
     genre_list: string[],
     publisher: string,
-    publishedDate: Date,
+    published_date: Date,
     avg_rating: number,
     total_page: number,
     img_url: string,
