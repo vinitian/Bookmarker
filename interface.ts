@@ -7,10 +7,12 @@ interface Book {
     description: string,
     author_list: string[],
     genre_list: string[],
+    publisher: string,
+    publishedDate: Date,
     avg_rating: number,
     total_page: number,
     img_url: string,
-    rating_list: Rating[]
+    rating_list: Rating[],
 }
 
 interface Rating {
