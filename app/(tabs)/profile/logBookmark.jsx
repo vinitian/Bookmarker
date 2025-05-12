@@ -21,6 +21,7 @@ import { format } from "date-fns";
 import fetchBook from "@/lib/fetchBook.tsx";
 import SavedBookmark from "@/components/SavedBookmark";
 import addBookmark from "@/lib/addBookmark.tsx";
+import saveBookmarkChanges from "@/lib/saveBookmarkChanges.tsx";
 import deleteBookmark from "@/lib/deleteBookmark.tsx";
 import { fetchUserBook } from "@/lib/fetchUser";
 import CustomBookView from "@/components/CustomBookView";
@@ -160,7 +161,30 @@ export default function logBookmark() {
   );
   const SaveChangeButton = () => (
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={() => {
+        saveBookmarkChanges({
+          bookmark: {
+            start_time: dateWithHourMin(selectedDate, selectedStartTime),
+            end_time: dateWithHourMin(selectedDate, selectedEndTime),
+            total_time: Math.round(
+              (dateWithHourMin(selectedDate, selectedEndTime) -
+                dateWithHourMin(selectedDate, selectedStartTime)) /
+                60 /
+                1000
+            ),
+            start_page: startPage,
+            end_page: endPage,
+            total_page: endPage - startPage,
+          },
+          user_id: userId,
+          book_id: bookId,
+          selectedKey: selectedKey,
+          errorMessage: errorMessage,
+          setErrorMessage: setErrorMessage,
+          loadUserBookData: loadUserBookData,
+        });
+        setTimeout(() => setErrorMessage(""), 6000);
+      }}
       style={{
         backgroundColor: "#79AB57",
         height: 30,
