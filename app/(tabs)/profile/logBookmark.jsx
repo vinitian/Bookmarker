@@ -498,22 +498,33 @@ export default function logBookmark() {
                   />
                 </View>
               </View>
-              {
-                errorMessage ? (
-                  errorMessage == "Bookmark updated successfully" ||
-                  errorMessage == "Bookmark deleted successfully" ? (
-                    <Text style={{ color: "green", lineHeight: 20 }}>
-                      {errorMessage}
-                    </Text>
+              <View
+                style={{
+                  width:
+                    width > 600
+                      ? width < 900
+                        ? 0.4 * width
+                        : 0.3 * width
+                      : "auto",
+                }}
+              >
+                {
+                  errorMessage ? (
+                    errorMessage == "Bookmark updated successfully" ||
+                    errorMessage == "Bookmark deleted successfully" ? (
+                      <Text style={{ color: "green", lineHeight: 20 }}>
+                        {errorMessage}
+                      </Text>
+                    ) : (
+                      <Text style={{ color: "red", lineHeight: 20 }}>
+                        {errorMessage}
+                      </Text>
+                    )
                   ) : (
-                    <Text style={{ color: "red", lineHeight: 20 }}>
-                      {errorMessage}
-                    </Text>
-                  )
-                ) : (
-                  <Text style={{ lineHeight: 20 }}></Text>
-                ) // empty text
-              }
+                    <Text style={{ lineHeight: 20 }}></Text>
+                  ) // empty text
+                }
+              </View>
 
               {selectedKey == -1 ? (
                 <SaveBookmarkButton />
