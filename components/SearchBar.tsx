@@ -1,0 +1,124 @@
+import { useState } from "react";
+import { TextInput, View, Pressable, Platform } from "react-native";
+import { useRouter } from "expo-router";
+import { Dropdown } from "react-native-element-dropdown";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
+
+const options = [
+  {
+    value: "title",
+    label: "Title",
+  },
+  {
+    value: "author",
+    label: "Author",
+  },
+  {
+    value: "publisher",
+    label: "Publisher",
+  },
+  {
+    value: "isbn",
+    label: "ISBN",
+  },
+  {
+    value: "genre",
+    label: "Genre",
+  },
+];
+export const SearchBar = ({}) => {
+  const router = useRouter();
+  const [text, setText] = useState("");
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [option, setOption] = useState("1");
+
+  const handleKeyDown = (e: any) => {
+    if (e.nativeEvent.key === "Enter") {
+      router.navigate(`./search?${option}=${text}`);
+    }
+  };
+
+  return (
+    <Pressable
+      onHoverIn={() => setIsFocused(true)}
+      onHoverOut={() => setIsFocused(false)}
+      style={{
+        height: 50,
+        width: "90%", //TEST
+        maxWidth: 600,
+        minWidth: 300,
+        marginVertical: 12,
+      }}
+    >
+      <View
+        style={{
+          height: "100%",
+          borderWidth: isFocused ? 2 : 0,
+          borderColor: "#3C5433",
+          paddingHorizontal: 10,
+          borderRadius: 50,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          backgroundColor: "white",
+        }}
+      >
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          placeholder="Search..."
+          placeholderTextColor="#8b8b8b"
+          returnKeyType="search"
+          onKeyPress={handleKeyDown}
+          // selectionColor="#79AB57"
+          style={{
+            flexGrow: 1,
+            flexShrink: 1,
+            width: "80%",
+            minWidth: 50,
+            marginHorizontal: 10,
+            marginVertical: Platform.OS === "web" ? 10 : 0,
+          }}
+        />
+        {/* Select field to search & search button */}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          {/* Vertical bar */}
+          <View
+            style={{
+              backgroundColor: "#3C5433",
+              paddingVertical: 15,
+              paddingHorizontal: 0.5,
+            }}
+          />
+          <Dropdown
+            style={{ width: 100 }}
+            selectedTextStyle={{ marginLeft: 8 }}
+            containerStyle={{ borderRadius: 20 }}
+            maxHeight={200}
+            value="title"
+            data={options}
+            valueField="value"
+            labelField="label"
+            mode="auto"
+            activeColor="#ededed"
+            onChange={(e) => setOption(e.value)}
+          />
+          <Pressable
+            onPress={() => router.navigate(`./search?${option}=${text}`)}
+            style={{ marginTop: Platform.OS === "web" ? 0 : -5 }}
+          >
+            <EvilIcons name="search" size={28} color="#3C5433" />
+          </Pressable>
+        </View>
+      </View>
+    </Pressable>
+  );
+};
+export default SearchBar;
