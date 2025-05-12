@@ -31,7 +31,7 @@ export default function BookSmall({ bookId, showRemove = false }) {
         gap: 8,
       }}
     >
-      <Pressable onPress={() => { router.navigate(`/book/${bookId}`) }}>
+      <Pressable onPress={() => { router.navigate(`/search/book/${bookId}`) }}>
         <Image
           source={{
             uri: bookData.img_url,
@@ -46,7 +46,7 @@ export default function BookSmall({ bookId, showRemove = false }) {
       <View style={{ width: 170 }}>
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
-          onPress={() => { router.navigate(`/book/${bookId}`) }}
+          onPress={() => { router.navigate(`/search/book/${bookId}`) }}
         >
           {bookData.title}
         </ThemedText>

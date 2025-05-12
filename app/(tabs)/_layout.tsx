@@ -85,7 +85,7 @@ export default function TabLayout() {
                 <Text style={styles.webTabText}>Home</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => router.navigate("/explore")}
+                onPress={() => router.navigate("/search")}
                 style={styles.webTab}
               >
                 <Text style={styles.webTabText}>Search</Text>
@@ -105,55 +105,61 @@ export default function TabLayout() {
   }
 
   return (
-      <Tabs
-        screenOptions={{
-          tabBarLabelStyle: styles.tab,
-          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-          tabBarInactiveTintColor: "#EBDF94",
-          headerShown: false,
-          tabBarButton: HapticTab,
-          tabBarBackground: TabBarBackground,
-          tabBarStyle: Platform.select({
-            ios: {
-              // Use a transparent background on iOS to show the blur effect
-              position: "absolute",
-            },
-            default: {
-              backgroundColor: "#3C5433",
-              paddingTop: 4,
-              height: 60,
-            },
-          }),
+    <Tabs
+      screenOptions={{
+        tabBarLabelStyle: styles.tab,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: "#EBDF94",
+        headerShown: false,
+        tabBarButton: HapticTab,
+        tabBarBackground: TabBarBackground,
+        tabBarStyle: Platform.select({
+          ios: {
+            // Use a transparent background on iOS to show the blur effect
+            position: "absolute",
+          },
+          default: {
+            backgroundColor: "#3C5433",
+            paddingTop: 4,
+            height: 60,
+          },
+        }),
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 size={24} name="home" color={color} />
+          ),
         }}
-      >
-        <Tabs.Screen
-          name="home"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome5 size={24} name="home" color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="explore"
-          options={{
-            title: "Search",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome6 size={24} name="magnifying-glass" color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: "Profile",
-            tabBarIcon: ({ color }) => (
-              <FontAwesome6 size={24} name="user-large" color={color} />
-            ),
-          }}
-        />
-      </Tabs>
+      />
+      <Tabs.Screen
+        name="search/index"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 size={24} name="magnifying-glass" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome6 size={24} name="user-large" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search/book"
+        options={{
+          href: null,
+        }}
+      />
+    </Tabs>
   );
 }
 

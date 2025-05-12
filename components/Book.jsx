@@ -23,7 +23,7 @@ export default function Book({ bookId }) {
   if (!bookData) return <Text>Loading...</Text>;
   return (
     <View style={{ display: "flex" }}>
-      <Pressable onPress={() => { router.navigate(`/book/${bookId}`) }}>
+      <Pressable onPress={() => { router.navigate(`/search/book/${bookId}`) }}>
         <Image
           source={{
             uri: bookData.img_url,
@@ -34,7 +34,7 @@ export default function Book({ bookId }) {
       <View style={{ width: 200 }}>
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
-          onPress={() => { router.navigate(`/book/${bookId}`) }}
+          onPress={() => { router.navigate(`/search/book/${bookId}`) }}
         >
           {bookData.title}
         </ThemedText>
