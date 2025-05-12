@@ -51,7 +51,7 @@ export default function TabLayout() {
             }}
           >
             <Link
-              href="/home"
+              href="/index"
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -79,7 +79,7 @@ export default function TabLayout() {
               }}
             >
               <TouchableOpacity
-                onPress={() => router.navigate("/home")}
+                onPress={() => router.navigate("/")}
                 style={styles.webTab}
               >
                 <Text style={styles.webTabText}>Home</Text>
@@ -127,7 +127,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
