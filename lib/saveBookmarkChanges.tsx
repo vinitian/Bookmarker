@@ -91,7 +91,6 @@ export default function saveBookmarkChanges({
         setErrorMessage("There's no change to the bookmark");
         throw new Error("There's no change to the bookmark");
       }
-      console.log("original:", original_bookmark, ",new:", bookmark);
 
       const toSec = (date: Date) => {
         return Math.floor(date.getTime() / 1000);
