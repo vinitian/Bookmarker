@@ -51,7 +51,7 @@ export default function TabLayout() {
             }}
           >
             <Link
-              href="/index"
+              href="/"
               style={{
                 display: "flex",
                 flexDirection: "row",
