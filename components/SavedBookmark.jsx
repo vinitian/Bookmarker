@@ -16,7 +16,7 @@ export default function SavedBookmark({
 }) {
   const [borderWidth, setBorderWidth] = useState(0);
   useEffect(() => {
-    setBorderWidth(bookKey == selectedKey ? 2 : 0);
+    setBorderWidth(bookKey == selectedKey ? 3 : 0);
   }, [selectedKey]);
 
   const EditButton = () => (
@@ -53,7 +53,7 @@ export default function SavedBookmark({
         width: "fit-content",
       }}
     >
-      <Text style={{ color: "#fff" }}>Edit</Text>
+      <Text style={{ color: "#fff", fontWeight: "bold" }}>Edit</Text>
     </TouchableOpacity>
   );
   const styles = getStyles(borderWidth);
@@ -108,9 +108,9 @@ const getStyles = (borderWidth) =>
     container: {
       backgroundColor: "#fff",
       borderRadius: 18,
-      paddingHorizontal: 14,
-      paddingTop: 12,
-      paddingBottom: 8,
+      paddingHorizontal: 14 - borderWidth,
+      paddingTop: 12 - borderWidth,
+      paddingBottom: 8 - borderWidth,
       gap: 2,
       borderWidth: borderWidth,
       borderColor: "#79AB57",

@@ -139,13 +139,23 @@ export default function logBookmark() {
         backgroundColor: "#79AB57",
         height: 30,
         marginTop: 10,
-        padding: 5,
+        padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
+        display: "flex",
       }}
     >
-      <Text style={{ color: "#fff" }}>Save Bookmark</Text>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 18,
+          height: 24,
+        }}
+      >
+        Save Bookmark
+      </Text>
     </TouchableOpacity>
   );
   const SaveChangeButton = () => (
@@ -155,13 +165,23 @@ export default function logBookmark() {
         backgroundColor: "#79AB57",
         height: 30,
         marginTop: 10,
-        padding: 5,
+        padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
+        display: "flex",
       }}
     >
-      <Text style={{ color: "#fff" }}>Save Changes</Text>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 18,
+          height: 24,
+        }}
+      >
+        Save Changes
+      </Text>
     </TouchableOpacity>
   );
   const DeleteBookmarkButton = () => (
@@ -182,13 +202,23 @@ export default function logBookmark() {
         backgroundColor: "#F28A8A",
         height: 30,
         marginTop: 10,
-        padding: 5,
+        padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
+        display: "flex",
       }}
     >
-      <Text style={{ color: "#fff" }}>Delete Bookmark</Text>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 18,
+          height: 24,
+        }}
+      >
+        Delete Bookmark
+      </Text>
     </TouchableOpacity>
   );
   const NewBookmarkButton = () => (
@@ -200,13 +230,23 @@ export default function logBookmark() {
         backgroundColor: "#3C5433",
         height: 30,
         marginTop: 10,
-        padding: 5,
+        padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
+        display: "flex",
       }}
     >
-      <Text style={{ color: "#F7F0DD" }}>New Bookmark</Text>
+      <Text
+        style={{
+          color: "#F7F0DD",
+          fontWeight: "bold",
+          fontSize: 18,
+          height: 24,
+        }}
+      >
+        New Bookmark
+      </Text>
     </TouchableOpacity>
   );
 
@@ -237,28 +277,40 @@ export default function logBookmark() {
               >
                 <ThemedText
                   style={{
-                    fontSize: 18,
-                    lineHeight: 24,
+                    fontSize: 20,
+                    lineHeight: 26,
                     marginTop: 5,
                     fontFamily: "Trirong_700Bold",
                   }}
                 >
                   {book.title}
                 </ThemedText>
-                <ThemedText style={{ fontSize: 14, lineHeight: 18 }}>
+                <ThemedText
+                  style={{ fontSize: 14, lineHeight: 18, marginBottom: 5 }}
+                >
                   by {book.author_list[0]}{" "}
                   {book.author_list.length > 1
                     ? `(+${book.author_list.length - 1})`
                     : ``}
                 </ThemedText>
                 <Text
-                  style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
+                  style={{
+                    color: "#79AB57",
+                    fontFamily: "Trirong_700Bold",
+                    fontSize: 17,
+                    lineHeight: 24,
+                  }}
                 >
                   Hours read:{" "}
                   {userBookData?.cumul_time ? userBookData?.cumul_time / 60 : 0}
                 </Text>
                 <Text
-                  style={{ color: "#79AB57", fontFamily: "Trirong_700Bold" }}
+                  style={{
+                    color: "#79AB57",
+                    fontFamily: "Trirong_700Bold",
+                    fontSize: 17,
+                    lineHeight: 24,
+                  }}
                 >
                   Pages read: {userBookData?.pages_read ?? 0}
                 </Text>
@@ -284,8 +336,8 @@ export default function logBookmark() {
             <View style={{ flexGrow: 1 }}>
               <ThemedText
                 style={{
-                  fontSize: 18,
-                  lineHeight: 24,
+                  fontSize: 24,
+                  lineHeight: 32,
                   marginTop: 5,
                   fontFamily: "Trirong_700Bold",
                 }}
@@ -294,8 +346,10 @@ export default function logBookmark() {
               </ThemedText>
               <ThemedText
                 style={{
-                  marginTop: 5,
+                  marginTop: 8,
                   fontFamily: "Trirong_700Bold",
+                  fontSize: 18,
+                  lineHeight: 24,
                 }}
               >
                 Date
@@ -342,8 +396,10 @@ export default function logBookmark() {
               </View>
               <ThemedText
                 style={{
-                  marginTop: 5,
+                  marginTop: 8,
                   fontFamily: "Trirong_700Bold",
+                  fontSize: 18,
+                  lineHeight: 24,
                 }}
               >
                 Time
@@ -433,8 +489,10 @@ export default function logBookmark() {
               </View>
               <ThemedText
                 style={{
-                  marginTop: 5,
+                  marginTop: 8,
                   fontFamily: "Trirong_700Bold",
+                  fontSize: 18,
+                  lineHeight: 24,
                 }}
               >
                 Page
@@ -539,8 +597,8 @@ export default function logBookmark() {
             <View style={{ flexGrow: 1 }}>
               <ThemedText
                 style={{
-                  fontSize: 18,
-                  lineHeight: 24,
+                  fontSize: 24,
+                  lineHeight: 32,
                   marginTop: 5,
                   fontFamily: "Trirong_700Bold",
                 }}
