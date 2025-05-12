@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextInput, View, Pressable, Platform } from "react-native";
+import { TextInput, View, Pressable, Platform, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
@@ -66,19 +66,16 @@ export const SearchBar = ({}) => {
         <TextInput
           value={text}
           onChangeText={setText}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder="Search..."
           placeholderTextColor="#8b8b8b"
           returnKeyType="search"
           onKeyPress={handleKeyDown}
-          // selectionColor="#79AB57"
-          style={{
-            flexGrow: 1,
-            flexShrink: 1,
-            width: "80%",
-            minWidth: 50,
-            marginHorizontal: 10,
-            marginVertical: Platform.OS === "web" ? 10 : 0,
-          }}
+          style={[
+            styles.textInput,
+            Platform.OS === "web" && ({ outlineStyle: "none" } as any),
+          ]}
         />
         {/* Select field to search & search button */}
         <View
@@ -122,3 +119,14 @@ export const SearchBar = ({}) => {
   );
 };
 export default SearchBar;
+
+const styles = StyleSheet.create({
+  textInput: {
+    flexGrow: 1,
+    flexShrink: 1,
+    width: "80%",
+    minWidth: 50,
+    marginHorizontal: 10,
+    marginVertical: Platform.OS === "web" ? 10 : 0,
+  },
+});
