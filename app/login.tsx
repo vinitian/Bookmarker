@@ -5,11 +5,17 @@ import {
   Button,
   TextInput,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Link, useRouter } from "expo-router";
+import {
+  NotoSansThaiLooped_400Regular,
+  useFonts,
+} from "@expo-google-fonts/noto-sans-thai-looped";
+import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 
 import { registerTranslation } from "react-native-paper-dates";
 registerTranslation("en", {
@@ -52,11 +58,86 @@ export default function login() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const [fontsLoaded] = useFonts({
+    NotoSansThaiLooped_400Regular,
+    Trirong_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      router.navigate("/home");
+      router.navigate("/");
     }
   });
+
+  const MainButton = ({
+    title,
+    handleOnPress,
+  }: {
+    title: string;
+    handleOnPress: Function;
+  }) => (
+    <Pressable
+      onPress={handleOnPress}
+      style={{
+        borderRadius: 50,
+        backgroundColor: "#3C5433",
+        padding: 10,
+        margin: 5,
+        width: 200,
+        // width: "200%", //TEST
+        alignSelf: "center",
+      }}
+    >
+      <Text
+        style={{
+          color: "white",
+          fontSize: 20,
+          fontWeight: "bold",
+          textAlign: "center",
+          margin: 5,
+        }}
+      >
+        {title}
+      </Text>
+    </Pressable>
+  );
+
+  const SecondaryButton = ({
+    title,
+    handleOnPress,
+  }: {
+    title: string;
+    handleOnPress: Function;
+  }) => (
+    <Pressable
+      onPress={handleOnPress}
+      style={{
+        borderRadius: 50,
+        padding: 0,
+        margin: 0,
+        width: 200,
+        // width: "200%", //TEST
+        alignSelf: "center",
+      }}
+    >
+      <Text
+        style={{
+          color: "#3C5433",
+          fontSize: 16,
+          fontWeight: "normal",
+          textAlign: "center",
+          margin: 5,
+          textDecorationLine: "underline",
+        }}
+      >
+        {title}
+      </Text>
+    </Pressable>
+  );
 
   const signUp = () => {
     setLoading(true);
@@ -119,105 +200,123 @@ export default function login() {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText
+      <ThemedView
         style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          textAlign: "center",
-          marginVertical: 8,
-          borderWidth: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 10,
         }}
       >
-        Bookmarker
-      </ThemedText>
-      <KeyboardAvoidingView behavior="padding">
-        {isFirstButtonClicked ? ( // hide fields if Signup nor Signin button has been clicked yet
-          <>
-            {isSignUp ? (
-              <TextInput // hide Name field if user is not signing up
+        <ThemedText
+          style={{
+            fontSize: 32,
+            fontWeight: "bold",
+            fontFamily: "Trirong_700Bold",
+            textAlign: "center",
+          }}
+        >
+          Bookmarker
+        </ThemedText>
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+            marginTop: 20,
+          }}
+        >
+          {isFirstButtonClicked ? ( // hide fields if Signup nor Signin button has been clicked yet
+            <ThemedView>
+              {isSignUp ? (
+                <TextInput // hide Name field if user is not signing up
+                  style={styles.input}
+                  placeholderTextColor="#8b8b8b"
+                  value={name}
+                  onChangeText={setName}
+                  autoCapitalize="none"
+                  placeholder="Name"
+                />
+              ) : null}
+              <TextInput
                 style={styles.input}
-                value={name}
-                onChangeText={setName}
+                placeholderTextColor="#8b8b8b"
+                value={email}
+                onChangeText={setEmail}
                 autoCapitalize="none"
-                placeholder="Name"
+                keyboardType="email-address"
+                placeholder="Email"
               />
-            ) : null}
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              placeholder="Email"
-            />
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              placeholder="Password"
-            />
-          </>
-        ) : null}
-        {error ? <Text style={{ color: "red" }}>{error}</Text> : <></>}
-        {loading ? (
-          <ActivityIndicator size={"small"} style={{ margin: 28 }} />
-        ) : (
-          <>
-            {!isFirstButtonClicked ? (
-              <>
-                <Button
-                  onPress={() => {
-                    setIsSignUp(true);
-                    setIsFirstButtonClicked(true);
-                  }}
-                  title="Sign Up"
-                />
-                <Button
-                  onPress={() => {
-                    setIsSignUp(false);
-                    setIsFirstButtonClicked(true);
-                  }}
-                  title="Sign In"
-                />
-              </>
-            ) : isSignUp ? (
-              <>
-                <Button onPress={signUp} title="Sign Up" />
-                <Button
-                  onPress={() => setIsSignUp(false)}
-                  title="Already have an account? Click here to sign in"
-                />
-              </>
-            ) : (
-              <>
-                <Button onPress={signIn} title="Sign In" />
-                <Button
-                  onPress={() => setIsSignUp(true)}
-                  title="No account? Click here in sign up"
-                />
-              </>
-            )}
-          </>
-        )}
-      </KeyboardAvoidingView>
-      <Link href="/home">
-        <ThemedText>Go to Home Page</ThemedText>
-      </Link>
+              <TextInput
+                style={styles.input}
+                placeholderTextColor="#8b8b8b"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                placeholder="Password"
+              />
+            </ThemedView>
+          ) : null}
+          {error ? <Text style={{ color: "red" }}>{error}</Text> : <></>}
+          {loading ? (
+            <ActivityIndicator size={"small"} style={{ margin: 28 }} />
+          ) : (
+            <ThemedView>
+              {!isFirstButtonClicked ? (
+                <>
+                  <MainButton
+                    title={"Sign Up"}
+                    handleOnPress={() => {
+                      setIsSignUp(true);
+                      setIsFirstButtonClicked(true);
+                    }}
+                  />
+                  <SecondaryButton
+                    title={"Sign In"}
+                    handleOnPress={() => {
+                      setIsSignUp(false);
+                      setIsFirstButtonClicked(true);
+                    }}
+                  />
+                </>
+              ) : isSignUp ? (
+                <>
+                  <MainButton title={"Sign Up"} handleOnPress={signUp} />
+                  <SecondaryButton
+                    title={"Already have an account? Click here to sign in"}
+                    handleOnPress={() => setIsSignUp(false)}
+                  />
+                </>
+              ) : (
+                <>
+                  <MainButton title={"Sign In"} handleOnPress={signIn} />
+                  <SecondaryButton
+                    title={"No account? Click here to sign up"}
+                    handleOnPress={() => setIsSignUp(true)}
+                  />
+                </>
+              )}
+            </ThemedView>
+          )}
+        </KeyboardAvoidingView>
+        <Link href="/">
+          <ThemedText>Go to Home Page</ThemedText>
+        </Link>
+      </ThemedView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
     flex: 1,
     justifyContent: "center",
   },
   input: {
     marginVertical: 4,
     height: 50,
-    borderWidth: 1,
+    borderColor: "#3C5433",
     padding: 10,
     backgroundColor: "white",
     borderRadius: 8,

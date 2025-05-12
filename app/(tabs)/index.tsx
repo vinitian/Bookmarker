@@ -67,8 +67,15 @@ export default function HomeScreen() {
             paddingHorizontal: 20,
           }}
         >
-          <Text style={{ color: "white", fontSize: 20, fontWeight: "bold" }}>
-            Sign in / Sign up
+          <Text
+            style={{
+              color: "white",
+              fontSize: 20,
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
+          >
+            Sign In / Sign Up
           </Text>
         </Pressable>
       </ThemedView>
