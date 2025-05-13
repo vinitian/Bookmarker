@@ -3,7 +3,15 @@ import { Text, View, Image, Pressable, TouchableOpacity } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
-export default function BookSmall({ bookId, bookData, showRemove = false }) {
+export default function BookSmall({
+  bookId,
+  bookData,
+  handleRemove = null,
+}: {
+  bookId: string;
+  bookData: Book;
+  handleRemove: Function | null;
+}) {
   const router = useRouter();
 
   if (!bookData) return <Text>Loading...</Text>;
@@ -47,15 +55,14 @@ export default function BookSmall({ bookId, bookData, showRemove = false }) {
             : ``}
         </ThemedText>
         <BookmarkButton thisBookId={bookId} />
-        {showRemove ? (
+        {handleRemove != null ? (
           <TouchableOpacity
             onPress={() => {
               handleRemove();
             }}
             style={{
               backgroundColor: "#F28A8A",
-              width: "full",
-              height: 30,
+              height: 32,
               marginTop: 5,
               padding: 5,
               alignItems: "center",
@@ -63,7 +70,15 @@ export default function BookSmall({ bookId, bookData, showRemove = false }) {
               borderRadius: 50,
             }}
           >
-            <Text style={{ color: "#fff" }}>Remove from shelf</Text>
+            <Text
+              style={{
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              Remove from shelf
+            </Text>
           </TouchableOpacity>
         ) : (
           <></>

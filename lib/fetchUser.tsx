@@ -46,7 +46,7 @@ export function fetchUserBook({
       setUserBookData(wantedBook);
     } catch (err) {
       console.log("Error fetching user book data");
-      console.error(err);
+      // console.error(err);
     }
   };
   fetchUserBook();
