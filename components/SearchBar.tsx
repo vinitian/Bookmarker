@@ -99,7 +99,8 @@ export const SearchBar = ({}) => {
             style={{ width: 100 }}
             selectedTextStyle={{ marginLeft: 8 }}
             containerStyle={{ borderRadius: 20 }}
-            maxHeight={300}
+            maxHeight={400}
+            showsVerticalScrollIndicator={false}
             value="title"
             data={options}
             valueField="value"
