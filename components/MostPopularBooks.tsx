@@ -1,12 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { View, Platform } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import fetchTopNBooks from "@/lib/fetchTopNBooks";
-import { router } from "expo-router";
 
 export default function MostPopularBooks({
   TOP_N,
@@ -18,15 +16,14 @@ export default function MostPopularBooks({
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
-  const [topNBooks, setTopNBooks] = useState<
-    { id: string; data: object }[] | undefined
-  >(undefined);
+  const [topNBooks, setTopNBooks] = useState<ShortBookData[] | undefined>(
+    undefined
+  );
   useEffect(() => {
     fetchTopNBooks({
       n: TOP_N,
       setTopNBooks: setTopNBooks,
     });
-    console.log(topNBooks);
   }, []);
 
   const CustomView = ({ type, children }: { type: string; children: any }) => {
@@ -71,9 +68,7 @@ export default function MostPopularBooks({
   return (
     <CustomView type={type}>
       {topNBooks && topNBooks.length > 0 ? (
-        topNBooks.map((book: { id: string; data: object }) => (
-          <Book key={book.id} bookId={book.id} bookData={book.data} />
-        ))
+        topNBooks.map((book, i) => <Book key={i} bookData={book} />)
       ) : (
         <ThemedText>Loading most popular books...</ThemedText>
       )}

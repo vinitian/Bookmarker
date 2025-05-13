@@ -16,11 +16,19 @@ export const fetchTopNBooks = async ({
       limit(n)
     );
     const querySnapshot = await getDocs(bookQuery);
-    let bookList: any[] = [];
+    let bookList: ShortBookData[] = [];
     querySnapshot.forEach((doc) => {
-      bookList.push({ id: doc.id, data: doc.data() });
-      setTopNBooks(bookList);
+      const bookData = doc.data();
+      const shortBookData: ShortBookData = {
+        book_id: doc.id,
+        title: bookData.title,
+        img_url: bookData.img_url,
+        author_list: bookData.author_list,
+      };
+      bookList.push(shortBookData);
     });
+
+    setTopNBooks(bookList);
   } catch (err) {
     console.log("Error fetching book data");
     console.error(err);
