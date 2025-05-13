@@ -4,9 +4,9 @@ import { useState } from "react";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
-export default function Book({ bookId, bookData }) {
+export default function Book({ bookData }) {
   const router = useRouter();
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(false);
 
   if (!bookData) return <Text>Loading...</Text>;
   return (
@@ -15,8 +15,8 @@ export default function Book({ bookId, bookData }) {
         onHoverIn={() => setIsFocused(true)}
         onHoverOut={() => setIsFocused(false)}
         onPress={() => {
-          setIsFocused(true)
-          router.navigate(`/search/book/${bookId}`);
+          setIsFocused(true);
+          router.navigate(`/search/book/${bookData.book_id}`);
         }}
       >
         <Image
@@ -35,7 +35,7 @@ export default function Book({ bookId, bookData }) {
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
           onPress={() => {
-            router.navigate(`/search/book/${bookId}`);
+            router.navigate(`/search/book/${bookData.book_id}`);
           }}
         >
           {bookData.title}
@@ -46,7 +46,7 @@ export default function Book({ bookId, bookData }) {
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
-        <BookmarkButton thisBookId={bookId} />
+        <BookmarkButton thisBookId={bookData.book_id} />
       </View>
     </View>
   );

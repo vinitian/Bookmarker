@@ -28,6 +28,7 @@ export default function fetchBooksFromId({
       docsSnap.forEach((qDocSnap) => {
         const bookData = qDocSnap.data();
         const shortBookData: ShortBookData = {
+          book_id: qDocSnap.id,
           title: bookData.title,
           img_url: bookData.img_url,
           author_list: bookData.author_list,

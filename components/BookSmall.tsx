@@ -4,12 +4,10 @@ import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
 export default function BookSmall({
-  bookId,
   bookData,
   handleRemove = null,
 }: {
-  bookId: string;
-  bookData: Book;
+  bookData: ShortBookData;
   handleRemove: Function | null;
 }) {
   const router = useRouter();
@@ -25,7 +23,7 @@ export default function BookSmall({
     >
       <Pressable
         onPress={() => {
-          router.navigate(`/search/book/${bookId}`);
+          router.navigate(`/search/book/${bookData.book_id}`);
         }}
       >
         <Image
@@ -43,7 +41,7 @@ export default function BookSmall({
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
           onPress={() => {
-            router.navigate(`/search/book/${bookId}`);
+            router.navigate(`/search/book/${bookData.book_id}`);
           }}
         >
           {bookData.title}
@@ -54,7 +52,7 @@ export default function BookSmall({
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
-        <BookmarkButton thisBookId={bookId} />
+        <BookmarkButton thisBookId={bookData.book_id} />
         {handleRemove != null ? (
           <TouchableOpacity
             onPress={() => {

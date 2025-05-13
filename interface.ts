@@ -15,6 +15,7 @@ interface Book {
 }
 
 interface ShortBookData {
+  book_id: string;
   title: string;
   img_url: string;
   author_list: string[];

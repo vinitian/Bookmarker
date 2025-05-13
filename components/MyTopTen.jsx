@@ -83,9 +83,7 @@ export default function MyTopTen({ myProfileName, favList }) {
       </ThemedText>
       <CustomView>
         {bookDataList.length > 0 ? (
-          bookDataList.map((bookData, i) => (
-            <Book key={i} bookId={favList[i]} bookData={bookData} />
-          ))
+          bookDataList.map((book, i) => <Book key={i} bookData={book} />)
         ) : (
           <ThemedText>The top ten list is empty</ThemedText>
         )}

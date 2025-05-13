@@ -110,14 +110,8 @@ export default function MyShelf({ myProfileName, bookList }) {
         )}
       </View>
       <CustomView>
-        {bookList.length > 0 ? (
-          bookList.map((book, i) => (
-            <BookSmall
-              key={i}
-              bookId={book.book_id}
-              bookData={bookDataList[i]}
-            />
-          ))
+        {bookDataList.length > 0 ? (
+          bookDataList.map((book, i) => <BookSmall key={i} bookData={book} />)
         ) : (
           <ThemedText>The shelf is empty</ThemedText>
         )}

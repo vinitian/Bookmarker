@@ -36,7 +36,7 @@ export default function MyShelf() {
   };
 
   // fetch book data
-  const [bookDataList, setBookDataList] = useState([]);
+  const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -72,12 +72,11 @@ export default function MyShelf() {
               justifyContent: "space-evenly",
             }}
           >
-            {user && myUid ? (
-              user.book_list.map((book, i) => (
+            {bookDataList.length > 0 && myUid ? (
+              bookDataList.map((book, i) => (
                 <BookSmall
                   key={i}
-                  bookId={book.book_id}
-                  bookData={bookDataList[i]}
+                  bookData={book}
                   handleRemove={() =>
                     alert(
                       "Removing a book",
