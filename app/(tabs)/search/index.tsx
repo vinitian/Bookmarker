@@ -16,13 +16,12 @@ import {
 import { Trirong_500Medium, Trirong_700Bold } from "@expo-google-fonts/trirong";
 import { Dropdown } from "react-native-element-dropdown";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
-// import Entypo from "@expo/vector-icons/Entypo";
+import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
 import { ThemedView } from "@/components/ThemedView";
-import { Chevon } from "@/components/Chevron";
 
 const options = [
   {
@@ -102,7 +101,7 @@ export default function SearchPage() {
         borderColor: "#3C5433",
         backgroundColor: "#F7F0DD",
       }}
-      maxHeight={200}
+      maxHeight={300}
       data={options}
       value={option}
       placeholder={""}
@@ -325,9 +324,9 @@ export default function SearchPage() {
         >
           <Text style={styles.sortFilterHeading}>Sort & Filter</Text>
           {isOpened ? (
-            <Chevon isUp={true} size={32} />
+            <Entypo name="chevron-thin-up" size={24} color="#3C5433" />
           ) : (
-            <Chevon isUp={false} size={32} />
+            <Entypo name="chevron-thin-down" size={24} color="#3C5433" />
           )}
         </Pressable>
         {/* Horizontal line */}

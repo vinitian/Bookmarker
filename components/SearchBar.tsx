@@ -99,7 +99,7 @@ export const SearchBar = ({}) => {
             style={{ width: 100 }}
             selectedTextStyle={{ marginLeft: 8 }}
             containerStyle={{ borderRadius: 20 }}
-            maxHeight={200}
+            maxHeight={300}
             value="title"
             data={options}
             valueField="value"
