@@ -60,18 +60,6 @@ export default function SearchPage() {
   const [pubYearRange, setPubYearRange] = useState([1800, thisYear]);
   const [ratingRange, setRatingRange] = useState([0, 5]);
 
-  // FOR TEST
-  useEffect(() => {
-    console.log(
-      "pg: " +
-        numPagesRange.toString() +
-        " | date: " +
-        pubYearRange.toString() +
-        " | rating: " +
-        ratingRange.toString()
-    );
-  }, [numPagesRange, pubYearRange, ratingRange]);
-
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
     Trirong_700Bold,
