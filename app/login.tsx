@@ -2,7 +2,6 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
-  Button,
   TextInput,
   ActivityIndicator,
   Pressable,
@@ -18,6 +17,7 @@ import {
 import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 
 import { registerTranslation } from "react-native-paper-dates";
+// For date picker
 registerTranslation("en", {
   save: "Save",
   selectSingle: "Select date",
@@ -81,7 +81,7 @@ export default function login() {
     handleOnPress: Function;
   }) => (
     <Pressable
-      onPress={handleOnPress}
+      onPress={() => handleOnPress()}
       style={{
         borderRadius: 50,
         backgroundColor: "#3C5433",
@@ -114,7 +114,7 @@ export default function login() {
     handleOnPress: Function;
   }) => (
     <Pressable
-      onPress={handleOnPress}
+      onPress={() => handleOnPress()}
       style={{
         borderRadius: 50,
         padding: 0,
@@ -159,6 +159,8 @@ export default function login() {
           setError("Email already exists");
         } else if (e.code === "auth/invalid-email") {
           setError("Invalid email");
+        } else if (e.code === "auth/missing-password") {
+          setError("Missing password");
         } else {
           setError(e.message);
         }
