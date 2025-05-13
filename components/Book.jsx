@@ -1,16 +1,21 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Text, View, Image, Pressable } from "react-native";
+import { useState } from "react";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
 export default function Book({ bookId, bookData }) {
   const router = useRouter();
+  const [isFocused, setIsFocused] = useState(false)
 
   if (!bookData) return <Text>Loading...</Text>;
   return (
     <View style={{ display: "flex" }}>
       <Pressable
+        onHoverIn={() => setIsFocused(true)}
+        onHoverOut={() => setIsFocused(false)}
         onPress={() => {
+          setIsFocused(true)
           router.navigate(`/search/book/${bookId}`);
         }}
       >
@@ -18,7 +23,12 @@ export default function Book({ bookId, bookData }) {
           source={{
             uri: bookData.img_url,
           }}
-          style={{ width: 200, height: 300, borderRadius: 8 }}
+          style={{
+            width: 200,
+            height: 300,
+            borderRadius: 8,
+            opacity: isFocused ? 0.9 : 1,
+          }}
         />
       </Pressable>
       <View style={{ width: 200 }}>

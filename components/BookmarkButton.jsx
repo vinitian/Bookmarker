@@ -1,5 +1,4 @@
-import { Text, TouchableOpacity } from "react-native";
-import React from "react";
+import { Text, Platform, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useAppContext } from "@/app/_layout";
 
@@ -26,7 +25,7 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16, textAlign: "center",  marginTop: Platform.OS === "web" ? 0 : -4 }}>
         Bookmark!
       </Text>
     </TouchableOpacity>

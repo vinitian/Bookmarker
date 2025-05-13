@@ -3,6 +3,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Platform,
   useWindowDimensions,
   ScrollView,
 } from "react-native";
@@ -151,6 +152,8 @@ export default function logBookmark() {
           fontWeight: "bold",
           fontSize: 18,
           height: 24,
+          textAlign: "center",
+          marginTop: Platform.OS === "web" ? 0 : -4 
         }}
       >
         Save Bookmark
