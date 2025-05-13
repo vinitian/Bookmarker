@@ -3,45 +3,16 @@ import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { View, Platform } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { db } from "@/firebaseConfig";
 import { useState, useEffect } from "react";
+import fetchTopNBooks from "@/lib/fetchTopNBooks";
 
-const fetchTopNBooks = async ({
-  n,
-  setTopNBooks,
-}: {
-  n: number;
-  setTopNBooks: Function;
-}) => {
-  try {
-    const bookQuery = query(
-      collection(db, "books"),
-      orderBy("rating_list", "desc"),
-      orderBy("avg_rating", "desc"),
-      limit(n)
-    );
-    const querySnapshot = await getDocs(bookQuery);
-    let bookList: any[] = [];
-    querySnapshot.forEach((doc) => {
-      bookList.push(doc.id);
-      setTopNBooks(bookList);
-    });
-
-    return setTopNBooks(bookList);
-  } catch (err) {
-    console.log("Error fetching book data");
-    console.error(err);
-  }
-};
-
-export default function MostPopularBooks() {
+export default function MostPopularBooks({ TOP_N }: { TOP_N: number }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
-
-  const TOP_N = 5;
-  const [topNBooks, setTopNBooks] = useState<any[] | undefined>(undefined);
+  const [topNBooks, setTopNBooks] = useState<
+    { id: string; data: object }[] | undefined
+  >(undefined);
   useEffect(() => {
     fetchTopNBooks({
       n: TOP_N,
@@ -88,31 +59,14 @@ export default function MostPopularBooks() {
     return null;
   }
   return (
-    <View
-      style={{
-        width: "100%",
-        maxWidth: 1200,
-        alignSelf: "center",
-        marginTop: 20,
-      }}
-    >
-      <ThemedText
-        style={{
-          fontFamily: "Trirong_700Bold",
-          fontSize: 32,
-          lineHeight: 60,
-          paddingLeft: 15,
-        }}
-      >
-        Most Popular Books
-      </ThemedText>
-      <CustomView>
-        {topNBooks && topNBooks.length > 0 ? (
-          topNBooks.map((book_id) => <Book key={book_id} bookId={book_id} />)
-        ) : (
-          <ThemedText>Loading most popular books...</ThemedText>
-        )}
-      </CustomView>
-    </View>
+    <CustomView>
+      {topNBooks && topNBooks.length > 0 ? (
+        topNBooks.map((book: { id: string; data: object }) => (
+          <Book key={book.id} bookId={book.id} bookData={book.data} />
+        ))
+      ) : (
+        <ThemedText>Loading most popular books...</ThemedText>
+      )}
+    </CustomView>
   );
 }

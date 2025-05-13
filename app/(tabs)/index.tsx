@@ -47,7 +47,26 @@ export default function HomeScreen() {
           Welcome to Bookmarker
         </ThemedText>
         <SearchBar />
-        <MostPopularBooks />
+        <View
+          style={{
+            width: "100%",
+            maxWidth: 1200,
+            alignSelf: "center",
+            marginTop: 20,
+          }}
+        >
+          <ThemedText
+            style={{
+              fontFamily: "Trirong_700Bold",
+              fontSize: 32,
+              lineHeight: 60,
+              paddingLeft: 15,
+            }}
+          >
+            Most Popular Books
+          </ThemedText>
+          <MostPopularBooks TOP_N={10} />
+        </View>
         {/* Horizontal line */}
         <View
           style={{
