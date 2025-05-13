@@ -81,23 +81,22 @@ export default function logBookmark() {
           setUserId(user.uid);
         }
       }),
-    []
+    [bookId]
   );
 
-  const [userBookData, setUserBookData] = useState();
+  const [userBookData, setUserBookData] = useState([]);
   useEffect(() => {
     loadUserBookData();
   }, [userId, bookId]);
 
-  const [refreshing, setRefreshing] = useState(true);
   const loadUserBookData = () => {
+    setUserBookData([]);
     if (userId && bookId) {
       fetchUserBook({
         user_id: userId,
         book_id: bookId,
         setUserBookData: setUserBookData,
       });
-      setRefreshing(false);
     }
   };
 
@@ -658,8 +657,9 @@ export default function logBookmark() {
                   gap: 10,
                 }}
               >
-                {userBookData?.bookmark_list.length > 0 ? (
-                  userBookData?.bookmark_list.map((bookmark, i) => (
+                {userBookData.bookmark_list &&
+                userBookData.bookmark_list.length > 0 ? (
+                  userBookData.bookmark_list.map((bookmark, i) => (
                     <SavedBookmark
                       key={i}
                       bookKey={i}
