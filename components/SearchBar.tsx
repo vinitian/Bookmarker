@@ -73,7 +73,10 @@ export const SearchBar = ({}) => {
           placeholderTextColor="#8b8b8b"
           returnKeyType="search"
           onKeyPress={handleKeyDown}
-          style={styles.textInput}
+          style={[
+            styles.textInput,
+            Platform.OS === "web" && ({ outlineStyle: "none" } as any),
+          ]}
         />
         {/* Select field to search & search button */}
         <View
@@ -126,6 +129,5 @@ const styles = StyleSheet.create({
     minWidth: 50,
     marginHorizontal: 10,
     marginVertical: Platform.OS === "web" ? 10 : 0,
-    outlineStyle: "none",
   },
 });
