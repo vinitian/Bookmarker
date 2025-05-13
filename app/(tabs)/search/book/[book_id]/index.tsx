@@ -198,7 +198,7 @@ export default function BookInfoPage() {
           <View
             style={{
               backgroundColor: "#79AB57",
-              width: `${percentOfUsers}%`, // add 5 to cover for marginLeft
+              width: `${percentOfUsers}%`,
               flexDirection: "row",
               marginLeft: 0,
               padding: 5,
