@@ -3,11 +3,22 @@ import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { View, Platform } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import fetchBooksFromId from "@/lib/fetchBooksFromId";
 
 export default function MyTopTen({ myProfileName, favList }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
+
+  const [bookDataList, setBookDataList] = useState([]);
+
+  useEffect(() => {
+    fetchBooksFromId({
+      book_id_list: favList,
+      setBookDataList: setBookDataList,
+    });
+  }, [favList]);
 
   const CustomView = ({ children }) => {
     if (Platform.OS === "web") {
@@ -71,8 +82,10 @@ export default function MyTopTen({ myProfileName, favList }) {
         Top Ten
       </ThemedText>
       <CustomView>
-        {favList.length > 0 ? (
-          favList.map((book_id) => <Book key={book_id} bookId={book_id} />)
+        {bookDataList.length > 0 ? (
+          bookDataList.map((bookData, i) => (
+            <Book key={i} bookId={favList[i]} bookData={bookData} />
+          ))
         ) : (
           <ThemedText>The top ten list is empty</ThemedText>
         )}

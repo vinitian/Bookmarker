@@ -5,6 +5,8 @@ import { View, TouchableOpacity, Platform } from "react-native";
 import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import fetchBooksFromId from "@/lib/fetchBooksFromId";
 
 export default function MyShelf({ myProfileName, bookList }) {
   const [fontsLoaded] = useFonts({
@@ -12,6 +14,16 @@ export default function MyShelf({ myProfileName, bookList }) {
   });
 
   const router = useRouter();
+
+  const [bookDataList, setBookDataList] = useState([]);
+
+  useEffect(() => {
+    fetchBooksFromId({
+      book_id_list: bookList.map((book) => book.book_id),
+      setBookDataList: setBookDataList,
+    });
+    console.log("shelf useEffect");
+  }, [bookList]);
 
   const CustomView = ({ children }) => {
     if (Platform.OS === "web") {
@@ -100,8 +112,12 @@ export default function MyShelf({ myProfileName, bookList }) {
       </View>
       <CustomView>
         {bookList.length > 0 ? (
-          bookList.map((book) => (
-            <BookSmall key={book.book_id} bookId={book.book_id} />
+          bookList.map((book, i) => (
+            <BookSmall
+              key={i}
+              bookId={book.book_id}
+              bookData={bookDataList[i]}
+            />
           ))
         ) : (
           <ThemedText>The shelf is empty</ThemedText>
