@@ -301,6 +301,7 @@ export default function SearchPage() {
             width: 20,
             height: 20,
             marginTop: 3,
+            backgroundColor: "white",
           }}
         />
       </View>
@@ -463,7 +464,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     backgroundColor: "white",
-    width: 60,
+    width: 70,
     paddingHorizontal: 5,
     paddingVertical: 1,
   },
