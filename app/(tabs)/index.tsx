@@ -65,7 +65,7 @@ export default function HomeScreen() {
           >
             Most Popular Books
           </ThemedText>
-          <MostPopularBooks TOP_N={10} />
+          <MostPopularBooks TOP_N={10} type="home" />
         </View>
         {/* Horizontal line */}
         <View
