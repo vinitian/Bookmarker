@@ -153,7 +153,7 @@ export default function logBookmark() {
           fontSize: 18,
           height: 24,
           textAlign: "center",
-          marginTop: Platform.OS === "web" ? 0 : -4 
+          marginTop: Platform.OS === "web" ? 0 : -4,
         }}
       >
         Save Bookmark
@@ -353,9 +353,11 @@ export default function logBookmark() {
                   }}
                 >
                   Pages read:{" "}
-                  {Intl.NumberFormat("en-US").format(
-                    userBookData?.pages_read
-                  ) ?? 0}
+                  {userBookData?.pages_read
+                    ? Intl.NumberFormat("en-US").format(
+                        userBookData?.pages_read
+                      )
+                    : 0}
                 </Text>
               </View>
             </CustomBookView>
