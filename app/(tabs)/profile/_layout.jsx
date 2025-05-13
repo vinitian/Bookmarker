@@ -21,10 +21,6 @@ export default function StackLayout() {
       />
       <Stack.Screen name="user" options={{ headerShown: false }} />
       <Stack.Screen
-        name="logBookmark"
-        options={{ headerShown: true, title: "Log Bookmark" }}
-      />
-      <Stack.Screen
         name="myShelf"
         options={{ headerShown: true, title: "My Shelf" }}
       />

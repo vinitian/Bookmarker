@@ -11,7 +11,7 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
       onPress={() => {
         if (thisBookId) {
           setBookId(thisBookId);
-          setTimeout(() => router.push("/profile/logBookmark"), 100);
+          setTimeout(() => router.push("../../../logBookmark"), 100);
         }
       }}
       style={{
@@ -25,7 +25,15 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16, textAlign: "center",  marginTop: Platform.OS === "web" ? 0 : -4 }}>
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 16,
+          textAlign: "center",
+          marginTop: Platform.OS === "web" ? 0 : -4,
+        }}
+      >
         Bookmark!
       </Text>
     </TouchableOpacity>

@@ -1,5 +1,5 @@
 import { Link, Slot, Tabs, useRouter } from "expo-router";
-import React, { createContext, useContext, useState } from "react";
+import React from "react";
 import {
   Platform,
   StyleSheet,

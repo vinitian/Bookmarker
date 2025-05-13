@@ -10,7 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { createContext, useContext, useEffect, useState } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ThemedView } from "@/components/ThemedView";
+import { Colors } from "@/constants/Colors";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -51,8 +51,21 @@ export default function RootLayout() {
   return (
     <AppContext.Provider value={{ bookId, setBookId }}>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: Colors[colorScheme ?? "light"].background,
+            },
+            headerTitleAlign: "center",
+            headerTintColor: Colors[colorScheme ?? "light"].text,
+            headerShadowVisible: false,
+          }}
+        >
           <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="logBookmark"
+            options={{ headerShown: true, title: "Log Bookmark" }}
+          />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>

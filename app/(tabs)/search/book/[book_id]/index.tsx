@@ -72,7 +72,7 @@ export default function BookInfoPage() {
     <TouchableOpacity
       onPress={() => {
         setBookId(book_id);
-        router.navigate("../../profile/logBookmark");
+        router.navigate("../../../logBookmark");
       }}
       style={{
         backgroundColor: "#79AB57",
