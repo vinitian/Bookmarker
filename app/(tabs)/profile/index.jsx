@@ -24,7 +24,7 @@ export default function HomeScreen() {
         alignItems: "center",
       }}
     >
-      <ThemedText>You're not logged in</ThemedText>
+      <ThemedText style={{ fontSize: 18 }}>You're not logged in</ThemedText>
       <TouchableOpacity
         onPress={() => {
           router.push("/login");
@@ -32,15 +32,24 @@ export default function HomeScreen() {
         style={{
           backgroundColor: "#79AB57",
           height: 30,
-          marginTop: 5,
-          paddingVertical: 5,
+          marginTop: 20,
+          paddingVertical: 20,
           paddingHorizontal: 15,
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#fff" }}>Go to login page</Text>
+        <Text
+          style={{
+            color: "#fff",
+            fontWeight: "bold",
+            fontSize: 18,
+            height: 24,
+          }}
+        >
+          Go to login page
+        </Text>
       </TouchableOpacity>
     </ThemedView>
   );

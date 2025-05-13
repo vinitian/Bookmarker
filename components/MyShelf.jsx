@@ -81,7 +81,7 @@ export default function MyShelf({ myProfileName, bookList }) {
         <ThemedText
           style={{
             fontFamily: "Trirong_700Bold",
-            fontSize: 24,
+            fontSize: 28,
             paddingLeft: 15,
             lineHeight: 48,
           }}
@@ -103,7 +103,7 @@ export default function MyShelf({ myProfileName, bookList }) {
               name="edit"
               size={24}
               color="#3C5433"
-              style={{ marginLeft: 10 }}
+              style={{ marginLeft: 10, marginBottom: 4 }}
             />
           </TouchableOpacity>
         ) : (

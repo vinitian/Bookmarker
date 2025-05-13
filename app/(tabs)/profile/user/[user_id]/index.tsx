@@ -144,14 +144,16 @@ export default function UserProfile() {
                 style={{
                   backgroundColor: "#3C5433",
                   width: 100,
-                  height: 35,
+                  height: 40,
                   padding: 5,
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 50,
                 }}
               >
-                <Text style={{ color: "#EBDF94" }}>
+                <Text
+                  style={{ color: "#EBDF94", fontWeight: "bold", fontSize: 16 }}
+                >
                   {auth.currentUser ? "Sign Out" : "Sign In"}
                 </Text>
               </TouchableOpacity>
