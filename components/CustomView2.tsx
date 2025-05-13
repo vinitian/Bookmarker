@@ -1,8 +1,13 @@
-import { View, Image, Platform } from "react-native";
+import { View, Platform } from "react-native";
 
-
-export const CustomView2 = ({ children, width }: { children: any, width: number }) => {
-  if ((Platform.OS === "web") && (width > 600)) {
+export const CustomView2 = ({
+  children,
+  width,
+}: {
+  children: any;
+  width: number;
+}) => {
+  if (Platform.OS === "web" && width > 600) {
     return (
       <View
         style={{
@@ -19,12 +24,16 @@ export const CustomView2 = ({ children, width }: { children: any, width: number 
     );
   }
   return (
-    <View style={{
-      display: "flex", flexDirection: "column", gap: 5
-    }}>
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 5,
+      }}
+    >
       {children}
     </View>
   );
 };
 
-export default CustomView2
+export default CustomView2;

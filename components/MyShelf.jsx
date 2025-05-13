@@ -22,7 +22,6 @@ export default function MyShelf({ myProfileName, bookList }) {
       book_id_list: bookList.map((book) => book.book_id),
       setBookDataList: setBookDataList,
     });
-    console.log("shelf useEffect");
   }, [bookList]);
 
   const CustomView = ({ children }) => {

@@ -1,8 +1,6 @@
 import {
   View,
   Text,
-  Image,
-  Platform,
   TouchableOpacity,
   TextInput,
   useWindowDimensions,

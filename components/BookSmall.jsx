@@ -1,9 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Text, View, Image, Pressable, TouchableOpacity } from "react-native";
 import BookmarkButton from "./BookmarkButton";
-import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import fetchBook from "@/lib/fetchBook";
 
 export default function BookSmall({ bookId, bookData, showRemove = false }) {
   const router = useRouter();
