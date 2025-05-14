@@ -20,6 +20,8 @@ const AppContext = createContext<{
   setBookId: Function;
   queryText: string;
   setQueryText: Function;
+  type: string;
+  setType: Function;
 } | null>(null);
 
 export function useAppContext() {
@@ -40,6 +42,7 @@ export default function RootLayout() {
 
   const [bookId, setBookId] = useState("EsaXX8v0ywUEyiD9KoFs"); // default selected book is "An Anthology of Australian Albums"
   const [queryText, setQueryText] = useState("");
+  const [type, setType] = useState("title");
 
   useEffect(() => {
     if (loaded) {
@@ -52,7 +55,9 @@ export default function RootLayout() {
   }
 
   return (
-    <AppContext.Provider value={{ bookId, setBookId, queryText, setQueryText }}>
+    <AppContext.Provider
+      value={{ bookId, setBookId, queryText, setQueryText, type, setType }}
+    >
       <ThemeProvider value={DefaultTheme}>
         <Stack
           screenOptions={{

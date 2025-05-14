@@ -8,6 +8,7 @@ import {
   Pressable,
   TextInput,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import {
   NotoSansThaiLooped_400Regular,
@@ -22,6 +23,8 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
 import { ThemedView } from "@/components/ThemedView";
+import { router, useLocalSearchParams } from "expo-router";
+import SearchResult from "@/components/SearchResult";
 
 const options = [
   {
@@ -29,11 +32,11 @@ const options = [
     label: "Alphabetical",
   },
   {
-    value: "numPages",
+    value: "page",
     label: "Number of pages",
   },
   {
-    value: "pubYear",
+    value: "year",
     label: "Published year",
   },
   {
@@ -44,21 +47,22 @@ const options = [
 
 export default function SearchPage() {
   const { height, width } = useWindowDimensions();
+  const query = useLocalSearchParams();
 
   const [option, setOption] = useState("alphabetical");
-  const [isAscending, setIsAscending] = useState<boolean>(true);
+  const [ascending, setAscending] = useState<boolean>(true);
 
   const [filterRating, setFilterRating] = useState<boolean>(false);
-  const [filterNumPages, setFilterNumPages] = useState<boolean>(false);
-  const [filterPubYear, setFilterPubYear] = useState<boolean>(false);
+  const [filterPage, setFilterPage] = useState<boolean>(false);
+  const [filterYear, setFilterYear] = useState<boolean>(false);
 
   const thisYear: number = new Date().getFullYear();
-  const [numPagesMin, numPagesMax] = [1, 1000];
-  const [pubYearMin, pubYearMax] = [1800, thisYear];
+  const [pageMin, pageMax] = [1, 1000];
+  const [yearMin, yearMax] = [1800, thisYear];
   const [ratingMin, ratingMax] = [0, 5];
-  const [numPagesRange, setNumPagesRange] = useState([1, 2000]);
-  const [pubYearRange, setPubYearRange] = useState([1800, thisYear]);
-  const [ratingRange, setRatingRange] = useState([0, 5]);
+  const [pageRange, setPageRange] = useState([pageMin, pageMax]);
+  const [yearRange, setYearRange] = useState([yearMin, yearMax]);
+  const [ratingRange, setRatingRange] = useState([ratingMin, ratingMax]);
 
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
@@ -84,12 +88,12 @@ export default function SearchPage() {
       selectedTextStyle={styles.text}
       placeholderStyle={styles.text}
       itemTextStyle={styles.text}
+      itemContainerStyle={{ borderRadius: 10 }}
       containerStyle={{
         borderRadius: 10,
         borderColor: "#3C5433",
         backgroundColor: "#F7F0DD",
       }}
-      itemContainerStyle={{ borderRadius: 10 }}
       maxHeight={300}
       data={options}
       value={option}
@@ -98,7 +102,9 @@ export default function SearchPage() {
       labelField="label"
       mode="auto"
       activeColor="#eae4d3"
-      onChange={(e) => setOption(e.value)}
+      onChange={(e) => {
+        setOption(e.value);
+      }}
     />
   );
   const AscDescRadioButtons = () => {
@@ -106,7 +112,7 @@ export default function SearchPage() {
       <>
         <Pressable
           onPress={() => {
-            setIsAscending(true);
+            setAscending(true);
           }}
           style={{
             display: "flex",
@@ -116,7 +122,7 @@ export default function SearchPage() {
           }}
         >
           <MaterialCommunityIcons
-            name={isAscending ? "radiobox-marked" : "radiobox-blank"}
+            name={ascending ? "radiobox-marked" : "radiobox-blank"}
             size={24}
             color="#3C5433"
           />
@@ -124,7 +130,7 @@ export default function SearchPage() {
         </Pressable>
         <Pressable
           onPress={() => {
-            setIsAscending(false);
+            setAscending(false);
           }}
           style={{
             display: "flex",
@@ -134,7 +140,7 @@ export default function SearchPage() {
           }}
         >
           <MaterialCommunityIcons
-            name={isAscending ? "radiobox-blank" : "radiobox-marked"}
+            name={ascending ? "radiobox-blank" : "radiobox-marked"}
             size={24}
             color="#3C5433"
           />
@@ -197,12 +203,12 @@ export default function SearchPage() {
     range: number[];
     setRange: Function;
   }) => {
-    // TODO: code spaghetti... fix this
-    let min = numPagesMin;
-    let max = numPagesMax;
+    // set min and max values for checking
+    let min = pageMin;
+    let max = pageMax;
     if (text === "Published year") {
-      min = pubYearMin;
-      max = pubYearMax;
+      min = yearMin;
+      max = yearMax;
     } else if (text === "Rating") {
       min = ratingMin;
       max = ratingMax;
@@ -254,7 +260,7 @@ export default function SearchPage() {
                 ) {
                   text === "Rating"
                     ? setRange([range[0], +(+e.target.value).toFixed(1)]) // ratings are rounded to 1 decimal place
-                    : setRange([range[0], +(+e.target.value).toFixed(0)]); // number of pages and published are integers
+                    : setRange([range[0], +(+e.target.value).toFixed(0)]); // number of pages and published year are integers
                 }
               }}
               style={[
@@ -271,8 +277,8 @@ export default function SearchPage() {
           onValuesChangeFinish={([r1, r2]) => {
             if (r1 >= min && r2 <= max) {
               text === "Rating"
-                ? setRange([+(+r1).toFixed(1), +(+r2).toFixed(1)])
-                : setRange([r1, r2]);
+                ? setRange([+(+r1).toFixed(1), +(+r2).toFixed(1)]) // ratings are rounded to 1 decimal place
+                : setRange([r1, r2]); // number of pages and published year are integers
             }
           }}
           min={min}
@@ -296,6 +302,47 @@ export default function SearchPage() {
       </View>
     );
   };
+
+  const ResetButton = () => (
+    //style is similar to BookmarkButton.tsx
+    <TouchableOpacity
+      onPress={() => {
+        if (Object.keys(query).length === 0) {
+          router.navigate("./search");
+        } else {
+          setFilterRating(false);
+          setFilterPage(false);
+          setFilterYear(false);
+          setPageRange([pageMin, pageMax]);
+          setYearRange([yearMin, yearMax]);
+          setRatingRange([ratingMin, ratingMax]);
+          router.navigate(`./search?title=${query.title}`);
+        }
+      }}
+      style={{
+        backgroundColor: "#3C5433",
+        width: 100,
+        height: 32,
+        marginTop: 5,
+        padding: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 10,
+      }}
+    >
+      <Text
+        style={{
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: 16,
+          textAlign: "center",
+          marginTop: Platform.OS === "web" ? 0 : -4,
+        }}
+      >
+        Reset
+      </Text>
+    </TouchableOpacity>
+  );
 
   const SortAndFilter = () => {
     const [isOpened, setIsOpened] = useState<boolean>(true);
@@ -351,17 +398,17 @@ export default function SearchPage() {
               <Text style={styles.sortFilter}>Filter by</Text>
               <Checkbox
                 text={"Number of pages"}
-                option={filterNumPages}
-                setCheckboxOption={setFilterNumPages}
-                range={numPagesRange}
-                setRange={setNumPagesRange}
+                option={filterPage}
+                setCheckboxOption={setFilterPage}
+                range={pageRange}
+                setRange={setPageRange}
               />
               <Checkbox
                 text={"Published year"}
-                option={filterPubYear}
-                setCheckboxOption={setFilterPubYear}
-                range={pubYearRange}
-                setRange={setPubYearRange}
+                option={filterYear}
+                setCheckboxOption={setFilterYear}
+                range={yearRange}
+                setRange={setYearRange}
               />
               <Checkbox
                 text={"Rating"}
@@ -371,6 +418,7 @@ export default function SearchPage() {
                 setRange={setRatingRange}
               />
             </View>
+            <ResetButton />
           </View>
         ) : (
           <></>
@@ -387,7 +435,7 @@ export default function SearchPage() {
           paddingHorizontal: 10,
         }}
       >
-        <SearchBar />
+        <SearchBar page="search" />
         <View
           style={{
             display: "flex",
@@ -407,7 +455,22 @@ export default function SearchPage() {
               marginTop: 20,
             }}
           >
-            <MostPopularBooks TOP_N={20} type="search" />
+            {
+              // if no query, show most popular books
+              Object.keys(query).length === 0 ? (
+                <MostPopularBooks TOP_N={20} type="search" />
+              ) : (
+                // Pass default values
+                <SearchResult
+                  n={20}
+                  option={option}
+                  ascending={ascending}
+                  pageRange={pageRange}
+                  yearRange={yearRange}
+                  ratingRange={ratingRange}
+                />
+              )
+            }
           </View>
         </View>
       </ThemedView>

@@ -10,15 +10,9 @@ import {
 import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
-import { useEffect } from "react";
-import { useAppContext } from "../_layout";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { queryText, setQueryText } = useAppContext();
-  useEffect(() => {
-    setQueryText("");
-  }, []);
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
     Trirong_700Bold,
@@ -52,7 +46,7 @@ export default function HomeScreen() {
         >
           Welcome to Bookmarker
         </ThemedText>
-        <SearchBar type="home" />
+        <SearchBar page="home" />
         <View
           style={{
             width: "100%",

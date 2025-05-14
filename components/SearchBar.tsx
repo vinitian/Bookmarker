@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextInput, View, Pressable, Platform, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { useAppContext } from "@/app/_layout";
 
-const options = [
+const types = [
   {
     value: "title",
     label: "Title",
@@ -27,15 +27,28 @@ const options = [
     label: "Genre",
   },
 ];
-export const SearchBar = ({ type }: { type: string }) => {
+export const SearchBar = ({ page }: { page: string }) => {
+  const query = useLocalSearchParams<{ type: string; q: string }>();
   const router = useRouter();
-  const { queryText, setQueryText } = useAppContext();
+  const { queryText, setQueryText, type, setType } = useAppContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  const [option, setOption] = useState("title");
+  useEffect(() => {
+    if (query && page === "search") {
+      setQueryText(query.q);
+      setType(query.type);
+      console.log(query.q, queryText, query.type, type);
+    } else if (page === "home") {
+      setQueryText("");
+      setType("title");
+    }
+  }, []);
 
   const handleKeyDown = (e: any) => {
     if (e.nativeEvent.key === "Enter") {
-      router.navigate(`./search?${option}=${queryText}`);
+      setQueryText(e.target.value);
+      queryText === ""
+        ? router.navigate("./search")
+        : router.navigate(`./search?type=${type}&q=${queryText}`);
     }
   };
 
@@ -103,20 +116,22 @@ export const SearchBar = ({ type }: { type: string }) => {
             itemContainerStyle={{ borderRadius: 10 }}
             maxHeight={400}
             showsVerticalScrollIndicator={false}
-            value="title"
-            data={options}
+            value={type}
+            data={types}
             valueField="value"
             labelField="label"
             mode="auto"
             activeColor="#ededed"
-            onChange={(e) => setOption(e.value)}
+            onChange={(e) => setType(e.value)}
           />
           <Pressable
             onPress={() => {
-              if (type === "home") {
-                router.navigate(`./search?${option}=${queryText}`);
-              } else if (type === "search") {
-                router.setParams({ option: queryText });
+              if (page === "home") {
+                router.navigate(`./search?type=${type}&q=${queryText}`);
+              } else if (page === "search") {
+                queryText === ""
+                  ? router.navigate("./search")
+                  : router.navigate(`./search?type=${type}&q=${queryText}`);
               }
             }}
             style={{ marginTop: Platform.OS === "web" ? 0 : -5 }}
