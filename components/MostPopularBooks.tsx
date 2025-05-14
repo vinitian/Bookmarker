@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { View, Platform } from "react-native";
+import { View, Platform, FlatList } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 import { useState, useEffect } from "react";
@@ -29,35 +29,12 @@ export default function MostPopularBooks({
   const CustomView = ({ type, children }: { type: string; children: any }) => {
     if (Platform.OS === "web" || type === "search") {
       // for search page
-      return (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            columnGap: 10,
-            rowGap: 20,
-            paddingHorizontal: 10,
-            justifyContent: "space-evenly",
-          }}
-        >
-          {children}
-        </View>
-      );
+      return <View>{children}</View>;
     }
     return (
       // for home page
       <ScrollView showsHorizontalScrollIndicator={true} horizontal={true}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 10,
-            paddingHorizontal: 10,
-          }}
-        >
-          {children}
-        </View>
+        {children}
       </ScrollView>
     );
   };
@@ -68,7 +45,21 @@ export default function MostPopularBooks({
   return (
     <CustomView type={type}>
       {topNBooks && topNBooks.length > 0 ? (
-        topNBooks.map((book, i) => <Book key={i} bookData={book} />)
+        <FlatList
+          scrollEnabled={false}
+          contentContainerStyle={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            columnGap: 14,
+            rowGap: 20,
+            paddingHorizontal: 10,
+            justifyContent: "space-evenly",
+          }}
+          data={topNBooks}
+          keyExtractor={(book) => book.book_id}
+          renderItem={({ item }) => <Book bookData={item} />}
+        />
       ) : (
         <ThemedText>Loading most popular books...</ThemedText>
       )}

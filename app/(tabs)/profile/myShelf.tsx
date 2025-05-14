@@ -1,6 +1,6 @@
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { View, useWindowDimensions } from "react-native";
+import { FlatList, View, useWindowDimensions } from "react-native";
 import BookSmall from "@/components/BookSmall";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
@@ -72,36 +72,48 @@ export default function MyShelf() {
               justifyContent: "space-evenly",
             }}
           >
-            {bookDataList.length > 0 && myUid ? (
-              bookDataList.map((book, i) => (
-                <BookSmall
-                  key={i}
-                  bookData={book}
-                  handleRemove={() =>
-                    alert(
-                      "Removing a book",
-                      "Please confirm to remove a book",
-                      [
-                        {
-                          text: "Cancel",
-                          onPress: () => {},
-                          style: "cancel",
-                        },
-                        {
-                          text: "Remove",
-                          onPress: () =>
-                            removeFromShelf({
-                              book_id: book.book_id,
-                              user_id: myUid,
-                              setErrorMessage: setErrorMessage,
-                              loadUserData: loadUserData,
-                            }),
-                        },
-                      ]
-                    )
-                  }
-                />
-              ))
+            {myUid && bookDataList.length > 0 ? (
+              <FlatList
+                contentContainerStyle={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  columnGap: 14,
+                  rowGap: 20,
+                  paddingHorizontal: 10,
+                  justifyContent: "space-evenly",
+                }}
+                data={bookDataList}
+                keyExtractor={(book: ShortBookData) => book.book_id}
+                renderItem={({ item }: { item: ShortBookData }) => (
+                  <BookSmall
+                    bookData={item}
+                    handleRemove={() =>
+                      alert(
+                        "Removing a book",
+                        "Please confirm to remove a book",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => {},
+                            style: "cancel",
+                          },
+                          {
+                            text: "Remove",
+                            onPress: () =>
+                              removeFromShelf({
+                                book_id: item.book_id,
+                                user_id: myUid,
+                                setErrorMessage: setErrorMessage,
+                                loadUserData: loadUserData,
+                              }),
+                          },
+                        ]
+                      )
+                    }
+                  />
+                )}
+              />
             ) : (
               <ThemedText>Loading...</ThemedText>
             )}

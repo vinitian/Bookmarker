@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { View, Platform } from "react-native";
+import { View, Platform, FlatList } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
@@ -22,34 +22,11 @@ export default function MyTopTen({ myProfileName, favList }) {
 
   const CustomView = ({ children }) => {
     if (Platform.OS === "web") {
-      return (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            columnGap: 10,
-            rowGap: 20,
-            paddingHorizontal: 10,
-            justifyContent: "space-evenly",
-          }}
-        >
-          {children}
-        </View>
-      );
+      return <View>{children}</View>;
     }
     return (
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 10,
-            paddingHorizontal: 10,
-          }}
-        >
-          {children}
-        </View>
+        {children}
       </ScrollView>
     );
   };
@@ -82,8 +59,22 @@ export default function MyTopTen({ myProfileName, favList }) {
         Top Ten
       </ThemedText>
       <CustomView>
-        {bookDataList.length > 0 ? (
-          bookDataList.map((book, i) => <Book key={i} bookData={book} />)
+        {bookDataList && bookDataList.length > 0 ? (
+          <FlatList
+            scrollEnabled={false}
+            contentContainerStyle={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              columnGap: 10,
+              rowGap: 20,
+              paddingHorizontal: 10,
+              justifyContent: "space-evenly",
+            }}
+            data={bookDataList}
+            keyExtractor={(book) => book.book_id}
+            renderItem={({ item }) => <Book bookData={item} />}
+          />
         ) : (
           <ThemedText>The top ten list is empty</ThemedText>
         )}

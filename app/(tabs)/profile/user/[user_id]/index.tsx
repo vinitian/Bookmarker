@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Redirect, useLocalSearchParams, Link, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import fetchUser from "@/lib/fetchUser";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import {
   Text,
   View,
-  Image,
   TouchableOpacity,
   ScrollView,
   Platform,
@@ -17,10 +16,9 @@ import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
 import MyShelf from "@/components/MyShelf";
 import { auth } from "@/firebaseConfig";
-import { onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 export default function UserProfile() {
-  const { height, width } = useWindowDimensions();
   const router = useRouter();
   const local = useLocalSearchParams<{ user_id: string }>();
   let user_id: string = local.user_id;
@@ -105,7 +103,7 @@ export default function UserProfile() {
     >
       <ThemedView
         style={{
-          minHeight: height,
+          minHeight: 850,
           paddingBottom: 20,
           paddingTop: Platform.OS === "web" ? 0 : 50,
         }}
@@ -137,8 +135,9 @@ export default function UserProfile() {
               <TouchableOpacity
                 onPress={() => {
                   signOut(auth);
+                  setMyUid(null);
                   setTimeout(() => {
-                    router.navigate("/");
+                    router.navigate("/login");
                   }, 100);
                 }}
                 style={{

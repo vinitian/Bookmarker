@@ -1,7 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { useRouter } from "expo-router";
-import { View, TouchableOpacity, Platform } from "react-native";
+import { View, TouchableOpacity, Platform, FlatList } from "react-native";
 import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -26,34 +26,11 @@ export default function MyShelf({ myProfileName, bookList }) {
 
   const CustomView = ({ children }) => {
     if (Platform.OS === "web") {
-      return (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            columnGap: 10,
-            rowGap: 20,
-            paddingHorizontal: 10,
-            justifyContent: "space-evenly",
-          }}
-        >
-          {children}
-        </View>
-      );
+      return <View>{children}</View>;
     }
     return (
       <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 14,
-            paddingHorizontal: 10,
-          }}
-        >
-          {children}
-        </View>
+        {children}
       </ScrollView>
     );
   };
@@ -110,8 +87,22 @@ export default function MyShelf({ myProfileName, bookList }) {
         )}
       </View>
       <CustomView>
-        {bookDataList.length > 0 ? (
-          bookDataList.map((book, i) => <BookSmall key={i} bookData={book} />)
+        {bookDataList && bookDataList.length > 0 ? (
+          <FlatList
+            scrollEnabled={false}
+            contentContainerStyle={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              columnGap: 14,
+              rowGap: 20,
+              paddingHorizontal: 10,
+              justifyContent: "space-evenly",
+            }}
+            data={bookDataList}
+            keyExtractor={(book) => book.book_id}
+            renderItem={({ item }) => <BookSmall bookData={item} />}
+          />
         ) : (
           <ThemedText>The shelf is empty</ThemedText>
         )}
