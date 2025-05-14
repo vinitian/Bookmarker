@@ -46,7 +46,7 @@ export default function HomeScreen() {
         >
           Welcome to Bookmarker
         </ThemedText>
-        <SearchBar />
+        <SearchBar type="home" />
         <View
           style={{
             width: "100%",

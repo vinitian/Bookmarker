@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TextInput, View, Pressable, Platform, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
@@ -26,7 +26,7 @@ const options = [
     label: "Genre",
   },
 ];
-export const SearchBar = ({}) => {
+export const SearchBar = ({ type }: { type: string }) => {
   const router = useRouter();
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -66,6 +66,7 @@ export const SearchBar = ({}) => {
       >
         <TextInput
           value={text}
+          defaultValue={text}
           onChangeText={setText}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -111,7 +112,13 @@ export const SearchBar = ({}) => {
             onChange={(e) => setOption(e.value)}
           />
           <Pressable
-            onPress={() => router.navigate(`./search?${option}=${text}`)}
+            onPress={() => {
+              if (type === "home") {
+                router.navigate(`./search?${option}=${text}`);
+              } else if (type === "search") {
+                router.setParams({ option: text });
+              }
+            }}
             style={{ marginTop: Platform.OS === "web" ? 0 : -5 }}
           >
             <EvilIcons name="search" size={28} color="#3C5433" />
