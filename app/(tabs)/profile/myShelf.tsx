@@ -39,7 +39,7 @@ export default function MyShelf() {
   const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.book_list.length > 0) {
       fetchBooksFromId({
         book_id_list: user.book_list.map((book) => book.book_id),
         setBookDataList: setBookDataList,
@@ -72,7 +72,10 @@ export default function MyShelf() {
               justifyContent: "space-evenly",
             }}
           >
-            {myUid && bookDataList.length > 0 ? (
+            {user &&
+            user.book_list.length > 0 &&
+            myUid &&
+            bookDataList.length > 0 ? (
               <FlatList
                 contentContainerStyle={{
                   display: "flex",
@@ -115,7 +118,15 @@ export default function MyShelf() {
                 )}
               />
             ) : (
-              <ThemedText>Loading...</ThemedText>
+              <ThemedText
+                style={{
+                  alignSelf: "center",
+                  marginHorizontal: 20,
+                  marginVertical: 10,
+                }}
+              >
+                The shelf is empty
+              </ThemedText>
             )}
           </View>
         </View>

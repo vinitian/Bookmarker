@@ -18,10 +18,12 @@ export default function MyShelf({ myProfileName, bookList }) {
   const [bookDataList, setBookDataList] = useState([]);
 
   useEffect(() => {
-    fetchBooksFromId({
-      book_id_list: bookList.map((book) => book.book_id),
-      setBookDataList: setBookDataList,
-    });
+    if (bookList.length > 0) {
+      fetchBooksFromId({
+        book_id_list: bookList.map((book) => book.book_id),
+        setBookDataList: setBookDataList,
+      });
+    }
   }, [bookList]);
 
   const CustomView = ({ children }) => {
@@ -59,7 +61,7 @@ export default function MyShelf({ myProfileName, bookList }) {
             fontFamily: "Trirong_700Bold",
             fontSize: 28,
             paddingLeft: 15,
-            lineHeight: 48,
+            lineHeight: 38,
           }}
         >
           {myProfileName == "My"
@@ -87,7 +89,7 @@ export default function MyShelf({ myProfileName, bookList }) {
         )}
       </View>
       <CustomView>
-        {bookDataList && bookDataList.length > 0 ? (
+        {bookList.length > 0 && bookDataList && bookDataList.length > 0 ? (
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
@@ -104,7 +106,15 @@ export default function MyShelf({ myProfileName, bookList }) {
             renderItem={({ item }) => <BookSmall bookData={item} />}
           />
         ) : (
-          <ThemedText>The shelf is empty</ThemedText>
+          <ThemedText
+            style={{
+              alignSelf: "center",
+              marginHorizontal: 20,
+              marginVertical: 10,
+            }}
+          >
+            The shelf is empty
+          </ThemedText>
         )}
       </CustomView>
     </View>

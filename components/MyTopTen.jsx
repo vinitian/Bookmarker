@@ -14,10 +14,12 @@ export default function MyTopTen({ myProfileName, favList }) {
   const [bookDataList, setBookDataList] = useState([]);
 
   useEffect(() => {
-    fetchBooksFromId({
-      book_id_list: favList,
-      setBookDataList: setBookDataList,
-    });
+    if (favList.length > 0) {
+      fetchBooksFromId({
+        book_id_list: favList,
+        setBookDataList: setBookDataList,
+      });
+    }
   }, [favList]);
 
   const CustomView = ({ children }) => {
@@ -47,7 +49,7 @@ export default function MyTopTen({ myProfileName, favList }) {
         style={{
           fontFamily: "Trirong_700Bold",
           fontSize: 32,
-          lineHeight: 60,
+          lineHeight: 40,
           paddingLeft: 15,
         }}
       >
@@ -59,7 +61,7 @@ export default function MyTopTen({ myProfileName, favList }) {
         Top Ten
       </ThemedText>
       <CustomView>
-        {bookDataList && bookDataList.length > 0 ? (
+        {favList.length > 0 && bookDataList && bookDataList.length > 0 ? (
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
@@ -76,7 +78,15 @@ export default function MyTopTen({ myProfileName, favList }) {
             renderItem={({ item }) => <Book bookData={item} />}
           />
         ) : (
-          <ThemedText>The top ten list is empty</ThemedText>
+          <ThemedText
+            style={{
+              alignSelf: "center",
+              marginHorizontal: 20,
+              marginVertical: 10,
+            }}
+          >
+            The top ten list is empty
+          </ThemedText>
         )}
       </CustomView>
     </View>
