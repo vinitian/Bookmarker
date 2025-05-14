@@ -77,6 +77,7 @@ export default function MyShelf() {
             myUid &&
             bookDataList.length > 0 ? (
               <FlatList
+                scrollEnabled={false}
                 contentContainerStyle={{
                   display: "flex",
                   flexDirection: "row",

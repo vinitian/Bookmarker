@@ -46,7 +46,7 @@ export default function MyShelf({ myProfileName, bookList }) {
         width: "100%",
         maxWidth: 1200,
         alignSelf: "center",
-        marginTop: 20,
+        marginTop: 15,
       }}
     >
       <View
@@ -60,8 +60,9 @@ export default function MyShelf({ myProfileName, bookList }) {
           style={{
             fontFamily: "Trirong_700Bold",
             fontSize: 28,
-            paddingLeft: 15,
             lineHeight: 38,
+            paddingLeft: 15,
+            marginVertical: 10,
           }}
         >
           {myProfileName == "My"

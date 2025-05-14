@@ -42,7 +42,6 @@ export default function MyTopTen({ myProfileName, favList }) {
         width: "100%",
         maxWidth: 1200,
         alignSelf: "center",
-        marginTop: 20,
       }}
     >
       <ThemedText
@@ -51,6 +50,7 @@ export default function MyTopTen({ myProfileName, favList }) {
           fontSize: 32,
           lineHeight: 40,
           paddingLeft: 15,
+          marginVertical: 10,
         }}
       >
         {myProfileName == "My"
@@ -82,7 +82,6 @@ export default function MyTopTen({ myProfileName, favList }) {
             style={{
               alignSelf: "center",
               marginHorizontal: 20,
-              marginVertical: 10,
             }}
           >
             The top ten list is empty
