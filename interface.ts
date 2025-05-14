@@ -3,6 +3,7 @@
 interface Book {
   isbn: string;
   title: string;
+  title_lowercase: string 
   description: string;
   author_list: string[];
   genre_list: string[];
