@@ -89,6 +89,7 @@ export default function SearchPage() {
         borderColor: "#3C5433",
         backgroundColor: "#F7F0DD",
       }}
+      itemContainerStyle={{ borderRadius: 10 }}
       maxHeight={300}
       data={options}
       value={option}

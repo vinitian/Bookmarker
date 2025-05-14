@@ -98,7 +98,8 @@ export const SearchBar = ({}) => {
           <Dropdown
             style={{ width: 100 }}
             selectedTextStyle={{ marginLeft: 8 }}
-            containerStyle={{ borderRadius: 20 }}
+            containerStyle={{ borderRadius: 10 }}
+            itemContainerStyle={{ borderRadius: 10 }}
             maxHeight={400}
             showsVerticalScrollIndicator={false}
             value="title"
