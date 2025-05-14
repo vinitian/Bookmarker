@@ -3,7 +3,7 @@
 interface Book {
   isbn: string;
   title: string;
-  title_lowercase: string 
+  title_lowercase: string;
   description: string;
   author_list: string[];
   genre_list: string[];
@@ -31,7 +31,7 @@ interface User {
   email: string;
   name: string;
   image: string;
-  fav_list: string[10];
+  fav_list: string[];
   book_list: PersonalBook[];
 }
 
