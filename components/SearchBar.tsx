@@ -3,6 +3,7 @@ import { TextInput, View, Pressable, Platform, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import { useAppContext } from "@/app/_layout";
 
 const options = [
   {
@@ -28,13 +29,13 @@ const options = [
 ];
 export const SearchBar = ({ type }: { type: string }) => {
   const router = useRouter();
-  const [text, setText] = useState("");
+  const { queryText, setQueryText } = useAppContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [option, setOption] = useState("title");
 
   const handleKeyDown = (e: any) => {
     if (e.nativeEvent.key === "Enter") {
-      router.navigate(`./search?${option}=${text}`);
+      router.navigate(`./search?${option}=${queryText}`);
     }
   };
 
@@ -65,9 +66,8 @@ export const SearchBar = ({ type }: { type: string }) => {
         }}
       >
         <TextInput
-          value={text}
-          defaultValue={text}
-          onChangeText={setText}
+          value={queryText}
+          onChangeText={(text) => setQueryText(text)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder="Search..."
@@ -114,9 +114,9 @@ export const SearchBar = ({ type }: { type: string }) => {
           <Pressable
             onPress={() => {
               if (type === "home") {
-                router.navigate(`./search?${option}=${text}`);
+                router.navigate(`./search?${option}=${queryText}`);
               } else if (type === "search") {
-                router.setParams({ option: text });
+                router.setParams({ option: queryText });
               }
             }}
             style={{ marginTop: Platform.OS === "web" ? 0 : -5 }}

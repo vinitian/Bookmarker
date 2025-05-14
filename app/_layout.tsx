@@ -18,6 +18,8 @@ SplashScreen.preventAutoHideAsync();
 const AppContext = createContext<{
   bookId: string;
   setBookId: Function;
+  queryText: string;
+  setQueryText: Function;
 } | null>(null);
 
 export function useAppContext() {
@@ -37,6 +39,7 @@ export default function RootLayout() {
   });
 
   const [bookId, setBookId] = useState("EsaXX8v0ywUEyiD9KoFs"); // default selected book is "An Anthology of Australian Albums"
+  const [queryText, setQueryText] = useState("");
 
   useEffect(() => {
     if (loaded) {
@@ -49,7 +52,7 @@ export default function RootLayout() {
   }
 
   return (
-    <AppContext.Provider value={{ bookId, setBookId }}>
+    <AppContext.Provider value={{ bookId, setBookId, queryText, setQueryText }}>
       <ThemeProvider value={DefaultTheme}>
         <Stack
           screenOptions={{
