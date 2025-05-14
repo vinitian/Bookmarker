@@ -1,10 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { View, Platform, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import Book from "./Book";
-import { ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import fetchTopNBooks from "@/lib/fetchTopNBooks";
+import CustomView from "./CustomView";
 
 export default function MostPopularBooks({
   TOP_N,
@@ -25,19 +25,6 @@ export default function MostPopularBooks({
       setTopNBooks: setTopNBooks,
     });
   }, []);
-
-  const CustomView = ({ type, children }: { type: string; children: any }) => {
-    if (Platform.OS === "web" || type === "search") {
-      // for search page
-      return <View>{children}</View>;
-    }
-    return (
-      // for home page
-      <ScrollView showsHorizontalScrollIndicator={true} horizontal={true}>
-        {children}
-      </ScrollView>
-    );
-  };
 
   if (!fontsLoaded) {
     return null;
