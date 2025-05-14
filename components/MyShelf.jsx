@@ -82,7 +82,10 @@ export default function MyShelf({ myProfileName, bookList }) {
               name="edit"
               size={24}
               color="#3C5433"
-              style={{ marginLeft: 10, marginBottom: 4 }}
+              style={{
+                marginLeft: 10,
+                marginBottom: Platform.OS == "web" ? 3 : 16,
+              }}
             />
           </TouchableOpacity>
         ) : (

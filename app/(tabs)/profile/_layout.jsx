@@ -24,6 +24,10 @@ export default function StackLayout() {
         name="myShelf"
         options={{ headerShown: true, title: "My Shelf" }}
       />
+      <Stack.Screen
+        name="myTopTen"
+        options={{ headerShown: true, title: "My Top Ten" }}
+      />
     </Stack>
   );
 }

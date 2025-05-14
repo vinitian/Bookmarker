@@ -75,7 +75,7 @@ export default function BookSmall({
                 fontSize: 16,
               }}
             >
-              Remove from shelf
+              Remove book
             </Text>
           </TouchableOpacity>
         ) : (

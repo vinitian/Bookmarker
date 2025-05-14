@@ -1,15 +1,19 @@
 import { ThemedText } from "@/components/ThemedText";
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
-import { View, Platform, FlatList } from "react-native";
+import { View, Platform, FlatList, TouchableOpacity } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
+import { useRouter } from "expo-router";
+import { Feather } from "@expo/vector-icons";
 
 export default function MyTopTen({ myProfileName, favList }) {
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
+
+  const router = useRouter();
 
   const [bookDataList, setBookDataList] = useState([]);
 
@@ -44,22 +48,49 @@ export default function MyTopTen({ myProfileName, favList }) {
         alignSelf: "center",
       }}
     >
-      <ThemedText
+      <View
         style={{
-          fontFamily: "Trirong_700Bold",
-          fontSize: 32,
-          lineHeight: 40,
-          paddingLeft: 15,
-          marginVertical: 10,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
         }}
       >
-        {myProfileName == "My"
-          ? "My"
-          : myProfileName == undefined
-          ? "Their"
-          : myProfileName + "'s"}{" "}
-        Top Ten
-      </ThemedText>
+        <ThemedText
+          style={{
+            fontFamily: "Trirong_700Bold",
+            fontSize: 32,
+            lineHeight: 40,
+            paddingLeft: 15,
+            marginVertical: 10,
+          }}
+        >
+          {myProfileName == "My"
+            ? "My"
+            : myProfileName == undefined
+            ? "Their"
+            : myProfileName + "'s"}{" "}
+          Top Ten
+        </ThemedText>
+        {myProfileName == "My" ? (
+          <TouchableOpacity
+            onPress={() => {
+              router.push("/profile/myTopTen");
+            }}
+          >
+            <Feather
+              name="edit"
+              size={24}
+              color="#3C5433"
+              style={{
+                marginLeft: 10,
+                marginBottom: Platform.OS == "web" ? 0 : 18,
+              }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
+      </View>
       <CustomView>
         {favList.length > 0 && bookDataList && bookDataList.length > 0 ? (
           <FlatList
