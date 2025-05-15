@@ -23,7 +23,7 @@ export default function BookSmall({
     >
       <Pressable
         onPress={() => {
-          router.navigate(`/search/book/${bookData.book_id}`);
+          router.navigate(`/book/${bookData.book_id}`);
         }}
       >
         <Image
@@ -41,7 +41,7 @@ export default function BookSmall({
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
           onPress={() => {
-            router.navigate(`/search/book/${bookData.book_id}`);
+            router.navigate(`/book/${bookData.book_id}`);
           }}
         >
           {bookData.title}

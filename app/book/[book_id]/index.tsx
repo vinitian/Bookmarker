@@ -307,7 +307,8 @@ export default function BookInfoPage() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
-          paddingVertical: 20,
+          paddingBottom: 20,
+          paddingTop: 10,
           paddingHorizontal: 10,
           minHeight: height,
         }}
@@ -334,8 +335,7 @@ export default function BookInfoPage() {
                   style={{
                     fontSize: 36,
                     lineHeight: 36,
-                    marginTop: 5,
-                    paddingTop: 30,
+                    paddingTop: 25,
                     fontFamily: "Trirong_700Bold",
                   }}
                 >

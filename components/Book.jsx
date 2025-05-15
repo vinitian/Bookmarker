@@ -16,7 +16,7 @@ export default function Book({ bookData }) {
         onHoverOut={() => setIsFocused(false)}
         onPress={() => {
           setIsFocused(true);
-          router.navigate(`/search/book/${bookData.book_id}`);
+          router.navigate(`/book/${bookData.book_id}`);
         }}
       >
         <Image
@@ -35,7 +35,7 @@ export default function Book({ bookData }) {
         <ThemedText
           style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
           onPress={() => {
-            router.navigate(`/search/book/${bookData.book_id}`);
+            router.navigate(`/book/${bookData.book_id}`);
           }}
         >
           {bookData.title}

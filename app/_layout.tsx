@@ -69,6 +69,10 @@ export default function RootLayout() {
             name="logBookmark"
             options={{ headerShown: true, title: "Log Bookmark" }}
           />
+          <Stack.Screen
+            name="book"
+            options={{ headerShown: true, title: "Book Information" }}
+          />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
