@@ -20,10 +20,13 @@ import {
 } from "@expo-google-fonts/noto-sans-thai-looped";
 import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useAppContext } from "../_layout";
 
 export default function TabLayout() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const { queryText, setQueryText, type, setType } = useAppContext();
+
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
     Trirong_700Bold,
@@ -79,7 +82,11 @@ export default function TabLayout() {
               }}
             >
               <TouchableOpacity
-                onPress={() => router.navigate("/")}
+                onPress={() => {
+                  router.navigate("/");
+                  setQueryText("");
+                  setType("title");
+                }}
                 style={styles.webTab}
               >
                 <Text style={styles.webTabText}>Home</Text>

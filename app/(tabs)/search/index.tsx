@@ -25,6 +25,7 @@ import MostPopularBooks from "@/components/MostPopularBooks";
 import { ThemedView } from "@/components/ThemedView";
 import { router, useLocalSearchParams } from "expo-router";
 import SearchResult from "@/components/SearchResult";
+import { useAppContext } from "@/app/_layout";
 
 const options = [
   {
@@ -48,7 +49,11 @@ const options = [
 export default function SearchPage() {
   const { height, width } = useWindowDimensions();
   const query = useLocalSearchParams();
-
+  const { queryText, setQueryText, type, setType } = useAppContext();
+  useEffect(() => {
+    setQueryText("");
+    setType("title");
+  }, []);
   const [option, setOption] = useState("alphabetical");
   const [ascending, setAscending] = useState<boolean>(true);
 

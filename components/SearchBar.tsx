@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TextInput, View, Pressable, Platform, StyleSheet } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Dropdown } from "react-native-element-dropdown";
@@ -32,16 +32,6 @@ export const SearchBar = ({ page }: { page: string }) => {
   const router = useRouter();
   const { queryText, setQueryText, type, setType } = useAppContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  useEffect(() => {
-    if (query && page === "search") {
-      setQueryText(query.q);
-      setType(query.type);
-      console.log(query.q, queryText, query.type, type);
-    } else if (page === "home") {
-      setQueryText("");
-      setType("title");
-    }
-  }, []);
 
   const handleKeyDown = (e: any) => {
     if (e.nativeEvent.key === "Enter") {

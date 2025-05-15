@@ -6,6 +6,7 @@ import { FlatList, Text } from "react-native";
 import { ThemedText } from "./ThemedText";
 import Book from "./Book";
 import fetchBooksByQuery from "@/lib/fetchBooksByQuery";
+import { useAppContext } from "@/app/_layout";
 
 export const SearchResult = ({
   n,
@@ -22,11 +23,14 @@ export const SearchResult = ({
   yearRange: number[];
   ratingRange: number[];
 }) => {
-  const query = useLocalSearchParams<{
-    q: any;
-    type: string;
-  }>();
-
+  const query = useLocalSearchParams<{ type: string; q: string }>();
+  const { queryText, setQueryText, type, setType } = useAppContext();
+  useEffect(() => {
+    if (query) {
+      setQueryText(query.q);
+      setType(query.type);
+    }
+  }, []);
   const [fontsLoaded] = useFonts({
     Trirong_700Bold,
   });
@@ -63,7 +67,7 @@ export const SearchResult = ({
               columnGap: 14,
               rowGap: 20,
               paddingHorizontal: 10,
-              justifyContent: "space-evenly",
+              justifyContent: "flex-start",
             }}
             data={books}
             keyExtractor={(book) => book.book_id}

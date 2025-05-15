@@ -69,7 +69,7 @@ export const fetchBooksByQuery = async ({
 
       if (!bookSnapshot) throw new Error("Book info not found");
 
-      let shortBookDataList: ShortBookData[] = [];
+      let bookList: ShortBookData[] = [];
       const bookData = bookSnapshot.data();
       if (bookData) {
         const shortBookData: ShortBookData = {
@@ -78,8 +78,8 @@ export const fetchBooksByQuery = async ({
           img_url: bookData.img_url,
           author_list: bookData.author_list,
         };
-        shortBookDataList.push(shortBookData);
-        setBooks(shortBookDataList);
+        bookList.push(shortBookData);
+        setBooks(bookList ? bookList : []); // if no book is found, return an empty array
       }
     } else {
       // explanation for the first `where` clause:
