@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Link, useRouter } from "expo-router";
@@ -57,6 +57,8 @@ export default function login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const emailRef = useRef<TextInput>();
+  const passwordRef = useRef<TextInput>();
 
   const [fontsLoaded] = useFonts({
     NotoSansThaiLooped_400Regular,
@@ -88,7 +90,6 @@ export default function login() {
         padding: 10,
         margin: 5,
         width: 200,
-        // width: "200%", //TEST
         alignSelf: "center",
       }}
     >
@@ -120,7 +121,6 @@ export default function login() {
         padding: 0,
         margin: 0,
         width: 200,
-        // width: "200%", //TEST
         alignSelf: "center",
       }}
     >
@@ -240,6 +240,11 @@ export default function login() {
                   onChangeText={setName}
                   autoCapitalize="none"
                   placeholder="Name"
+                  returnKeyType="next"
+                  onSubmitEditing={() => {
+                    if (emailRef.current) emailRef.current.focus();
+                  }}
+                  submitBehavior="submit"
                 />
               ) : null}
               <TextInput
@@ -250,6 +255,12 @@ export default function login() {
                 autoCapitalize="none"
                 keyboardType="email-address"
                 placeholder="Email"
+                returnKeyType="next"
+                ref={emailRef}
+                onSubmitEditing={() => {
+                  if (passwordRef.current) passwordRef.current.focus();
+                }}
+                submitBehavior="submit"
               />
               <TextInput
                 style={styles.input}
@@ -258,6 +269,12 @@ export default function login() {
                 onChangeText={setPassword}
                 secureTextEntry
                 placeholder="Password"
+                returnKeyType="done"
+                ref={passwordRef}
+                onKeyPress={(e) => {
+                  if (e.nativeEvent.key === "Enter")
+                    isSignUp ? signUp() : signIn();
+                }}
               />
             </ThemedView>
           ) : null}
