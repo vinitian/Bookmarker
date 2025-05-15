@@ -1,5 +1,4 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { useRouter } from "expo-router";
 import { View, TouchableOpacity, Platform, FlatList } from "react-native";
 import BookSmall from "./BookSmall";
@@ -9,9 +8,6 @@ import { useEffect, useState } from "react";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
 
 export default function MyShelf({ myProfileName, bookList }) {
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
 
   const router = useRouter();
 
@@ -37,9 +33,6 @@ export default function MyShelf({ myProfileName, bookList }) {
     );
   };
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <View
       style={{
@@ -57,8 +50,8 @@ export default function MyShelf({ myProfileName, bookList }) {
         }}
       >
         <ThemedText
+        type="title"
           style={{
-            fontFamily: "Trirong_700Bold",
             fontSize: 28,
             lineHeight: 38,
             paddingLeft: 15,
