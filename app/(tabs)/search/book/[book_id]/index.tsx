@@ -11,6 +11,7 @@ import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
@@ -21,6 +22,13 @@ import CustomView2 from "@/components/CustomView2";
 import fetchUser from "@/lib/fetchUser";
 import rateBook from "@/lib/rateBook";
 import addToTopTen from "@/lib/addToTopTen";
+
+// for formatting published_date
+const dateFormat: { day: "numeric"; month: "long"; year: "numeric" } = {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+};
 
 export default function BookInfoPage() {
   const router = useRouter();
@@ -249,7 +257,6 @@ export default function BookInfoPage() {
               color: "#3C5433",
               fontSize: 20,
               fontWeight: "bold",
-              // top: 6,
             }}
             onPress={() => {
               router.navigate(`../../profile/user/${user_id}`);
@@ -361,13 +368,21 @@ export default function BookInfoPage() {
                   <ThemedText
                     style={{
                       alignSelf: "center",
-                      fontWeight: "bold",
-                      fontSize: width <= 750 && width > 600 ? 16 : 32,
-                      lineHeight: width <= 750 && width > 600 ? 16 : 32,
+                      fontSize: 18,
+                      color: "rgba(60,84,51,0.7)",
                     }}
                   >
                     {/* Round avg_rating to 2 decimal places */}
-                    {+book.avg_rating.toFixed(2)}
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        color: "#3C5433",
+                      }}
+                    >
+                      {+book.avg_rating.toFixed(2)}{" "}
+                    </Text>
+                    ({book.rating_list.length} rating
+                    {book.rating_list.length > 1 ? "s" : ""})
                   </ThemedText>
                 </View>
               </View>
@@ -479,24 +494,33 @@ export default function BookInfoPage() {
                       display: "flex",
                       flexDirection: "row",
                       flexWrap: "wrap",
-                      marginLeft: -5,
+                      marginLeft: 3,
                     }}
                   >
                     <StarRatingDisplay
                       rating={book.avg_rating}
                       color="#e2bd04"
-                      starSize={width <= 750 && width > 600 ? 18 : 32}
-                      starStyle={{ alignSelf: "center" }}
+                      starSize={32}
+                      starStyle={{ alignSelf: "center", marginLeft: -5 }}
                     />
                     <ThemedText
                       style={{
                         alignSelf: "center",
-                        fontWeight: "bold",
-                        fontSize: width <= 750 && width > 600 ? 16 : 32,
+                        fontSize: 18,
+                        color: "rgba(60,84,51,0.7)",
                       }}
                     >
                       {/* Round avg_rating to 2 decimal places */}
-                      {+book.avg_rating.toFixed(2)}
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          color: "#3C5433",
+                        }}
+                      >
+                        {+book.avg_rating.toFixed(2)}{" "}
+                      </Text>
+                      ({book.rating_list.length} rating
+                      {book.rating_list.length > 1 ? "s" : ""})
                     </ThemedText>
                   </View>
                 </View>
@@ -521,20 +545,34 @@ export default function BookInfoPage() {
                     flexWrap: "wrap",
                     gap: 5,
                     alignContent: "center",
+                    alignItems: "center",
                     marginTop: 10,
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "#3C5433",
-                      alignSelf: "center",
-                      fontSize: 16,
-                    }}
-                  >
-                    Genres:{" "}
+                  <Text style={styles.otherInfo}>
+                    <Text style={styles.underline}>Genres</Text>:{" "}
                   </Text>
                   {book.genre_list.map((genre) => renderGenre(genre))}
                 </View>
+
+                {/* Other info: publisher, published date, number of pages, and ISBN*/}
+                <Text style={styles.otherInfo}>
+                  <Text style={styles.underline}>Publisher</Text>:{" "}
+                  {book.publisher}
+                </Text>
+                <Text style={styles.otherInfo}>
+                  <Text style={styles.underline}>Published date</Text>:{" "}
+                  {new Date(book.published_date).toLocaleDateString(
+                    "en-UK",
+                    dateFormat
+                  )}
+                </Text>
+                <Text style={styles.otherInfo}>
+                  <Text style={styles.underline}>Pages</Text>: {book.total_page}
+                </Text>
+                <Text style={styles.otherInfo}>
+                  <Text style={styles.underline}>ISBN</Text>: {book_id}
+                </Text>
               </View>
             </View>
 
@@ -585,3 +623,16 @@ export default function BookInfoPage() {
     <></>
   );
 }
+
+const styles = StyleSheet.create({
+  underline: {
+    textDecorationLine: "underline",
+    textDecorationColor: "#79AB57",
+    fontWeight: "bold",
+  },
+  otherInfo: {
+    color: "#3C5433",
+    fontSize: 16,
+    lineHeight: 32,
+  },
+});
