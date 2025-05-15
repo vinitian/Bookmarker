@@ -20,6 +20,10 @@ const options = [
   },
 ];
 
+function daysInMonth(month: number, year: number) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
 export default function MyReadingGraph({
   myProfileName,
   bookList,
@@ -38,7 +42,9 @@ export default function MyReadingGraph({
 
   useEffect(() => {
     const selected = new Date(option);
-    let newMinutesPerDay = new Array(31).fill(0);
+    let newMinutesPerDay = new Array(
+      daysInMonth(selected.getMonth(), selected.getFullYear())
+    ).fill(0);
     for (let book of bookList) {
       for (let bookmark of book.bookmark_list) {
         const startTime = bookmark.start_time.toDate();
@@ -55,7 +61,6 @@ export default function MyReadingGraph({
       newHoursPerDay.push(newMinutesPerDay[Number(i)] / 60);
     }
     setHoursPerDay(newHoursPerDay);
-    console.log(new Date(option));
   }, [bookList, option]);
 
   const MonthDropdown = () => (
@@ -103,7 +108,7 @@ export default function MyReadingGraph({
           height: 250,
         }}
       >
-        <ThemedText style={{ marginBottom: -20, marginLeft: -10 }}>
+        <ThemedText style={{ marginBottom: -10, marginLeft: -10 }}>
           Hours
         </ThemedText>
         <View style={{ flexDirection: "row", height: "100%" }}>
