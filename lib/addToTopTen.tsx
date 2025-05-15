@@ -41,7 +41,7 @@ export default function addToTopTen({
       }
 
       const cut_list = userDoc.fav_list.filter(
-        (fav_book_id: string, i: number) => i <= 10
+        (fav_book_id: string, i: number) => i <= 8
       );
 
       // add book_id to My Top Ten list (fav_list)
