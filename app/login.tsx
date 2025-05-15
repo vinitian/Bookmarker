@@ -10,11 +10,6 @@ import { useRef, useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Link, useRouter } from "expo-router";
-import {
-  NotoSansThaiLooped_400Regular,
-  useFonts,
-} from "@expo-google-fonts/noto-sans-thai-looped";
-import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 
 import { registerTranslation } from "react-native-paper-dates";
 // For date picker
@@ -60,15 +55,6 @@ export default function login() {
   const emailRef = useRef<TextInput>();
   const passwordRef = useRef<TextInput>();
 
-  const [fontsLoaded] = useFonts({
-    NotoSansThaiLooped_400Regular,
-    Trirong_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   onAuthStateChanged(auth, (user) => {
     if (user) {
       router.navigate("/");
@@ -93,17 +79,17 @@ export default function login() {
         alignSelf: "center",
       }}
     >
-      <Text
+      <ThemedText
+        type="bold"
         style={{
           color: "white",
           fontSize: 20,
-          fontWeight: "bold",
           textAlign: "center",
           margin: 5,
         }}
       >
         {title}
-      </Text>
+      </ThemedText>
     </Pressable>
   );
 
@@ -124,9 +110,8 @@ export default function login() {
         alignSelf: "center",
       }}
     >
-      <Text
+      <ThemedText
         style={{
-          color: "#3C5433",
           fontSize: 16,
           fontWeight: "normal",
           textAlign: "center",
@@ -135,7 +120,7 @@ export default function login() {
         }}
       >
         {title}
-      </Text>
+      </ThemedText>
     </Pressable>
   );
 
@@ -211,11 +196,10 @@ export default function login() {
         }}
       >
         <ThemedText
+          type="title"
           style={{
             fontSize: 32,
             lineHeight: 32,
-            fontWeight: "bold",
-            fontFamily: "Trirong_700Bold",
             textAlign: "center",
           }}
         >
@@ -340,5 +324,6 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "white",
     borderRadius: 8,
+    fontFamily: "Kanit_300Light",
   },
 });

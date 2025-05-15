@@ -26,7 +26,7 @@ export default function UserInfo({ username, email, image }) {
           alignItems: "flex-start",
         }}
       >
-        <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
+        <ThemedText type="bold" style={{ fontSize: 20 }}>
           {username}
         </ThemedText>
         <ThemedText style={{ fontSize: 14 }}>{email}</ThemedText>

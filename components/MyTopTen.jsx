@@ -1,5 +1,4 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { View, Platform, FlatList, TouchableOpacity } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
@@ -9,9 +8,6 @@ import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 export default function MyTopTen({ myProfileName, favList }) {
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
 
   const router = useRouter();
 
@@ -37,9 +33,6 @@ export default function MyTopTen({ myProfileName, favList }) {
     );
   };
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <View
       style={{
@@ -56,8 +49,8 @@ export default function MyTopTen({ myProfileName, favList }) {
         }}
       >
         <ThemedText
+        type="title"
           style={{
-            fontFamily: "Trirong_700Bold",
             fontSize: 32,
             lineHeight: 40,
             paddingLeft: 15,
@@ -115,7 +108,7 @@ export default function MyTopTen({ myProfileName, favList }) {
               marginHorizontal: 20,
             }}
           >
-            The top ten list is empty
+            The Top Ten list is empty
           </ThemedText>
         )}
       </CustomView>

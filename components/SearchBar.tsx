@@ -104,6 +104,7 @@ export const SearchBar = ({ page }: { page: string }) => {
             selectedTextStyle={{ marginLeft: 8 }}
             containerStyle={{ borderRadius: 10 }}
             itemContainerStyle={{ borderRadius: 10 }}
+            fontFamily="Kanit_300Light"
             maxHeight={400}
             showsVerticalScrollIndicator={false}
             value={type}
@@ -137,6 +138,7 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
   textInput: {
+    fontFamily: "Kanit_300Light",
     flexGrow: 1,
     flexShrink: 1,
     width: "80%",

@@ -39,7 +39,8 @@ export default function BookSmall({
       </Pressable>
       <View style={{ width: 170 }}>
         <ThemedText
-          style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
+          type="bold"
+          style={{ lineHeight: 18, marginTop: 5 }}
           onPress={() => {
             router.navigate(`/book/${bookData.book_id}`);
           }}
@@ -68,15 +69,15 @@ export default function BookSmall({
               borderRadius: 50,
             }}
           >
-            <Text
+            <ThemedText
+              type="bold"
               style={{
                 color: "#fff",
-                fontWeight: "bold",
                 fontSize: 16,
               }}
             >
               Remove book
-            </Text>
+            </ThemedText>
           </TouchableOpacity>
         ) : (
           <></>

@@ -3,7 +3,6 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
@@ -11,6 +10,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
+import { Kanit_300Light, Kanit_500Medium } from "@expo-google-fonts/kanit";
+import {
+  Trirong_700Bold,
+  Trirong_500Medium,
+  useFonts,
+} from "@expo-google-fonts/trirong";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,12 +39,14 @@ export function useAppContext() {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
-
   const [queryText, setQueryText] = useState("");
   const [type, setType] = useState("title");
+  const [loaded] = useFonts({
+    Kanit_300Light,
+    Kanit_500Medium,
+    Trirong_700Bold,
+    Trirong_500Medium,
+  });
 
   useEffect(() => {
     if (loaded) {

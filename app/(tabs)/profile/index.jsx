@@ -43,7 +43,7 @@ export default function HomeScreen() {
         <Text
           style={{
             color: "#fff",
-            fontWeight: "bold",
+            fontFamily: "Kanit_500Medium",
             fontSize: 18,
             height: 24,
           }}

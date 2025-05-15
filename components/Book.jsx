@@ -33,7 +33,8 @@ export default function Book({ bookData }) {
       </Pressable>
       <View style={{ width: 200 }}>
         <ThemedText
-          style={{ fontWeight: "bold", lineHeight: 18, marginTop: 5 }}
+          type="bold"
+          style={{ marginTop: 5 }}
           onPress={() => {
             router.navigate(`/book/${bookData.book_id}`);
           }}

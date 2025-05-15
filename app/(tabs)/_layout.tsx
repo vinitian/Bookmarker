@@ -14,11 +14,6 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import {
-  NotoSansThaiLooped_400Regular,
-  useFonts,
-} from "@expo-google-fonts/noto-sans-thai-looped";
-import { Trirong_700Bold } from "@expo-google-fonts/trirong";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useAppContext } from "../_layout";
 
@@ -26,15 +21,6 @@ export default function TabLayout() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const { queryText, setQueryText, type, setType } = useAppContext();
-
-  const [fontsLoaded] = useFonts({
-    NotoSansThaiLooped_400Regular,
-    Trirong_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   if (Platform.OS === "web") {
     return (
@@ -160,23 +146,17 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="search/book"
-        options={{
-          href: null,
-        }}
-      />
     </Tabs>
   );
 }
 
 const styles = StyleSheet.create({
-  tab: { fontFamily: "NotoSansThaiLooped_400Regular" },
+  tab: { fontFamily: "Kanit_300Light" },
   webTab: {
     justifyContent: "center",
   },
   webTabText: {
-    fontFamily: "NotoSansThaiLooped_400Regular",
+    fontFamily: "Kanit_300Light",
     display: "flex",
     color: "#EBDF94",
     textAlignVertical: "center",

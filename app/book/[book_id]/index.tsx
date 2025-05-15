@@ -7,9 +7,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -22,6 +20,7 @@ import CustomView2 from "@/components/CustomView2";
 import fetchUser from "@/lib/fetchUser";
 import rateBook from "@/lib/rateBook";
 import addToTopTen from "@/lib/addToTopTen";
+import { ThemedText } from "@/components/ThemedText";
 
 // for formatting published_date
 const dateFormat: { day: "numeric"; month: "long"; year: "numeric" } = {
@@ -67,13 +66,6 @@ export default function BookInfoPage() {
 
   const { height, width } = useWindowDimensions();
 
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
-
   const AddBookmarkButton = () => (
     <TouchableOpacity
       onPress={() => {
@@ -91,9 +83,9 @@ export default function BookInfoPage() {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 18 }}>
+      <ThemedText type="bold" style={{ color: "#fff", fontSize: 18 }}>
         Bookmark!
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
 
@@ -112,9 +104,9 @@ export default function BookInfoPage() {
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>
+        <ThemedText type="bold" style={{ color: "#fff", fontSize: 18 }}>
           Add to My Top Ten
-        </Text>
+        </ThemedText>
       </TouchableOpacity>
     ) : (
       <></>
@@ -134,9 +126,9 @@ export default function BookInfoPage() {
         borderRadius: 50,
       }}
     >
-      <Text style={{ color: "#3C5433", fontSize: 16 }}>
+      <ThemedText style={{ fontSize: 16 }}>
         {isfullDescription ? "Collapse" : "Show more"}
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
 
@@ -156,7 +148,9 @@ export default function BookInfoPage() {
       }}
       key={genre}
     >
-      <Text style={{ color: "#F7F0DD", fontSize: 16 }}>{genre}</Text>
+      <ThemedText style={{ color: "#F7F0DD", fontSize: 16 }}>
+        {genre}
+      </ThemedText>
     </TouchableOpacity>
   );
 
@@ -213,9 +207,9 @@ export default function BookInfoPage() {
             }}
           />
         </View>
-        <Text style={{ fontSize: 20, color: "#3C5433" }}>
+        <ThemedText style={{ fontSize: 20 }}>
           {Intl.NumberFormat("en-US").format(numberOfUsers)}
-        </Text>
+        </ThemedText>
       </View>
     );
   };
@@ -251,22 +245,19 @@ export default function BookInfoPage() {
             style={{ width: 40, height: 40, borderRadius: 50 }}
           />
         </TouchableOpacity>
-        <Text style={{ color: "#3C5433", fontSize: 20, alignSelf: "center" }}>
-          <Text
-            style={{
-              color: "#3C5433",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
+        <ThemedText style={{ fontSize: 20, alignSelf: "center" }}>
+          <ThemedText
+            type="bold"
+            style={{ fontSize: 20 }}
             onPress={() => {
               router.navigate(`../../profile/user/${user_id}`);
             }}
           >
             {userData.name}
-          </Text>{" "}
-          gave this book <Text style={{ fontWeight: "bold" }}>{rating}</Text>{" "}
+          </ThemedText>{" "}
+          gave this book <ThemedText type="bold">{rating}</ThemedText>{" "}
           {rating > 1 ? "stars" : "star"}!
-        </Text>
+        </ThemedText>
       </View>
     ) : (
       <></>
@@ -297,9 +288,9 @@ export default function BookInfoPage() {
           ))}
       </View>
     ) : (
-      <Text style={{ color: "#3C5433", marginTop: 10, fontSize: 20 }}>
+      <ThemedText style={{ marginTop: 10, fontSize: 20 }}>
         This book has no reviews yet.
-      </Text>
+      </ThemedText>
     );
   };
 
@@ -332,11 +323,11 @@ export default function BookInfoPage() {
                 }}
               >
                 <ThemedText
+                  type="title"
                   style={{
                     fontSize: 36,
                     lineHeight: 36,
                     paddingTop: 25,
-                    fontFamily: "Trirong_700Bold",
                   }}
                 >
                   {book.title}
@@ -373,14 +364,9 @@ export default function BookInfoPage() {
                     }}
                   >
                     {/* Round avg_rating to 2 decimal places */}
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        color: "#3C5433",
-                      }}
-                    >
+                    <ThemedText type="bold">
                       {+book.avg_rating.toFixed(2)}{" "}
-                    </Text>
+                    </ThemedText>
                     ({book.rating_list.length} rating
                     {book.rating_list.length > 1 ? "s" : ""})
                   </ThemedText>
@@ -411,17 +397,16 @@ export default function BookInfoPage() {
               </View>
               <AddBookmarkButton />
               <AddToTopTenButton />
-              <Text
+              <ThemedText
+                type="bold"
                 style={{
                   marginTop: 10,
-                  color: "#3C5433",
-                  fontSize: 16,
-                  fontWeight: "bold",
+                  fontSize: 18,
                   textAlign: "center",
                 }}
               >
                 Rate this book
-              </Text>
+              </ThemedText>
               <StarRating
                 rating={rating}
                 color="#e2bd04"
@@ -438,17 +423,16 @@ export default function BookInfoPage() {
                 }}
               />
               {IsRated ? (
-                <Text
+                <ThemedText
                   style={{
                     textAlign: "center",
-                    color: "#3C5433",
                     fontSize: 16,
                   }}
                 >
                   You rated this book{" "}
-                  <Text style={{ fontWeight: "bold" }}>{rating}</Text> stars
+                  <ThemedText type="bold">{rating}</ThemedText> stars
                   {userId ? "" : "Please sign in to save your rating."}
-                </Text>
+                </ThemedText>
               ) : (
                 <></>
               )}
@@ -475,11 +459,11 @@ export default function BookInfoPage() {
                   }}
                 >
                   <ThemedText
+                    type="title"
                     style={{
                       fontSize: 36,
                       lineHeight: 36,
                       marginTop: 5,
-                      fontFamily: "Trirong_700Bold",
                     }}
                   >
                     {book.title}
@@ -511,14 +495,9 @@ export default function BookInfoPage() {
                       }}
                     >
                       {/* Round avg_rating to 2 decimal places */}
-                      <Text
-                        style={{
-                          fontWeight: "bold",
-                          color: "#3C5433",
-                        }}
-                      >
+                      <ThemedText type="bold">
                         {+book.avg_rating.toFixed(2)}{" "}
-                      </Text>
+                      </ThemedText>
                       ({book.rating_list.length} rating
                       {book.rating_list.length > 1 ? "s" : ""})
                     </ThemedText>
@@ -530,9 +509,7 @@ export default function BookInfoPage() {
 
               {/* Book description */}
               <View>
-                <ThemedText
-                  style={{ fontSize: 20, lineHeight: 28, color: "#3C5433" }}
-                >
+                <ThemedText style={{ fontSize: 20, lineHeight: 28 }}>
                   {isfullDescription ? book.description : cutDescription}
                 </ThemedText>
                 {isShortText ? <></> : <ShowMoreButton />}
@@ -549,52 +526,53 @@ export default function BookInfoPage() {
                     marginTop: 10,
                   }}
                 >
-                  <Text style={styles.otherInfo}>
-                    <Text style={styles.underline}>Genres</Text>:{" "}
-                  </Text>
+                  <ThemedText style={styles.otherInfo}>
+                    <ThemedText style={styles.underline}>Genres</ThemedText>:{" "}
+                  </ThemedText>
                   {book.genre_list.map((genre) => renderGenre(genre))}
                 </View>
 
                 {/* Other info: publisher, published date, number of pages, and ISBN*/}
-                <Text style={styles.otherInfo}>
-                  <Text style={styles.underline}>Publisher</Text>:{" "}
+                <ThemedText style={styles.otherInfo}>
+                  <ThemedText style={styles.underline}>Publisher</ThemedText>:{" "}
                   {book.publisher}
-                </Text>
-                <Text style={styles.otherInfo}>
-                  <Text style={styles.underline}>Published date</Text>:{" "}
+                </ThemedText>
+                <ThemedText style={styles.otherInfo}>
+                  <ThemedText style={styles.underline}>
+                    Published date
+                  </ThemedText>
+                  :{" "}
                   {new Date(book.published_date).toLocaleDateString(
                     "en-UK",
                     dateFormat
                   )}
-                </Text>
-                <Text style={styles.otherInfo}>
-                  <Text style={styles.underline}>Pages</Text>: {book.total_page}
-                </Text>
-                <Text style={styles.otherInfo}>
-                  <Text style={styles.underline}>ISBN</Text>: {book_id}
-                </Text>
+                </ThemedText>
+                <ThemedText style={styles.otherInfo}>
+                  <ThemedText style={styles.underline}>Pages</ThemedText>:{" "}
+                  {book.total_page}
+                </ThemedText>
+                <ThemedText style={styles.otherInfo}>
+                  <ThemedText style={styles.underline}>ISBN</ThemedText>:{" "}
+                  {book_id}
+                </ThemedText>
               </View>
             </View>
 
             {/* Ratings */}
             <View>
               <ThemedText
+                type="title"
                 style={{
                   marginTop: 5,
-                  fontFamily: "Trirong_700Bold",
                   fontSize: 32,
                   lineHeight: 40,
                 }}
               >
                 Ratings
               </ThemedText>
-              <ThemedText
-                style={{
-                  fontSize: 20,
-                }}
-              >
+              <ThemedText style={{ fontSize: 20 }}>
                 {Intl.NumberFormat("en-US").format(book.rating_list.length)}{" "}
-                total ratings
+                total rating{book.rating_list.length > 1 ? "s" : ""}
               </ThemedText>
               {[5, 4, 3, 2, 1].map((rating: number) => (
                 <DetailedStarRating rating={rating} key={rating} />
@@ -604,9 +582,9 @@ export default function BookInfoPage() {
             {/* Lastest Reviews */}
             <View>
               <ThemedText
+                type="title"
                 style={{
                   marginTop: 5,
-                  fontFamily: "Trirong_700Bold",
                   fontSize: 32,
                   lineHeight: 40,
                 }}
@@ -628,10 +606,9 @@ const styles = StyleSheet.create({
   underline: {
     textDecorationLine: "underline",
     textDecorationColor: "#79AB57",
-    fontWeight: "bold",
+    fontFamily: "Kanit_500Medium",
   },
   otherInfo: {
-    color: "#3C5433",
     fontSize: 16,
     lineHeight: 32,
   },

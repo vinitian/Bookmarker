@@ -126,7 +126,7 @@ export default function MyTopTen() {
                   marginVertical: 10,
                 }}
               >
-                The Top Ten is empty
+                The Top Ten list is empty
               </ThemedText>
             )}
           </View>

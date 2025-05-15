@@ -6,8 +6,8 @@ import {
   Platform,
   useWindowDimensions,
   ScrollView,
+  StyleSheet
 } from "react-native";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useEffect, useState } from "react";
@@ -104,13 +104,6 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
 
   const [selectedKey, setSelectedKey] = useState(-1); // key of editing bookmark || -1 for new bookmark
 
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
-  if (!fontsLoaded) {
-    return null;
-  }
-
   const SaveBookmarkButton = () => (
     <TouchableOpacity
       onPress={() => {
@@ -147,18 +140,9 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <Text
-        style={{
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: 18,
-          height: 24,
-          textAlign: "center",
-          marginTop: Platform.OS === "web" ? 0 : -4,
-        }}
-      >
+      <ThemedText style={styles.buttonText}>
         Save Bookmark
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
   const SaveChangeButton = () => (
@@ -198,16 +182,9 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <Text
-        style={{
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: 18,
-          height: 24,
-        }}
-      >
+      <ThemedText style={styles.buttonText}>
         Save Changes
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
   const DeleteBookmarkButton = () => (
@@ -235,16 +212,9 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <Text
-        style={{
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: 18,
-          height: 24,
-        }}
-      >
+      <ThemedText style={styles.buttonText}>
         Delete Bookmark
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
   const NewBookmarkButton = () => (
@@ -263,16 +233,9 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <Text
-        style={{
-          color: "#F7F0DD",
-          fontWeight: "bold",
-          fontSize: 18,
-          height: 24,
-        }}
-      >
+      <ThemedText style={styles.buttonText}>
         New Bookmark
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
 
@@ -302,11 +265,11 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                 }}
               >
                 <ThemedText
+                type="title"
                   style={{
                     fontSize: 20,
                     lineHeight: 26,
                     marginTop: 5,
-                    fontFamily: "Trirong_700Bold",
                   }}
                 >
                   {book.title}
@@ -319,47 +282,32 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                     ? `(+${book.author_list.length - 1})`
                     : ``}
                 </ThemedText>
-                <Text
-                  style={{
-                    color: "#79AB57",
-                    fontFamily: "Trirong_700Bold",
-                    fontSize: 17,
-                    lineHeight: 24,
-                  }}
+                <ThemedText
+                  style={styles.stats}
                 >
                   Total page:{" "}
-                  {Intl.NumberFormat("en-US").format(book.total_page)}
-                </Text>
-                <Text
-                  style={{
-                    color: "#79AB57",
-                    fontFamily: "Trirong_700Bold",
-                    fontSize: 17,
-                    lineHeight: 24,
-                  }}
+                  <Text style={styles.statsNum}>{Intl.NumberFormat("en-US").format(book.total_page)}</Text>
+                </ThemedText>
+                <ThemedText
+                  style={styles.stats}
                 >
                   Hours read:{" "}
-                  {userBookData?.cumul_time
+                   <Text style={styles.statsNum}>{userBookData?.cumul_time
                     ? Intl.NumberFormat("en-US").format(
                         (userBookData?.cumul_time / 60).toFixed(2)
                       )
-                    : 0}
-                </Text>
-                <Text
-                  style={{
-                    color: "#79AB57",
-                    fontFamily: "Trirong_700Bold",
-                    fontSize: 17,
-                    lineHeight: 24,
-                  }}
+                    : 0}</Text>
+                </ThemedText>
+                <ThemedText
+                  style={styles.stats}
                 >
                   Pages read:{" "}
-                  {userBookData?.pages_read
+                   <Text style={styles.statsNum}>{userBookData?.pages_read
                     ? Intl.NumberFormat("en-US").format(
                         userBookData?.pages_read
                       )
-                    : 0}
-                </Text>
+                    : 0}</Text>
+                </ThemedText>
               </View>
             </CustomBookView>
             {selectedKey == -1 ? (
@@ -381,23 +329,16 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
             {/* Edit Bookmark */}
             <View style={{ flexGrow: 1 }}>
               <ThemedText
+              type="bold"
                 style={{
                   fontSize: 24,
                   lineHeight: 32,
                   marginTop: 5,
-                  fontFamily: "Trirong_700Bold",
                 }}
               >
                 {selectedKey == -1 ? "New" : "Edit"} Bookmark
               </ThemedText>
-              <ThemedText
-                style={{
-                  marginTop: 8,
-                  fontFamily: "Trirong_700Bold",
-                  fontSize: 18,
-                  lineHeight: 24,
-                }}
-              >
+              <ThemedText style={styles.fieldHeading}>
                 Date
               </ThemedText>
               {/* Date selector */}
@@ -411,14 +352,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   onPress={() => {
                     setShowDatePicker(true);
                   }}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginLeft: 5,
-                    borderRadius: 50,
-                  }}
+                  style={styles.dateTimePicker}
                 >
                   <ThemedText>
                     {selectedDate
@@ -440,14 +374,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   onConfirm={onDatePickerConfirm}
                 />
               </View>
-              <ThemedText
-                style={{
-                  marginTop: 8,
-                  fontFamily: "Trirong_700Bold",
-                  fontSize: 18,
-                  lineHeight: 24,
-                }}
-              >
+              <ThemedText style={styles.fieldHeading}>
                 Time
               </ThemedText>
               {/* Time (From & To) selector */}
@@ -470,14 +397,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                     onPress={() => {
                       setShowStartTimePicker(true);
                     }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginLeft: 5,
-                      borderRadius: 50,
-                    }}
+                    style={styles.dateTimePicker}
                   >
                     <ThemedText>From: {selectedStartTime}</ThemedText>
                     <MaterialCommunityIcons
@@ -507,14 +427,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                     onPress={() => {
                       setShowEndTimePicker(true);
                     }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginLeft: 5,
-                      borderRadius: 50,
-                    }}
+                    style={styles.dateTimePicker}
                   >
                     <ThemedText>To: {selectedEndTime}</ThemedText>
                     <MaterialCommunityIcons
@@ -533,14 +446,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   />
                 </View>
               </View>
-              <ThemedText
-                style={{
-                  marginTop: 8,
-                  fontFamily: "Trirong_700Bold",
-                  fontSize: 18,
-                  lineHeight: 24,
-                }}
-              >
+              <ThemedText style={styles.fieldHeading}>
                 Page
               </ThemedText>
               {/* Page (From & To) input */}
@@ -568,12 +474,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   <TextInput
                     value={startPage}
                     onChangeText={setStartPage}
-                    style={{
-                      width: 100,
-                      height: 24,
-                      color: "#3C5433",
-                      padding: 0,
-                    }}
+                    style={styles.textInput}
                   />
                 </View>
                 {/* Page (To) input */}
@@ -593,12 +494,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   <TextInput
                     value={endPage}
                     onChangeText={setEndPage}
-                    style={{
-                      width: 100,
-                      height: 24,
-                      color: "#3C5433",
-                      padding: 0,
-                    }}
+                    style={styles.textInput}
                   />
                 </View>
               </View>
@@ -616,16 +512,16 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   errorMessage ? (
                     errorMessage == "Bookmark updated successfully" ||
                     errorMessage == "Bookmark deleted successfully" ? (
-                      <Text style={{ color: "green", lineHeight: 20 }}>
+                      <ThemedText style={{ color: "green", lineHeight: 20 }}>
                         {errorMessage}
-                      </Text>
+                      </ThemedText>
                     ) : (
-                      <Text style={{ color: "red", lineHeight: 20 }}>
+                      <ThemedText style={{ color: "red", lineHeight: 20 }}>
                         {errorMessage}
-                      </Text>
+                      </ThemedText>
                     )
                   ) : (
-                    <Text style={{ lineHeight: 20 }}></Text>
+                    <ThemedText style={{ lineHeight: 20 }}></ThemedText>
                   ) // empty text
                 }
               </View>
@@ -642,11 +538,11 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
             {/* Saved Bookmarks */}
             <View style={{ flexGrow: 1 }}>
               <ThemedText
+              type="title"
                 style={{
                   fontSize: 24,
                   lineHeight: 32,
                   marginTop: 5,
-                  fontFamily: "Trirong_700Bold",
                 }}
               >
                 Saved Bookmarks
@@ -688,3 +584,43 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
     <></>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontFamily: "Kanit_500Medium",
+    height: 24,
+    textAlign: "center",
+    marginTop: Platform.OS === "web" ? 0 : -4,
+  },
+  stats: {
+    fontFamily: "Trirong_500Medium",
+    fontSize: 17,
+    lineHeight: 24,
+  },
+  statsNum: {
+    color: "#79AB57",
+  },
+  fieldHeading : {
+    marginTop: 8,
+    fontFamily: "Trirong_700Bold",
+    fontSize: 18,
+    lineHeight: 24,
+  },
+  dateTimePicker: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: 5,
+    borderRadius: 50,
+  },
+  textInput: {
+    width: 100,
+    height: 24,
+    color: "#3C5433",
+    padding: 0,
+    fontFamily: "Kanit_300Light"
+  }
+})

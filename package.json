@@ -15,7 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo-google-fonts/noto-sans-thai-looped": "^0.3.1",
+    "@expo-google-fonts/kanit": "^0.3.1",
     "@expo-google-fonts/trirong": "^0.3.0",
     "@expo/vector-icons": "^14.0.2",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",

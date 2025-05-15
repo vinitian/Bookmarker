@@ -1,12 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { useEffect, useState } from "react";
 import CustomView from "./CustomView";
 import { FlatList, Text } from "react-native";
-import { ThemedText } from "./ThemedText";
 import Book from "./Book";
 import fetchBooksByQuery from "@/lib/fetchBooksByQuery";
 import { useAppContext } from "@/app/_layout";
+import { ThemedText } from "./ThemedText";
 
 export const SearchResult = ({
   n,
@@ -31,9 +30,6 @@ export const SearchResult = ({
       setType(query.type);
     }
   }, []);
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
 
   const [books, setBooks] = useState<ShortBookData[] | undefined>(undefined);
   useEffect(() => {
@@ -49,10 +45,6 @@ export const SearchResult = ({
       ratingRange: ratingRange,
     });
   }, [query.q, query.type, pageRange, yearRange, ratingRange]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <CustomView type="search">

@@ -70,7 +70,7 @@ export default function UserProfile() {
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#3C5433", fontWeight: "bold" }}>
+        <Text style={{ color: "#3C5433", fontFamily: "Kanit_500Medium" }}>
           {"< "}
           <Text style={{ textDecorationLine: "underline" }}>
             Go back to my profile
@@ -151,11 +151,9 @@ export default function UserProfile() {
                   borderRadius: 50,
                 }}
               >
-                <Text
-                  style={{ color: "#EBDF94", fontWeight: "bold", fontSize: 16 }}
-                >
+                <ThemedText type="bold" style={{ color: "#EBDF94" }}>
                   {auth.currentUser ? "Sign Out" : "Sign In"}
-                </Text>
+                </ThemedText>
               </TouchableOpacity>
             ) : (
               <></>

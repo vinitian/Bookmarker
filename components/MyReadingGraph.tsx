@@ -1,10 +1,8 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { View, LogBox, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { LineChart, Grid, YAxis, XAxis } from "react-native-svg-charts";
 import * as shape from "d3-shape";
-import { NotoSansThaiLooped_400Regular } from "@expo-google-fonts/noto-sans-thai-looped";
 import { Dropdown } from "react-native-element-dropdown";
 
 LogBox.ignoreLogs(["Grid"]);
@@ -31,11 +29,6 @@ export default function MyReadingGraph({
   myProfileName: string | undefined;
   bookList: PersonalBook[];
 }) {
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-    NotoSansThaiLooped_400Regular,
-  });
-
   const [hoursPerDay, setHoursPerDay] = useState<number[]>();
 
   const [option, setOption] = useState(new Date().setDate(1));
@@ -120,7 +113,6 @@ export default function MyReadingGraph({
             svg={{
               fill: "grey",
               fontSize: 10,
-              fontFamily: "NotoSansThaiLooped_400Regular",
             }}
           />
           <LineChart
@@ -150,7 +142,6 @@ export default function MyReadingGraph({
           svg={{
             fill: "grey",
             fontSize: 10,
-            fontFamily: "NotoSansThaiLooped_400Regular",
           }}
         />
         <ThemedText style={{ marginTop: -5, alignSelf: "center" }}>
@@ -160,9 +151,6 @@ export default function MyReadingGraph({
     );
   };
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <View
       style={{
@@ -182,8 +170,8 @@ export default function MyReadingGraph({
         }}
       >
         <ThemedText
+          type="title"
           style={{
-            fontFamily: "Trirong_700Bold",
             fontSize: 28,
             lineHeight: 48,
             paddingLeft: 15,
@@ -206,6 +194,7 @@ export default function MyReadingGraph({
 
 const styles = StyleSheet.create({
   text: {
+    fontFamily: "Kanit_300Light",
     color: "#3C5433",
     fontSize: 16,
   },

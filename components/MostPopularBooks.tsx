@@ -1,5 +1,4 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { FlatList } from "react-native";
 import Book from "./Book";
 import { useState, useEffect } from "react";
@@ -13,9 +12,6 @@ export default function MostPopularBooks({
   TOP_N: number;
   type: string;
 }) {
-  const [fontsLoaded] = useFonts({
-    Trirong_700Bold,
-  });
   const [topNBooks, setTopNBooks] = useState<ShortBookData[] | undefined>(
     undefined
   );
@@ -26,9 +22,6 @@ export default function MostPopularBooks({
     });
   }, []);
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <CustomView type={type}>
       {topNBooks && topNBooks.length > 0 ? (

@@ -3,18 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   useWindowDimensions,
   Pressable,
   TextInput,
   Platform,
   TouchableOpacity,
 } from "react-native";
-import {
-  NotoSansThaiLooped_400Regular,
-  useFonts,
-} from "@expo-google-fonts/noto-sans-thai-looped";
-import { Trirong_500Medium, Trirong_700Bold } from "@expo-google-fonts/trirong";
 import { Dropdown } from "react-native-element-dropdown";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import Entypo from "@expo/vector-icons/Entypo";
@@ -26,6 +20,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { router, useLocalSearchParams } from "expo-router";
 import SearchResult from "@/components/SearchResult";
 import { useAppContext } from "@/app/_layout";
+import { ThemedText } from "@/components/ThemedText";
 
 const options = [
   {
@@ -68,16 +63,6 @@ export default function SearchPage() {
   const [pageRange, setPageRange] = useState([pageMin, pageMax]);
   const [yearRange, setYearRange] = useState([yearMin, yearMax]);
   const [ratingRange, setRatingRange] = useState([ratingMin, ratingMax]);
-
-  const [fontsLoaded] = useFonts({
-    NotoSansThaiLooped_400Regular,
-    Trirong_700Bold,
-    Trirong_500Medium,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   const SortDropdown = () => (
     <Dropdown
@@ -131,7 +116,7 @@ export default function SearchPage() {
             size={24}
             color="#3C5433"
           />
-          <Text style={{ color: "#3C5433" }}>Ascending</Text>
+          <ThemedText>Ascending</ThemedText>
         </Pressable>
         <Pressable
           onPress={() => {
@@ -149,7 +134,7 @@ export default function SearchPage() {
             size={24}
             color="#3C5433"
           />
-          <Text style={{ color: "#3C5433" }}>Descending</Text>
+          <ThemedText>Descending</ThemedText>
         </Pressable>
       </>
     );
@@ -335,17 +320,16 @@ export default function SearchPage() {
         borderRadius: 10,
       }}
     >
-      <Text
+      <ThemedText
         style={{
           color: "#fff",
-          fontWeight: "bold",
           fontSize: 16,
           textAlign: "center",
           marginTop: Platform.OS === "web" ? 0 : -4,
         }}
       >
         Reset
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
 
@@ -364,7 +348,9 @@ export default function SearchPage() {
             setIsOpened(!isOpened);
           }}
         >
-          <Text style={styles.sortFilterHeading}>Sort & Filter</Text>
+          <ThemedText type="subtitle" style={styles.sortFilterHeading}>
+            Sort & Filter
+          </ThemedText>
           {isOpened ? (
             <Entypo name="chevron-thin-up" size={24} color="#3C5433" />
           ) : (
@@ -392,7 +378,9 @@ export default function SearchPage() {
           >
             {/* Sort */}
             <View style={{ gap: 5 }}>
-              <Text style={styles.sortFilter}>Sort by</Text>
+              <ThemedText type="subtitle" style={styles.sortFilter}>
+                Sort by
+              </ThemedText>
               <View>
                 <SortDropdown />
               </View>
@@ -400,7 +388,9 @@ export default function SearchPage() {
             </View>
             {/* Filter */}
             <View style={{ gap: 5 }}>
-              <Text style={styles.sortFilter}>Filter by</Text>
+              <ThemedText type="subtitle" style={styles.sortFilter}>
+                Filter by
+              </ThemedText>
               <Checkbox
                 text={"Number of pages"}
                 option={filterPage}
@@ -454,7 +444,6 @@ export default function SearchPage() {
             style={{
               display: "flex",
               flexShrink: 1,
-              // flexWrap: "wrap",
               maxWidth: 1200,
               alignSelf: "center",
               marginTop: 20,
@@ -498,21 +487,19 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   sortFilter: {
-    fontFamily: "Trirong_500Medium",
     fontSize: 24,
-    color: "#3C5433",
   },
   sortFilterHeading: {
-    fontFamily: "Trirong_500Medium",
     fontSize: 28,
-    color: "#3C5433",
     flexGrow: 1,
   },
   text: {
+    fontFamily: "Kanit_300Light",
     color: "#3C5433",
     fontSize: 16,
   },
   textInput: {
+    fontFamily: "Kanit_300Light",
     color: "#3C5433",
     fontSize: 16,
   },

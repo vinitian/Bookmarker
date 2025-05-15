@@ -53,7 +53,7 @@ export default function SavedBookmark({
         width: "fit-content",
       }}
     >
-      <Text style={{ color: "#fff", fontWeight: "bold" }}>Edit</Text>
+      <ThemedText type="bold" style={{ color: "#fff" }}>Edit</ThemedText>
     </TouchableOpacity>
   );
   const styles = getStyles(borderWidth);
@@ -61,7 +61,8 @@ export default function SavedBookmark({
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <ThemedText
-          style={{ fontWeight: "bold", fontSize: 18, marginVertical: 5 }}
+        type="bold"
+          style={{ fontSize: 18, marginVertical: 5 }}
         >
           {format(new Date(bookmark.start_time.seconds * 1000), "dd/MM/yyyy")}
         </ThemedText>

@@ -1,6 +1,7 @@
 import { Text, Platform, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
+import { ThemedText } from "./ThemedText";
 
 export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
  const query = useLocalSearchParams();
@@ -25,17 +26,17 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
         borderRadius: 50,
       }}
     >
-      <Text
+      <ThemedText
+      type="bold"
         style={{
           color: "#fff",
-          fontWeight: "bold",
           fontSize: 16,
           textAlign: "center",
           marginTop: Platform.OS === "web" ? 0 : -4,
         }}
       >
         Bookmark!
-      </Text>
+      </ThemedText>
     </TouchableOpacity>
   );
 }
