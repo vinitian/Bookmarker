@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import UserInfo from "@/components/UserInfo";
 import MyTopTen from "@/components/MyTopTen";
+import MyReadingGraph from "@/components/MyReadingGraph";
 import MyShelf from "@/components/MyShelf";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -162,6 +163,10 @@ export default function UserProfile() {
           </View>
         </ThemedView>
         <MyTopTen myProfileName={myProfileName} favList={user.fav_list} />
+        <MyReadingGraph
+          myProfileName={myProfileName}
+          bookList={user.book_list}
+        />
         <MyShelf myProfileName={myProfileName} bookList={user.book_list} />
       </ThemedView>
     </ScrollView>
