@@ -16,8 +16,6 @@ import { Colors } from "@/constants/Colors";
 SplashScreen.preventAutoHideAsync();
 
 const AppContext = createContext<{
-  bookId: string;
-  setBookId: Function;
   queryText: string;
   setQueryText: Function;
   type: string;
@@ -40,7 +38,6 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
-  const [bookId, setBookId] = useState("EsaXX8v0ywUEyiD9KoFs"); // default selected book is "An Anthology of Australian Albums"
   const [queryText, setQueryText] = useState("");
   const [type, setType] = useState("title");
 
@@ -55,9 +52,7 @@ export default function RootLayout() {
   }
 
   return (
-    <AppContext.Provider
-      value={{ bookId, setBookId, queryText, setQueryText, type, setType }}
-    >
+    <AppContext.Provider value={{ queryText, setQueryText, type, setType }}>
       <ThemeProvider value={DefaultTheme}>
         <Stack
           screenOptions={{

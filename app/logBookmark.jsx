@@ -10,7 +10,6 @@ import {
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useAppContext } from "@/app/_layout";
 import { useEffect, useState } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
@@ -25,9 +24,12 @@ import deleteBookmark from "@/lib/deleteBookmark.tsx";
 import { fetchUserBook } from "@/lib/fetchUser";
 import CustomBookView from "@/components/CustomBookView";
 import CustomView2 from "@/components/CustomView2";
+import { useLocalSearchParams } from "expo-router";
 
 export default function logBookmark() {
-  const { bookId, setBookId } = useAppContext();
+const query = useLocalSearchParams();
+const [bookId, setBookId] = useState(query.id ? query.id : '');
+
   const [book, setBookData] = useState(undefined);
   useEffect(() => {
     if (bookId) {

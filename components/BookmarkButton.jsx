@@ -1,17 +1,17 @@
 import { Text, Platform, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
-import { useAppContext } from "@/app/_layout";
+import { useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
 
 export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
-  const router = useRouter();
-  const { bookId, setBookId } = useAppContext();
-
+ const query = useLocalSearchParams();
+  const [book_id, setBookId] = useState(query.book_id ? query.book_id : "");
+  
   return (
     <TouchableOpacity
       onPress={() => {
         if (thisBookId) {
           setBookId(thisBookId);
-          setTimeout(() => router.push("../../../logBookmark"), 100);
+          setTimeout(() => router.navigate(`../../../logBookmark?id=${thisBookId}`), 100);
         }
       }}
       style={{

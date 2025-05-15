@@ -10,7 +10,6 @@ import {
 import { Trirong_700Bold, useFonts } from "@expo-google-fonts/trirong";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useAppContext } from "@/app/_layout";
 import { useEffect, useState } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
@@ -25,9 +24,8 @@ import addToTopTen from "@/lib/addToTopTen";
 
 export default function BookInfoPage() {
   const router = useRouter();
-  const { bookId, setBookId } = useAppContext();
-  const local = useLocalSearchParams<{ book_id: string }>();
-  const book_id: string = local.book_id;
+  const query = useLocalSearchParams<{ book_id: string }>();
+  const [book_id, setBookId] = useState(query.book_id ? query.book_id : "");
   const [book, setBookData] = useState<Book | undefined>(undefined);
   useEffect(() => {
     fetchBook({ book_id: book_id, setBookData: setBookData });
@@ -72,7 +70,7 @@ export default function BookInfoPage() {
     <TouchableOpacity
       onPress={() => {
         setBookId(book_id);
-        router.navigate("../../../logBookmark");
+        router.navigate(`../../../logBookmark?id=${book_id}`);
       }}
       style={{
         backgroundColor: "#79AB57",
