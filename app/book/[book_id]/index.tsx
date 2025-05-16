@@ -112,7 +112,14 @@ export default function BookInfoPage() {
           borderRadius: 50,
         }}
       >
-        <ThemedText type="bold" style={{ color: "#fff", fontSize: 18 }}>
+        <ThemedText
+          type="bold"
+          style={{
+            color: "#fff",
+            fontSize: 18,
+            marginTop: Platform.OS === "web" ? 0 : 5,
+          }}
+        >
           Add to My Top Ten
         </ThemedText>
       </TouchableOpacity>
@@ -303,7 +310,7 @@ export default function BookInfoPage() {
         )}
       />
     ) : (
-      <ThemedText style={{ marginTop: 10, fontSize: 20 }}>
+      <ThemedText style={{ marginTop: 10, fontSize: 20, paddingTop: 3 }}>
         This book has no reviews yet.
       </ThemedText>
     );
@@ -313,7 +320,7 @@ export default function BookInfoPage() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
-          paddingBottom: 20,
+          paddingBottom: 50,
           paddingTop: 10,
           paddingHorizontal: 10,
           minHeight: height,

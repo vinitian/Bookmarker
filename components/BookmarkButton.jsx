@@ -4,15 +4,18 @@ import { router, useLocalSearchParams } from "expo-router";
 import { ThemedText } from "./ThemedText";
 
 export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
- const query = useLocalSearchParams();
+  const query = useLocalSearchParams();
   const [book_id, setBookId] = useState(query.book_id ? query.book_id : "");
-  
+
   return (
     <TouchableOpacity
       onPress={() => {
         if (thisBookId) {
           setBookId(thisBookId);
-          setTimeout(() => router.navigate(`../../../logBookmark?id=${thisBookId}`), 100);
+          setTimeout(
+            () => router.navigate(`../../../logBookmark?id=${thisBookId}`),
+            100
+          );
         }
       }}
       style={{
@@ -27,12 +30,12 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
       }}
     >
       <ThemedText
-      type="bold"
+        type="bold"
         style={{
           color: "#fff",
           fontSize: 16,
           textAlign: "center",
-          marginTop: Platform.OS === "web" ? 0 : 4,
+          marginTop: Platform.OS === "web" ? 0 : 2,
         }}
       >
         Bookmark!

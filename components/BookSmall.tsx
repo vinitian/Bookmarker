@@ -1,5 +1,12 @@
 import { ThemedText } from "@/components/ThemedText";
-import { Text, View, Image, Pressable, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  Pressable,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
@@ -40,7 +47,7 @@ export default function BookSmall({
       <View style={{ width: 170 }}>
         <ThemedText
           type="bold"
-          style={{ lineHeight: 18, marginTop: 5 }}
+          style={{ lineHeight: 18, paddingTop: 5 }}
           onPress={() => {
             router.navigate(`/book/${bookData.book_id}`);
           }}
@@ -74,6 +81,8 @@ export default function BookSmall({
               style={{
                 color: "#fff",
                 fontSize: 16,
+                textAlign: "center",
+                marginTop: Platform.OS === "web" ? 0 : 2,
               }}
             >
               Remove book
