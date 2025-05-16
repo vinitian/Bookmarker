@@ -3,11 +3,13 @@ import { View, Platform } from "react-native";
 export const CustomView2 = ({
   children,
   width,
+  breakPoint = 600,
 }: {
   children: any;
   width: number;
+  breakPoint: number;
 }) => {
-  if (Platform.OS === "web" && width > 600) {
+  if (Platform.OS === "web" && width > breakPoint) {
     return (
       <View
         style={{

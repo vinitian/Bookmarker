@@ -334,7 +334,7 @@ export default function BookInfoPage() {
           minHeight: height,
         }}
       >
-        <CustomView2 width={width}>
+        <CustomView2 width={width} breakPoint={700}>
           {/* Book info part */}
           <View
             style={{
