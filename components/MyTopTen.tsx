@@ -11,7 +11,7 @@ export default function MyTopTen({
   myProfileName,
   favList,
 }: {
-  myProfileName: string;
+  myProfileName: string | undefined;
   favList: string[];
 }) {
   const router = useRouter();

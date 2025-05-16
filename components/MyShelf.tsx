@@ -11,7 +11,7 @@ export default function MyShelf({
   myProfileName,
   bookList,
 }: {
-  myProfileName: string;
+  myProfileName: string | undefined;
   bookList: PersonalBook[];
 }) {
   const router = useRouter();
