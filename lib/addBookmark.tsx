@@ -87,7 +87,11 @@ export default function addBookmark({
           (bm: Bookmark) => bm.end_time === bookmark.end_time
         );
         const check_page = result.bookmark_list.find(
-          (bm: Bookmark) => bm.start_page === bookmark.start_page
+          (bm: Bookmark) =>
+            bm.start_page === bookmark.start_page ||
+            bm.start_page === bookmark.end_page ||
+            bm.end_page === bookmark.start_page ||
+            bm.end_page === bookmark.end_page
         );
         const check_time_overlap = result.bookmark_list.find(
           (bm: any) =>
@@ -104,10 +108,7 @@ export default function addBookmark({
           throw new Error(
             "A bookmark with the same start or end time already exists. Please either remove or edit the bookmark."
           );
-        } else if (
-          check_page?.start_page === bookmark.start_page ||
-          check_page?.end_page === bookmark.end_page
-        ) {
+        } else if (check_page) {
           setErrorMessage(
             "A bookmark with the same start or end page already exists. Please either remove or edit the bookmark."
           );
