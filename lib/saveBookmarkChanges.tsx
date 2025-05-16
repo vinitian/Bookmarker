@@ -104,7 +104,7 @@ export default function saveBookmarkChanges({
         const check_end_time = excluded_bookmark_list.find(
           (bm: Bookmark) => bm.end_time === bookmark.end_time
         );
-        const check_page = result.bookmark_list.find(
+        const check_page = excluded_bookmark_list.find(
           (bm: Bookmark) =>
             bm.start_page === bookmark.start_page ||
             bm.start_page === bookmark.end_page ||
