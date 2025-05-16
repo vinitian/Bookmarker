@@ -328,7 +328,7 @@ export default function BookInfoPage() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
-          paddingBottom: 50,
+          paddingBottom: 150,
           paddingTop: 10,
           paddingHorizontal: 10,
           minHeight: height,
