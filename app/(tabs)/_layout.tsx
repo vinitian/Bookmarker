@@ -67,7 +67,7 @@ export default function TabLayout() {
             >
               <Pressable
                 onPress={() => {
-                  router.navigate("../");
+                  router.navigate("../../");
                   setQueryText("");
                   setType("title");
                 }}

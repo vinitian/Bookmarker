@@ -456,6 +456,7 @@ export default function SearchPage() {
         style={{
           paddingVertical: 50,
           paddingHorizontal: 10,
+          minHeight: 850,
         }}
       >
         <SearchBar page="search" />
