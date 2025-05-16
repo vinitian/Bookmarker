@@ -58,7 +58,7 @@ export default function UserProfile() {
   const BackButton = () => {
     return (
       <Pressable
-        onPress={() => router.navigate("/profile")}
+        onPress={() => router.navigate("../../profile")}
         style={({ pressed }: { pressed: boolean }) => ({
           height: 30,
           marginTop: 15,
@@ -148,7 +148,7 @@ export default function UserProfile() {
                   signOut(auth);
                   setMyUid(null);
                   setTimeout(() => {
-                    router.navigate("/login");
+                    router.navigate("../../../login");
                   }, 100);
                 }}
                 style={({ pressed }: { pressed: boolean }) => ({
