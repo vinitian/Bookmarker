@@ -5,10 +5,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import {
   View,
-  TouchableOpacity,
+  Pressable,
   ScrollView,
   Platform,
-  useWindowDimensions,
   RefreshControl,
 } from "react-native";
 import UserInfo from "@/components/UserInfo";
@@ -58,9 +57,9 @@ export default function UserProfile() {
 
   const BackButton = () => {
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={() => router.navigate("/profile")}
-        style={{
+        style={({ pressed }: { pressed: boolean }) => ({
           height: 30,
           marginTop: 15,
           paddingVertical: 5,
@@ -68,7 +67,8 @@ export default function UserProfile() {
           alignItems: "flex-start",
           justifyContent: "center",
           borderRadius: 50,
-        }}
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
         <View
           style={{
@@ -86,7 +86,7 @@ export default function UserProfile() {
             Go back to my profile
           </ThemedText>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -143,7 +143,7 @@ export default function UserProfile() {
               image={user.image}
             />
             {myProfileName == "My" ? (
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
                   signOut(auth);
                   setMyUid(null);
@@ -151,7 +151,7 @@ export default function UserProfile() {
                     router.navigate("/login");
                   }, 100);
                 }}
-                style={{
+                style={({ pressed }: { pressed: boolean }) => ({
                   backgroundColor: "#3C5433",
                   width: 100,
                   height: 40,
@@ -159,7 +159,8 @@ export default function UserProfile() {
                   alignItems: "center",
                   justifyContent: "center",
                   borderRadius: 50,
-                }}
+                  opacity: pressed ? 0.5 : 1,
+                })}
               >
                 <ThemedText
                   type="bold"
@@ -167,7 +168,7 @@ export default function UserProfile() {
                 >
                   {auth.currentUser ? "Sign Out" : "Sign In"}
                 </ThemedText>
-              </TouchableOpacity>
+              </Pressable>
             ) : (
               <></>
             )}

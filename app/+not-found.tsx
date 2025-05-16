@@ -1,5 +1,5 @@
 import { Link, Stack } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -19,11 +19,17 @@ export default function NotFoundScreen() {
         <ThemedText type="subtitle" style={{ fontSize: 24 }}>
           This screen doesn't exist.
         </ThemedText>
-        <Link href="/" style={styles.link}>
-          <ThemedText style={{ textDecorationLine: "underline" }}>
-            Go to home page
-          </ThemedText>
-        </Link>
+        <Pressable
+          style={({ pressed }: { pressed: boolean }) => ({
+            opacity: pressed ? 0.5 : 1,
+          })}
+        >
+          <Link href="./" style={styles.link}>
+            <ThemedText style={{ textDecorationLine: "underline" }}>
+              Go to home page
+            </ThemedText>
+          </Link>
+        </Pressable>
       </ThemedView>
     </>
   );

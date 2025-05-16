@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Pressable, StyleSheet, Platform } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -19,6 +13,16 @@ export default function SavedBookmark({
   setEndHourMin,
   setStartPage,
   setEndPage,
+}: {
+  bookKey: number;
+  setSelectedKey: Function;
+  selectedKey: number;
+  bookmark: any;
+  setSelectedDate: Function;
+  setStartHourMin: Function;
+  setEndHourMin: Function;
+  setStartPage: Function;
+  setEndPage: Function;
 }) {
   const [borderWidth, setBorderWidth] = useState(0);
   useEffect(() => {
@@ -26,7 +30,7 @@ export default function SavedBookmark({
   }, [selectedKey]);
 
   const EditButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         setSelectedKey(bookKey);
         setSelectedDate(new Date(bookmark.start_time.seconds * 1000));
@@ -56,7 +60,6 @@ export default function SavedBookmark({
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        width: "fit-content",
       }}
     >
       <ThemedText
@@ -65,7 +68,7 @@ export default function SavedBookmark({
       >
         Edit
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
   const styles = getStyles(borderWidth);
   return (
@@ -116,7 +119,7 @@ export default function SavedBookmark({
   );
 }
 
-const getStyles = (borderWidth) =>
+const getStyles = (borderWidth: number) =>
   StyleSheet.create({
     container: {
       backgroundColor: "#fff",

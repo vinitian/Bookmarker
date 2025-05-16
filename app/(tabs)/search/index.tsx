@@ -4,10 +4,9 @@ import {
   Text,
   View,
   useWindowDimensions,
-  Pressable,
   TextInput,
   Platform,
-  TouchableOpacity,
+  Pressable,
   Animated,
   Easing,
 } from "react-native";
@@ -111,12 +110,13 @@ export default function SearchPage() {
           onPress={() => {
             setAscending(true);
           }}
-          style={{
+          style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-          }}
+            opacity: pressed ? 0.5 : 1,
+          })}
         >
           <MaterialCommunityIcons
             name={ascending ? "radiobox-marked" : "radiobox-blank"}
@@ -129,12 +129,13 @@ export default function SearchPage() {
           onPress={() => {
             setAscending(false);
           }}
-          style={{
+          style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-          }}
+            opacity: pressed ? 0.5 : 1,
+          })}
         >
           <MaterialCommunityIcons
             name={ascending ? "radiobox-blank" : "radiobox-marked"}
@@ -165,12 +166,13 @@ export default function SearchPage() {
           onPress={() => {
             setCheckboxOption(!option);
           }}
-          style={{
+          style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             gap: 10,
-          }}
+            opacity: pressed ? 0.5 : 1,
+          })}
         >
           <MaterialCommunityIcons
             name={option ? "checkbox-marked" : "checkbox-blank-outline"}
@@ -302,7 +304,7 @@ export default function SearchPage() {
 
   const ResetButton = () => (
     //style is similar to BookmarkButton.tsx
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         if (Object.keys(query).length === 0) {
           router.navigate("./search");
@@ -316,7 +318,7 @@ export default function SearchPage() {
           router.navigate(`./search?title=${query.title}`);
         }
       }}
-      style={{
+      style={({ pressed }: { pressed: boolean }) => ({
         backgroundColor: "#3C5433",
         width: 100,
         height: 32,
@@ -325,7 +327,8 @@ export default function SearchPage() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText
         style={{
@@ -337,7 +340,7 @@ export default function SearchPage() {
       >
         Reset
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const SortAndFilter = () => {
@@ -362,11 +365,12 @@ export default function SearchPage() {
     return (
       <View style={{ marginHorizontal: 30, minWidth: 250 }}>
         <Pressable
-          style={{
+          style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-          }}
+            opacity: pressed ? 0.5 : 1,
+          })}
           onPress={() => {
             setIsOpened(!isOpened);
             startAnimation();
@@ -375,15 +379,11 @@ export default function SearchPage() {
           <ThemedText type="subtitle" style={styles.sortFilterHeading}>
             Sort & Filter
           </ThemedText>
-          {/* {isOpened ? ( */}
-          {/* <Entypo name="chevron-thin-up" size={24} color="#3C5433" /> */}
-          {/* ) : ( */}
           <Animated.View
             style={{ transform: [{ rotateX: rotateInterpolate }] }}
           >
             <Entypo name="chevron-thin-down" size={24} color="#3C5433" />
           </Animated.View>
-          {/* )} */}
         </Pressable>
         {/* Horizontal line */}
         <View

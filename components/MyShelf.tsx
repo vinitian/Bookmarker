@@ -1,16 +1,22 @@
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import { View, TouchableOpacity, Platform, FlatList } from "react-native";
+import { View, Pressable, Platform, FlatList } from "react-native";
 import BookSmall from "./BookSmall";
 import { ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
 
-export default function MyShelf({ myProfileName, bookList }) {
+export default function MyShelf({
+  myProfileName,
+  bookList,
+}: {
+  myProfileName: string;
+  bookList: PersonalBook[];
+}) {
   const router = useRouter();
 
-  const [bookDataList, setBookDataList] = useState([]);
+  const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
 
   useEffect(() => {
     if (bookList.length > 0) {
@@ -21,7 +27,7 @@ export default function MyShelf({ myProfileName, bookList }) {
     }
   }, [bookList]);
 
-  const CustomView = ({ children }) => {
+  const CustomView = ({ children }: { children: any }) => {
     if (Platform.OS === "web") {
       return <View>{children}</View>;
     }
@@ -65,10 +71,13 @@ export default function MyShelf({ myProfileName, bookList }) {
           Shelf
         </ThemedText>
         {myProfileName == "My" ? (
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
-              router.push("/profile/myShelf");
+              router.navigate("../../profile/myShelf");
             }}
+            style={({ pressed }: { pressed: boolean }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <Feather
               name="edit"
@@ -79,7 +88,7 @@ export default function MyShelf({ myProfileName, bookList }) {
                 marginBottom: Platform.OS == "web" ? 3 : 16,
               }}
             />
-          </TouchableOpacity>
+          </Pressable>
         ) : (
           <></>
         )}
@@ -99,7 +108,9 @@ export default function MyShelf({ myProfileName, bookList }) {
             }}
             data={bookDataList}
             keyExtractor={(book) => book.book_id}
-            renderItem={({ item }) => <BookSmall bookData={item} />}
+            renderItem={({ item }) => (
+              <BookSmall bookData={item} handleRemove={null} />
+            )}
           />
         ) : (
           <ThemedText

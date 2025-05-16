@@ -4,7 +4,7 @@ import { useState } from "react";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
-export default function Book({ bookData }) {
+export default function Book({ bookData }: { bookData: ShortBookData }) {
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
 
@@ -16,8 +16,11 @@ export default function Book({ bookData }) {
         onHoverOut={() => setIsFocused(false)}
         onPress={() => {
           setIsFocused(true);
-          router.navigate(`/book/${bookData.book_id}`);
+          router.navigate(`./book/${bookData.book_id}`);
         }}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
         <Image
           source={{
@@ -36,7 +39,7 @@ export default function Book({ bookData }) {
           type="bold"
           style={{ marginTop: 5 }}
           onPress={() => {
-            router.navigate(`/book/${bookData.book_id}`);
+            router.navigate(`./book/${bookData.book_id}`);
           }}
         >
           {bookData.title}

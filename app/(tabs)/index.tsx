@@ -5,10 +5,17 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
+import { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [isUser, setIsUser] = useState(false);
 
+  onAuthStateChanged(auth, (user) => {
+    if (user) setIsUser(true);
+  });
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "white", dark: "dark" }}
@@ -63,36 +70,43 @@ export default function HomeScreen() {
           </ThemedText>
           <MostPopularBooks TOP_N={10} type="home" />
         </View>
-        {/* Horizontal line */}
-        <View
-          style={{
-            marginVertical: 30,
-            width: "75%",
-            paddingVertical: 0.5,
-            backgroundColor: "#3C5433",
-          }}
-        />
-        {/* Sign in / sign up button */}
-        <Pressable
-          onPress={() => router.navigate("/login")}
-          style={{
-            borderRadius: 50,
-            backgroundColor: "#3C5433",
-            padding: 10,
-            paddingHorizontal: 20,
-          }}
-        >
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Sign In / Sign Up
-          </Text>
-        </Pressable>
+        {isUser ? (
+          <></>
+        ) : (
+          <>
+            {/* Horizontal line */}
+            <View
+              style={{
+                marginVertical: 30,
+                width: "75%",
+                paddingVertical: 0.5,
+                backgroundColor: "#3C5433",
+              }}
+            />
+            {/* Sign in / sign up button */}
+            <Pressable
+              onPress={() => router.navigate("../../login")}
+              style={({ pressed }: { pressed: boolean }) => ({
+                borderRadius: 50,
+                backgroundColor: "#3C5433",
+                padding: 10,
+                paddingHorizontal: 20,
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
+                Sign In / Sign Up
+              </Text>
+            </Pressable>
+          </>
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );

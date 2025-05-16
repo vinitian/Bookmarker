@@ -2,19 +2,19 @@ import { Redirect, useRouter } from "expo-router";
 import { auth } from "@/firebaseConfig";
 import { useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, Pressable } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 
-export default function HomeScreen() {
-  const [userId, setUserId] = useState(null);
+export default function ProfileIndexPage() {
+  const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
 
   onAuthStateChanged(auth, (user) => {
     if (user) setUserId(user.uid);
   });
 
-  if (userId) return <Redirect href={"/profile/user/" + userId} />;
+  if (userId) return <Redirect href={`./profile/user/${userId}`} />;
   return (
     <ThemedView
       style={{
@@ -25,11 +25,11 @@ export default function HomeScreen() {
       }}
     >
       <ThemedText style={{ fontSize: 18 }}>You're not logged in</ThemedText>
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
-          router.push("/login");
+          router.navigate("../../login");
         }}
-        style={{
+        style={({ pressed }) => ({
           backgroundColor: "#79AB57",
           height: 30,
           marginTop: 20,
@@ -38,7 +38,8 @@ export default function HomeScreen() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 50,
-        }}
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
         <Text
           style={{
@@ -46,12 +47,12 @@ export default function HomeScreen() {
             fontFamily: "Kanit_500Medium",
             fontSize: 18,
             height: 24,
-            lineHeight: 24
+            lineHeight: 24,
           }}
         >
           Go to login page
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     </ThemedView>
   );
 }

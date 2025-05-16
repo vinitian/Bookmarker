@@ -1,10 +1,8 @@
-import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import CustomView from "./CustomView";
-import { FlatList, Platform, Text } from "react-native";
+import { FlatList, Platform } from "react-native";
 import Book from "./Book";
 import fetchBooksByQuery from "@/lib/fetchBooksByQuery";
-import { useAppContext } from "@/app/_layout";
 import { ThemedText } from "./ThemedText";
 
 export const SearchResult = ({

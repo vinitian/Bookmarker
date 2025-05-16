@@ -1,4 +1,4 @@
-import { Modal, View, TouchableOpacity, Platform } from "react-native";
+import { Modal, View, Pressable, Platform } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ReactNode } from "react";
 
@@ -44,11 +44,11 @@ export default function AlertModal({
             gap: 10,
           }}
         >
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
               onClose();
             }}
-            style={{
+            style={({ pressed }: { pressed: boolean }) => ({
               backgroundColor: "transparent",
               height: 32,
               marginTop: 5,
@@ -59,7 +59,8 @@ export default function AlertModal({
               flexGrow: 1,
               borderWidth: 3,
               borderColor: "#79AB57",
-            }}
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <ThemedText
               type="bold"
@@ -72,13 +73,13 @@ export default function AlertModal({
             >
               Cancel
             </ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             onPress={() => {
               onConfirm();
               setTimeout(onClose(), 200);
             }}
-            style={{
+            style={({ pressed }: { pressed: boolean }) => ({
               backgroundColor: "#79AB57",
               height: 32,
               marginTop: 5,
@@ -87,7 +88,8 @@ export default function AlertModal({
               justifyContent: "center",
               borderRadius: 50,
               flexGrow: 1,
-            }}
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <ThemedText
               type="bold"
@@ -100,7 +102,7 @@ export default function AlertModal({
             >
               Confirm
             </ThemedText>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </Modal>

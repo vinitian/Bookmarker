@@ -1,7 +1,7 @@
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   TextInput,
   Platform,
   useWindowDimensions,
@@ -31,7 +31,7 @@ export default function logBookmark() {
   const query = useLocalSearchParams();
   const [bookId, setBookId] = useState(query.id ? query.id : "");
 
-  const [book, setBookData] = useState(undefined);
+  const [book, setBookData] = useState<Book|undefined>(undefined);
   useEffect(() => {
     if (bookId) {
       fetchBook({ book_id: bookId, setBookData: setBookData });
@@ -39,13 +39,13 @@ export default function logBookmark() {
   }, [bookId]);
 
   const { height, width } = useWindowDimensions();
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const onDatePickerConfirm = ({ date }) => {
     setShowDatePicker(false);
     setSelectedDate(date);
   };
-  const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+  const [showStartTimePicker, setShowStartTimePicker] = useState<boolean>(false);
   const [selectedStartTime, setSelectedStartTime] = useState();
   const onStartTimePickerConfirm = ({ hours, minutes }) => {
     setShowStartTimePicker(false);
@@ -55,7 +55,7 @@ export default function logBookmark() {
         minutes.toString().padStart(2, "0")
     );
   };
-  const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+  const [showEndTimePicker, setShowEndTimePicker] = useState<boolean>(false);
   const [selectedEndTime, setSelectedEndTime] = useState();
   const onEndTimePickerConfirm = ({ hours, minutes }) => {
     setShowEndTimePicker(false);
@@ -106,7 +106,7 @@ export default function logBookmark() {
   const [selectedKey, setSelectedKey] = useState(-1); // key of editing bookmark || -1 for new bookmark
 
   const SaveBookmarkButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         addBookmark({
           bookmark: {
@@ -130,7 +130,7 @@ export default function logBookmark() {
         });
         setTimeout(() => setErrorMessage(""), 6000);
       }}
-      style={{
+      style={({ pressed }) => ({
         backgroundColor: "#79AB57",
         height: 30,
         marginTop: 10,
@@ -139,13 +139,14 @@ export default function logBookmark() {
         justifyContent: "center",
         borderRadius: 50,
         display: "flex",
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText style={styles.buttonText}>Save Bookmark</ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
   const SaveChangeButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         saveBookmarkChanges({
           bookmark: {
@@ -170,7 +171,7 @@ export default function logBookmark() {
         });
         setTimeout(() => setErrorMessage(""), 6000);
       }}
-      style={{
+      style={({ pressed }) => ({
         backgroundColor: "#79AB57",
         height: 30,
         marginTop: 10,
@@ -178,14 +179,14 @@ export default function logBookmark() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",
-      }}
+        display: "flex",opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText style={styles.buttonText}>Save Changes</ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
   const DeleteBookmarkButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         setErrorMessage("");
         deleteBookmark({
@@ -198,26 +199,26 @@ export default function logBookmark() {
         });
         setTimeout(() => setErrorMessage(""), 6000);
       }}
-      style={{
-        backgroundColor: "#F28A8A",
+      style={({ pressed }) => ({
+         backgroundColor: "#F28A8A",
         height: 30,
         marginTop: 10,
         padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",
-      }}
+        display: "flex",opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText style={styles.buttonText}>Delete Bookmark</ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
   const NewBookmarkButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         setSelectedKey(-1);
       }}
-      style={{
+      style={({ pressed }) => ({
         backgroundColor: "#3C5433",
         height: 30,
         marginTop: 10,
@@ -225,11 +226,11 @@ export default function logBookmark() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",
-      }}
+        display: "flex",opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText style={styles.buttonText}>New Bookmark</ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   return book ? (
@@ -339,11 +340,11 @@ export default function logBookmark() {
                   borderColor: "#3C5433",
                 }}
               >
-                <TouchableOpacity
+                <Pressable
                   onPress={() => {
                     setShowDatePicker(true);
                   }}
-                  style={styles.dateTimePicker}
+                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
                 >
                   <ThemedText>
                     {selectedDate
@@ -355,7 +356,7 @@ export default function logBookmark() {
                     size={24}
                     color="#3C5433"
                   />
-                </TouchableOpacity>
+                </Pressable>
                 <DatePickerModal
                   locale="en"
                   mode="single"
@@ -382,11 +383,11 @@ export default function logBookmark() {
                     flexGrow: 1,
                   }}
                 >
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowStartTimePicker(true);
                     }}
-                    style={styles.dateTimePicker}
+                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
                   >
                     <ThemedText>From: {selectedStartTime}</ThemedText>
                     <MaterialCommunityIcons
@@ -394,7 +395,7 @@ export default function logBookmark() {
                       size={24}
                       color="#3C5433"
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                   <TimePickerModal
                     visible={showStartTimePicker}
                     onDismiss={() => setShowStartTimePicker(false)}
@@ -412,11 +413,11 @@ export default function logBookmark() {
                     flexGrow: 1,
                   }}
                 >
-                  <TouchableOpacity
+                  <Pressable
                     onPress={() => {
                       setShowEndTimePicker(true);
                     }}
-                    style={styles.dateTimePicker}
+                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
                   >
                     <ThemedText>To: {selectedEndTime}</ThemedText>
                     <MaterialCommunityIcons
@@ -424,7 +425,7 @@ export default function logBookmark() {
                       size={24}
                       color="#3C5433"
                     />
-                  </TouchableOpacity>
+                  </Pressable>
                   <TimePickerModal
                     visible={showEndTimePicker}
                     onDismiss={() => setShowEndTimePicker(false)}
@@ -556,7 +557,6 @@ export default function logBookmark() {
                     keyExtractor={(bookmark, i) => i}
                     renderItem={({ item, index }) => (
                       <SavedBookmark
-                        // key={i}
                         bookKey={index}
                         setSelectedKey={setSelectedKey}
                         selectedKey={selectedKey}

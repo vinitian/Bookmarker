@@ -1,14 +1,14 @@
-import { Text, Platform, TouchableOpacity } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ThemedText } from "./ThemedText";
 
-export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
+export default function BookmarkButton({ thisBookId }: { thisBookId: string }) {
   const query = useLocalSearchParams();
   const [book_id, setBookId] = useState(query.book_id ? query.book_id : "");
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         if (thisBookId) {
           setBookId(thisBookId);
@@ -18,16 +18,17 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
           );
         }
       }}
-      style={{
-        backgroundColor: color,
-        width: "full",
+      style={({ pressed }: { pressed: boolean }) => ({
+        backgroundColor: "#79AB57",
+        width: "100%",
         height: 32,
         marginTop: 5,
         padding: 5,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText
         type="bold"
@@ -40,6 +41,6 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
       >
         Bookmark!
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

@@ -70,14 +70,15 @@ export default function login() {
   }) => (
     <Pressable
       onPress={() => handleOnPress()}
-      style={{
+      style={({ pressed }: { pressed: boolean }) => ({
         borderRadius: 50,
         backgroundColor: "#3C5433",
         padding: 10,
         margin: 5,
         width: 200,
         alignSelf: "center",
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText
         type="bold"
@@ -103,13 +104,14 @@ export default function login() {
   }) => (
     <Pressable
       onPress={() => handleOnPress()}
-      style={{
+      style={({ pressed }: { pressed: boolean }) => ({
         borderRadius: 50,
         padding: 0,
         margin: 0,
         width: 200,
         alignSelf: "center",
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText
         style={{
@@ -304,9 +306,15 @@ export default function login() {
             </ThemedView>
           )}
         </KeyboardAvoidingView>
-        <Link href="/">
-          <ThemedText>Go to Home Page</ThemedText>
-        </Link>
+        <Pressable
+          style={({ pressed }: { pressed: boolean }) => ({
+            opacity: pressed ? 0.5 : 1,
+          })}
+        >
+          <Link href="/">
+            <ThemedText>Go to Home Page</ThemedText>
+          </Link>
+        </Pressable>
       </ThemedView>
     </ThemedView>
   );

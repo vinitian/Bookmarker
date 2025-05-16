@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { View, Platform, FlatList, TouchableOpacity } from "react-native";
+import { View, Platform, FlatList, Pressable } from "react-native";
 import Book from "./Book";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
@@ -7,10 +7,16 @@ import fetchBooksFromId from "@/lib/fetchBooksFromId";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
-export default function MyTopTen({ myProfileName, favList }) {
+export default function MyTopTen({
+  myProfileName,
+  favList,
+}: {
+  myProfileName: string;
+  favList: string[];
+}) {
   const router = useRouter();
 
-  const [bookDataList, setBookDataList] = useState([]);
+  const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
 
   useEffect(() => {
     if (favList.length > 0) {
@@ -21,7 +27,7 @@ export default function MyTopTen({ myProfileName, favList }) {
     }
   }, [favList]);
 
-  const CustomView = ({ children }) => {
+  const CustomView = ({ children }: { children: any }) => {
     if (Platform.OS === "web") {
       return <View>{children}</View>;
     }
@@ -64,10 +70,13 @@ export default function MyTopTen({ myProfileName, favList }) {
           Top Ten
         </ThemedText>
         {myProfileName == "My" ? (
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
-              router.push("/profile/myTopTen");
+              router.push("../../profile/myTopTen");
             }}
+            style={({ pressed }: { pressed: boolean }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <Feather
               name="edit"
@@ -78,7 +87,7 @@ export default function MyTopTen({ myProfileName, favList }) {
                 marginBottom: Platform.OS == "web" ? 0 : 18,
               }}
             />
-          </TouchableOpacity>
+          </Pressable>
         ) : (
           <></>
         )}

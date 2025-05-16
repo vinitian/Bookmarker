@@ -1,12 +1,6 @@
 import { Link, Slot, Tabs, useRouter } from "expo-router";
 import React from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Platform, StyleSheet, Text, Pressable, View } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -40,7 +34,7 @@ export default function TabLayout() {
             }}
           >
             <Link
-              href="/"
+              href="../../"
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -71,28 +65,37 @@ export default function TabLayout() {
                 gap: 16,
               }}
             >
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
-                  router.navigate("/");
+                  router.navigate("../");
                   setQueryText("");
                   setType("title");
                 }}
-                style={styles.webTab}
+                style={({ pressed }) => [
+                  styles.webTab || {},
+                  { opacity: pressed ? 0.5 : 1 },
+                ]}
               >
                 <Text style={styles.webTabText}>Home</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => router.navigate("/search")}
-                style={styles.webTab}
+              </Pressable>
+              <Pressable
+                onPress={() => router.navigate("../../search")}
+                style={({ pressed }) => [
+                  styles.webTab || {},
+                  { opacity: pressed ? 0.5 : 1 },
+                ]}
               >
                 <Text style={styles.webTabText}>Search</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => router.navigate("/profile")}
-                style={styles.webTab}
+              </Pressable>
+              <Pressable
+                onPress={() => router.navigate("../profile")}
+                style={({ pressed }) => [
+                  styles.webTab || {},
+                  { opacity: pressed ? 0.5 : 1 },
+                ]}
               >
                 <Text style={styles.webTabText}>Profile</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </View>

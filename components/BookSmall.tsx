@@ -1,12 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import {
-  Text,
-  View,
-  Image,
-  Pressable,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { Text, View, Image, Pressable, Platform } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
 
@@ -30,8 +23,11 @@ export default function BookSmall({
     >
       <Pressable
         onPress={() => {
-          router.navigate(`/book/${bookData.book_id}`);
+          router.navigate(`./book/${bookData.book_id}`);
         }}
+        style={({ pressed }: { pressed: boolean }) => ({
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
         <Image
           source={{
@@ -49,7 +45,7 @@ export default function BookSmall({
           type="bold"
           style={{ lineHeight: 18, paddingTop: 5 }}
           onPress={() => {
-            router.navigate(`/book/${bookData.book_id}`);
+            router.navigate(`./book/${bookData.book_id}`);
           }}
         >
           {bookData.title}
@@ -62,11 +58,11 @@ export default function BookSmall({
         </ThemedText>
         <BookmarkButton thisBookId={bookData.book_id} />
         {handleRemove != null ? (
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
               handleRemove();
             }}
-            style={{
+            style={({ pressed }: { pressed: boolean }) => ({
               backgroundColor: "#F28A8A",
               height: 32,
               marginTop: 5,
@@ -74,7 +70,8 @@ export default function BookSmall({
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 50,
-            }}
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <ThemedText
               type="bold"
@@ -87,7 +84,7 @@ export default function BookSmall({
             >
               Remove book
             </ThemedText>
-          </TouchableOpacity>
+          </Pressable>
         ) : (
           <></>
         )}

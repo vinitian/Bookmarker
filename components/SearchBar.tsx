@@ -125,7 +125,10 @@ export const SearchBar = ({ page }: { page: string }) => {
                   : router.navigate(`./search?type=${type}&q=${queryText}`);
               }
             }}
-            style={{ marginTop: Platform.OS === "web" ? 0 : -5 }}
+            style={({ pressed }: { pressed: boolean }) => ({
+              marginTop: Platform.OS === "web" ? 0 : -5,
+              opacity: pressed ? 0.5 : 1,
+            })}
           >
             <EvilIcons name="search" size={28} color="#3C5433" />
           </Pressable>

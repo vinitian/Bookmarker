@@ -1,8 +1,7 @@
 import {
   View,
   Image,
-  Text,
-  TouchableOpacity,
+  Pressable,
   useWindowDimensions,
   ScrollView,
   Platform,
@@ -68,12 +67,12 @@ export default function BookInfoPage() {
   const { height, width } = useWindowDimensions();
 
   const AddBookmarkButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         setBookId(book_id);
         router.navigate(`../../../logBookmark?id=${book_id}`);
       }}
-      style={{
+      style={({ pressed }: { pressed: boolean }) => ({
         backgroundColor: "#79AB57",
         height: 50,
         width: 200,
@@ -82,7 +81,8 @@ export default function BookInfoPage() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText
         type="bold"
@@ -94,14 +94,14 @@ export default function BookInfoPage() {
       >
         Bookmark!
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const AddToTopTenButton = () =>
     userId ? (
-      <TouchableOpacity
+      <Pressable
         onPress={() => addToTopTen({ book_id: book_id, user_id: userId })}
-        style={{
+        style={({ pressed }: { pressed: boolean }) => ({
           backgroundColor: "#3C5433",
           height: 50,
           width: 200,
@@ -110,7 +110,8 @@ export default function BookInfoPage() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 50,
-        }}
+          opacity: pressed ? 0.5 : 1,
+        })}
       >
         <ThemedText
           type="bold"
@@ -122,15 +123,15 @@ export default function BookInfoPage() {
         >
           Add to My Top Ten
         </ThemedText>
-      </TouchableOpacity>
+      </Pressable>
     ) : (
       <></>
     );
 
   const ShowMoreButton = () => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => setIsFullDescription(!isfullDescription)}
-      style={{
+      style={({ pressed }: { pressed: boolean }) => ({
         backgroundColor: "#EBDF94",
         height: 40,
         width: 120,
@@ -139,23 +140,24 @@ export default function BookInfoPage() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-      }}
+        opacity: pressed ? 0.5 : 1,
+      })}
     >
       <ThemedText style={{ fontSize: 16 }}>
         {isfullDescription ? "Collapse" : "Show more"}
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const renderGenre = (genre: string) => {
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           setQueryText(genre);
           setType("genre");
           router.navigate(`../../search?type=genre&q=${encodeURI(genre)}`);
         }}
-        style={{
+        style={({ pressed }: { pressed: boolean }) => ({
           backgroundColor: "#79AB57",
           height: 40,
           padding: 10,
@@ -163,13 +165,14 @@ export default function BookInfoPage() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 50,
-        }}
+          opacity: pressed ? 0.5 : 1,
+        })}
         key={genre}
       >
         <ThemedText style={{ color: "#F7F0DD", fontSize: 16 }}>
           {genre}
         </ThemedText>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -253,10 +256,13 @@ export default function BookInfoPage() {
           minHeight: 40,
         }}
       >
-        <TouchableOpacity
+        <Pressable
           onPress={() => {
             router.navigate(`../../profile/user/${user_id}`);
           }}
+          style={({ pressed }: { pressed: boolean }) => ({
+            opacity: pressed ? 0.5 : 1,
+          })}
         >
           <Image
             source={{
@@ -264,7 +270,7 @@ export default function BookInfoPage() {
             }}
             style={{ width: 40, height: 40, borderRadius: 50 }}
           />
-        </TouchableOpacity>
+        </Pressable>
         <ThemedText style={{ fontSize: 20, alignSelf: "center" }}>
           <ThemedText
             type="bold"
