@@ -26,9 +26,19 @@ export default function HomeScreen() {
           alignItems: "center",
           justifyContent: "center",
           gap: 8,
+          paddingTop: 20,
+          paddingBottom: 40,
         }}
       >
-        <ThemedText type="title" style={{ fontSize: 36, textAlign: "center" }}>
+        <ThemedText
+          type="title"
+          style={{
+            fontSize: 36,
+            textAlign: "center",
+            lineHeight: 50,
+            marginVertical: 10,
+          }}
+        >
           Welcome to Bookmarker
         </ThemedText>
         <SearchBar page="home" />
@@ -44,8 +54,9 @@ export default function HomeScreen() {
             style={{
               fontFamily: "Trirong_700Bold",
               fontSize: 32,
-              lineHeight: 60,
+              lineHeight: 45,
               paddingLeft: 15,
+              marginBottom: 10,
             }}
           >
             Most Popular Books
@@ -56,7 +67,7 @@ export default function HomeScreen() {
         <View
           style={{
             marginVertical: 30,
-            width: "100%",
+            width: "75%",
             paddingVertical: 0.5,
             backgroundColor: "#3C5433",
           }}
