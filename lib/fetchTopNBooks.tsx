@@ -11,8 +11,8 @@ export const fetchTopNBooks = async ({
   try {
     const bookQuery = query(
       collection(db, "books"),
-      orderBy("rating_list", "desc"),
       orderBy("avg_rating", "desc"),
+      orderBy("rating_list", "desc"),
       limit(n)
     );
     const querySnapshot = await getDocs(bookQuery);
