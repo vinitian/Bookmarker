@@ -4,7 +4,6 @@ import fetchUser from "@/lib/fetchUser";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import {
-  Text,
   View,
   TouchableOpacity,
   ScrollView,
@@ -18,6 +17,7 @@ import MyReadingGraph from "@/components/MyReadingGraph";
 import MyShelf from "@/components/MyShelf";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -62,7 +62,7 @@ export default function UserProfile() {
         onPress={() => router.navigate("/profile")}
         style={{
           height: 30,
-          marginTop: 5,
+          marginTop: 15,
           paddingVertical: 5,
           paddingHorizontal: 15,
           alignItems: "flex-start",
@@ -70,12 +70,17 @@ export default function UserProfile() {
           borderRadius: 50,
         }}
       >
-        <Text style={{ color: "#3C5433", fontFamily: "Kanit_500Medium" }}>
-          {"< "}
-          <Text style={{ textDecorationLine: "underline" }}>
-            Go back to my profile
-          </Text>
-        </Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 5,
+          }}
+        >
+          <MaterialIcons name="arrow-back" size={24} color="#3C5433" />
+          <ThemedText type="bold">Go back to my profile</ThemedText>
+        </View>
       </TouchableOpacity>
     );
   };
