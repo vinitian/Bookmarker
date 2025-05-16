@@ -1,6 +1,6 @@
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { FlatList, View, useWindowDimensions } from "react-native";
+import { FlatList, Platform, View, useWindowDimensions } from "react-native";
 import BookSmall from "@/components/BookSmall";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
@@ -92,57 +92,46 @@ export default function MyShelf() {
               </ThemedText>
             </View>
           </AlertModal>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              columnGap: 10,
-              rowGap: 20,
-              paddingHorizontal: 10,
-              justifyContent: "space-evenly",
-            }}
-          >
-            {user &&
-            user.book_list.length > 0 &&
-            myUid &&
-            bookDataList.length > 0 ? (
-              <FlatList
-                scrollEnabled={false}
-                contentContainerStyle={{
-                  display: "grid",
-                  flexDirection: "row",
-                  columnGap: 14,
-                  rowGap: 20,
-                  paddingHorizontal: 10,
-                  justifyContent: "space-evenly",
-                  gridTemplateColumns: "repeat(auto-fit,325px)",
-                }}
-                data={bookDataList}
-                keyExtractor={(book: ShortBookData) => book.book_id}
-                renderItem={({ item }: { item: ShortBookData }) => (
-                  <BookSmall
-                    bookData={item}
-                    handleRemove={() => {
-                      setIsModalVisible(true);
-                      setBookIdToRemove(item.book_id);
-                      setBookNameToRemove(item.title);
-                    }}
-                  />
-                )}
-              />
-            ) : (
-              <ThemedText
-                style={{
-                  alignSelf: "center",
-                  marginHorizontal: 20,
-                  marginVertical: 10,
-                }}
-              >
-                The shelf is empty
-              </ThemedText>
-            )}
-          </View>
+          {user &&
+          user.book_list.length > 0 &&
+          myUid &&
+          bookDataList.length > 0 ? (
+            <FlatList
+              scrollEnabled={false}
+              contentContainerStyle={{
+                display: Platform.OS == "web" ? "grid" : "flex",
+                flexWrap: "wrap",
+                flexDirection: "row",
+                columnGap: 14,
+                rowGap: 20,
+                paddingHorizontal: 10,
+                justifyContent: "space-evenly",
+                gridTemplateColumns: "repeat(auto-fit,325px)",
+              }}
+              data={bookDataList}
+              keyExtractor={(book: ShortBookData) => book.book_id}
+              renderItem={({ item }: { item: ShortBookData }) => (
+                <BookSmall
+                  bookData={item}
+                  handleRemove={() => {
+                    setIsModalVisible(true);
+                    setBookIdToRemove(item.book_id);
+                    setBookNameToRemove(item.title);
+                  }}
+                />
+              )}
+            />
+          ) : (
+            <ThemedText
+              style={{
+                alignSelf: "center",
+                marginHorizontal: 20,
+                marginVertical: 10,
+              }}
+            >
+              The shelf is empty
+            </ThemedText>
+          )}
         </View>
       </ThemedView>
     </ScrollView>
