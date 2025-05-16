@@ -28,10 +28,7 @@ export default function HomeScreen() {
           gap: 8,
         }}
       >
-        <ThemedText
-          type="title"
-          style={{ fontFamily: "Trirong_700Bold", textAlign: "center" }}
-        >
+        <ThemedText type="title" style={{ fontSize: 36, textAlign: "center" }}>
           Welcome to Bookmarker
         </ThemedText>
         <SearchBar page="home" />

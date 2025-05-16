@@ -199,7 +199,6 @@ export default function login() {
           type="title"
           style={{
             fontSize: 32,
-            lineHeight: 32,
             textAlign: "center",
           }}
         >

@@ -32,7 +32,7 @@ export default function BookmarkButton({ color = "#79AB57", thisBookId }) {
           color: "#fff",
           fontSize: 16,
           textAlign: "center",
-          marginTop: Platform.OS === "web" ? 0 : -4,
+          marginTop: Platform.OS === "web" ? 0 : 4,
         }}
       >
         Bookmark!
