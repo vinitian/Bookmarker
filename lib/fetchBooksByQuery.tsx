@@ -1,14 +1,11 @@
 import {
   collection,
-  endAt,
   getDocs,
   getDoc,
   limit,
   orderBy,
   query,
-  startAt,
   where,
-  documentId,
   doc,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
