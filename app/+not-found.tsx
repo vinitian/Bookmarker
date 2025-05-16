@@ -7,7 +7,14 @@ import { ThemedView } from "@/components/ThemedView";
 export default function NotFoundScreen() {
   return (
     <>
-      <Stack.Screen options={{ title: "Oops!" }} />
+      <Stack.Screen
+        options={{
+          title: "Oops!",
+          headerTitleStyle: {
+            fontFamily: "Kanit_500Medium",
+          },
+        }}
+      />
       <ThemedView style={styles.container}>
         <ThemedText type="subtitle" style={{ fontSize: 24 }}>
           This screen doesn't exist.

@@ -6,7 +6,7 @@ import {
   Platform,
   useWindowDimensions,
   ScrollView,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -27,8 +27,8 @@ import CustomView2 from "@/components/CustomView2";
 import { useLocalSearchParams } from "expo-router";
 
 export default function logBookmark() {
-const query = useLocalSearchParams();
-const [bookId, setBookId] = useState(query.id ? query.id : '');
+  const query = useLocalSearchParams();
+  const [bookId, setBookId] = useState(query.id ? query.id : "");
 
   const [book, setBookData] = useState(undefined);
   useEffect(() => {
@@ -140,9 +140,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <ThemedText style={styles.buttonText}>
-        Save Bookmark
-      </ThemedText>
+      <ThemedText style={styles.buttonText}>Save Bookmark</ThemedText>
     </TouchableOpacity>
   );
   const SaveChangeButton = () => (
@@ -182,9 +180,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <ThemedText style={styles.buttonText}>
-        Save Changes
-      </ThemedText>
+      <ThemedText style={styles.buttonText}>Save Changes</ThemedText>
     </TouchableOpacity>
   );
   const DeleteBookmarkButton = () => (
@@ -212,9 +208,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <ThemedText style={styles.buttonText}>
-        Delete Bookmark
-      </ThemedText>
+      <ThemedText style={styles.buttonText}>Delete Bookmark</ThemedText>
     </TouchableOpacity>
   );
   const NewBookmarkButton = () => (
@@ -233,9 +227,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
         display: "flex",
       }}
     >
-      <ThemedText style={styles.buttonText}>
-        New Bookmark
-      </ThemedText>
+      <ThemedText style={styles.buttonText}>New Bookmark</ThemedText>
     </TouchableOpacity>
   );
 
@@ -265,10 +257,9 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                 }}
               >
                 <ThemedText
-                type="title"
+                  type="title"
                   style={{
                     fontSize: 20,
-                    lineHeight: 26,
                     marginTop: 5,
                   }}
                 >
@@ -282,31 +273,31 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                     ? `(+${book.author_list.length - 1})`
                     : ``}
                 </ThemedText>
-                <ThemedText
-                  style={styles.stats}
-                >
+                <ThemedText style={styles.stats}>
                   Total page:{" "}
-                  <Text style={styles.statsNum}>{Intl.NumberFormat("en-US").format(book.total_page)}</Text>
+                  <Text style={styles.statsNum}>
+                    {Intl.NumberFormat("en-US").format(book.total_page)}
+                  </Text>
                 </ThemedText>
-                <ThemedText
-                  style={styles.stats}
-                >
+                <ThemedText style={styles.stats}>
                   Hours read:{" "}
-                   <Text style={styles.statsNum}>{userBookData?.cumul_time
-                    ? Intl.NumberFormat("en-US").format(
-                        (userBookData?.cumul_time / 60).toFixed(2)
-                      )
-                    : 0}</Text>
+                  <Text style={styles.statsNum}>
+                    {userBookData?.cumul_time
+                      ? Intl.NumberFormat("en-US").format(
+                          (userBookData?.cumul_time / 60).toFixed(2)
+                        )
+                      : 0}
+                  </Text>
                 </ThemedText>
-                <ThemedText
-                  style={styles.stats}
-                >
+                <ThemedText style={styles.stats}>
                   Pages read:{" "}
-                   <Text style={styles.statsNum}>{userBookData?.pages_read
-                    ? Intl.NumberFormat("en-US").format(
-                        userBookData?.pages_read
-                      )
-                    : 0}</Text>
+                  <Text style={styles.statsNum}>
+                    {userBookData?.pages_read
+                      ? Intl.NumberFormat("en-US").format(
+                          userBookData?.pages_read
+                        )
+                      : 0}
+                  </Text>
                 </ThemedText>
               </View>
             </CustomBookView>
@@ -329,7 +320,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
             {/* Edit Bookmark */}
             <View style={{ flexGrow: 1 }}>
               <ThemedText
-              type="bold"
+                type="title"
                 style={{
                   fontSize: 24,
                   lineHeight: 32,
@@ -338,9 +329,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
               >
                 {selectedKey == -1 ? "New" : "Edit"} Bookmark
               </ThemedText>
-              <ThemedText style={styles.fieldHeading}>
-                Date
-              </ThemedText>
+              <ThemedText style={styles.fieldHeading}>Date</ThemedText>
               {/* Date selector */}
               <View
                 style={{
@@ -374,9 +363,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   onConfirm={onDatePickerConfirm}
                 />
               </View>
-              <ThemedText style={styles.fieldHeading}>
-                Time
-              </ThemedText>
+              <ThemedText style={styles.fieldHeading}>Time</ThemedText>
               {/* Time (From & To) selector */}
               <View
                 style={{
@@ -446,9 +433,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
                   />
                 </View>
               </View>
-              <ThemedText style={styles.fieldHeading}>
-                Page
-              </ThemedText>
+              <ThemedText style={styles.fieldHeading}>Page</ThemedText>
               {/* Page (From & To) input */}
               <View
                 style={{
@@ -538,7 +523,7 @@ const [bookId, setBookId] = useState(query.id ? query.id : '');
             {/* Saved Bookmarks */}
             <View style={{ flexGrow: 1 }}>
               <ThemedText
-              type="title"
+                type="title"
                 style={{
                   fontSize: 24,
                   lineHeight: 32,
@@ -590,9 +575,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontFamily: "Kanit_500Medium",
-    height: 24,
+    height: 18,
     textAlign: "center",
-    marginTop: Platform.OS === "web" ? 0 : -4,
+    marginTop: Platform.OS === "web" ? 0 : 4,
   },
   stats: {
     fontFamily: "Trirong_500Medium",
@@ -602,7 +587,7 @@ const styles = StyleSheet.create({
   statsNum: {
     color: "#79AB57",
   },
-  fieldHeading : {
+  fieldHeading: {
     marginTop: 8,
     fontFamily: "Trirong_700Bold",
     fontSize: 18,
@@ -621,6 +606,6 @@ const styles = StyleSheet.create({
     height: 24,
     color: "#3C5433",
     padding: 0,
-    fontFamily: "Kanit_300Light"
-  }
-})
+    fontFamily: "Kanit_300Light",
+  },
+});

@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -53,17 +59,19 @@ export default function SavedBookmark({
         width: "fit-content",
       }}
     >
-      <ThemedText type="bold" style={{ color: "#fff" }}>Edit</ThemedText>
+      <ThemedText
+        type="bold"
+        style={{ color: "#fff", marginTop: Platform.OS === "web" ? 0 : 4 }}
+      >
+        Edit
+      </ThemedText>
     </TouchableOpacity>
   );
   const styles = getStyles(borderWidth);
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
-        <ThemedText
-        type="bold"
-          style={{ fontSize: 18, marginVertical: 5 }}
-        >
+        <ThemedText type="bold" style={{ fontSize: 18, marginVertical: 5 }}>
           {format(new Date(bookmark.start_time.seconds * 1000), "dd/MM/yyyy")}
         </ThemedText>
         <EditButton />

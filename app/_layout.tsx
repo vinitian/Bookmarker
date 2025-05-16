@@ -66,6 +66,9 @@ export default function RootLayout() {
             headerStyle: {
               backgroundColor: Colors[colorScheme ?? "light"].background,
             },
+            headerTitleStyle: {
+              fontFamily: "Kanit_500Medium",
+            },
             headerTitleAlign: "center",
             headerTintColor: Colors[colorScheme ?? "light"].text,
             headerShadowVisible: false,
