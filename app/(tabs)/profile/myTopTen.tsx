@@ -8,8 +8,8 @@ import fetchUser from "@/lib/fetchUser";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
-import alert from "@/lib/alert";
 import removeFromTopTen from "@/lib/removeFromTopTen";
+import AlertModal from "@/components/AlertModal";
 
 export default function MyTopTen() {
   const { width, height } = useWindowDimensions();
@@ -47,7 +47,9 @@ export default function MyTopTen() {
     }
   }, [user]);
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [bookIdToRemove, setBookIdToRemove] = useState("");
+  const [bookNameToRemove, setBookNameToRemove] = useState("");
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -61,6 +63,37 @@ export default function MyTopTen() {
             paddingVertical: 20,
           }}
         >
+          <AlertModal
+            onClose={() => setIsModalVisible(false)}
+            onConfirm={() =>
+              removeFromTopTen({
+                book_id: bookIdToRemove,
+                user_id: myUid ? myUid : "",
+                loadUserData: loadUserData,
+              })
+            }
+            isVisible={isModalVisible}
+          >
+            <View>
+              <ThemedText
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                  marginTop: 5,
+                  fontFamily: "Kanit_500Medium",
+                }}
+              >
+                Removing a book
+              </ThemedText>
+              <ThemedText style={{ margin: 10, fontFamily: "Kanit_300Light" }}>
+                Please confirm to remove{" "}
+                <ThemedText style={{ fontFamily: "Kanit_500Medium" }}>
+                  {bookNameToRemove}
+                </ThemedText>{" "}
+                from the Top Ten
+              </ThemedText>
+            </View>
+          </AlertModal>
           <View
             style={{
               display: "flex",
@@ -92,29 +125,11 @@ export default function MyTopTen() {
                 renderItem={({ item }: { item: ShortBookData }) => (
                   <BookSmall
                     bookData={item}
-                    handleRemove={() =>
-                      alert(
-                        "Removing a book",
-                        "Please confirm to remove a book",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => {},
-                            style: "cancel",
-                          },
-                          {
-                            text: "Remove",
-                            onPress: () =>
-                              removeFromTopTen({
-                                book_id: item.book_id,
-                                user_id: myUid,
-                                setErrorMessage: setErrorMessage,
-                                loadUserData: loadUserData,
-                              }),
-                          },
-                        ]
-                      )
-                    }
+                    handleRemove={() => {
+                      setIsModalVisible(true);
+                      setBookIdToRemove(item.book_id);
+                      setBookNameToRemove(item.title);
+                    }}
                   />
                 )}
               />

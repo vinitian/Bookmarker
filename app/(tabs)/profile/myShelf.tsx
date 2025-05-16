@@ -9,7 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
 import removeFromShelf from "@/lib/removeFromShelf";
-import alert from "@/lib/alert";
+import AlertModal from "@/components/AlertModal";
 
 export default function MyShelf() {
   const { width, height } = useWindowDimensions();
@@ -47,7 +47,9 @@ export default function MyShelf() {
     }
   }, [user]);
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [bookIdToRemove, setBookIdToRemove] = useState("");
+  const [bookNameToRemove, setBookNameToRemove] = useState("");
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -61,6 +63,37 @@ export default function MyShelf() {
             paddingVertical: 20,
           }}
         >
+          <AlertModal
+            onClose={() => setIsModalVisible(false)}
+            onConfirm={() =>
+              removeFromShelf({
+                book_id: bookIdToRemove,
+                user_id: myUid ? myUid : "",
+                loadUserData: loadUserData,
+              })
+            }
+            isVisible={isModalVisible}
+          >
+            <View>
+              <ThemedText
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                  marginTop: 5,
+                  fontFamily: "Kanit_500Medium",
+                }}
+              >
+                Removing a book
+              </ThemedText>
+              <ThemedText style={{ margin: 10, fontFamily: "Kanit_300Light" }}>
+                Please confirm to remove{" "}
+                <ThemedText style={{ fontFamily: "Kanit_500Medium" }}>
+                  {bookNameToRemove}
+                </ThemedText>{" "}
+                from the shelf
+              </ThemedText>
+            </View>
+          </AlertModal>
           <View
             style={{
               display: "flex",
@@ -92,29 +125,11 @@ export default function MyShelf() {
                 renderItem={({ item }: { item: ShortBookData }) => (
                   <BookSmall
                     bookData={item}
-                    handleRemove={() =>
-                      alert(
-                        "Removing a book",
-                        "Please confirm to remove a book",
-                        [
-                          {
-                            text: "Cancel",
-                            onPress: () => {},
-                            style: "cancel",
-                          },
-                          {
-                            text: "Remove",
-                            onPress: () =>
-                              removeFromShelf({
-                                book_id: item.book_id,
-                                user_id: myUid,
-                                setErrorMessage: setErrorMessage,
-                                loadUserData: loadUserData,
-                              }),
-                          },
-                        ]
-                      )
-                    }
+                    handleRemove={() => {
+                      setIsModalVisible(true);
+                      setBookIdToRemove(item.book_id);
+                      setBookNameToRemove(item.title);
+                    }}
                   />
                 )}
               />

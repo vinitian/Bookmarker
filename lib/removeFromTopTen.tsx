@@ -8,7 +8,6 @@ export default function removeFromTopTen({
 }: {
   book_id: string;
   user_id: string;
-  setErrorMessage: Function;
   loadUserData: Function;
 }) {
   const removeFromTopTen = async () => {
