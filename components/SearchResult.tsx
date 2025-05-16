@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import CustomView from "./CustomView";
-import { FlatList, Text } from "react-native";
+import { FlatList, Platform, Text } from "react-native";
 import Book from "./Book";
 import fetchBooksByQuery from "@/lib/fetchBooksByQuery";
 import { useAppContext } from "@/app/_layout";
@@ -9,6 +9,8 @@ import { ThemedText } from "./ThemedText";
 
 export const SearchResult = ({
   n,
+  q,
+  type,
   option,
   ascending,
   pageRange,
@@ -16,35 +18,28 @@ export const SearchResult = ({
   ratingRange,
 }: {
   n: number;
+  q: string;
+  type: string;
   option: string;
   ascending: boolean;
   pageRange: number[];
   yearRange: number[];
   ratingRange: number[];
 }) => {
-  const query = useLocalSearchParams<{ type: string; q: string }>();
-  const { queryText, setQueryText, type, setType } = useAppContext();
-  useEffect(() => {
-    if (query) {
-      setQueryText(query.q);
-      setType(query.type);
-    }
-  }, []);
-
   const [books, setBooks] = useState<ShortBookData[] | undefined>(undefined);
   useEffect(() => {
     fetchBooksByQuery({
       n: n,
       setBooks: setBooks,
-      type: query.type,
-      q: query.q,
+      type: type,
+      q: q,
       option: option,
       ascending: ascending,
       pageRange: pageRange,
       yearRange: yearRange,
       ratingRange: ratingRange,
     });
-  }, [query.q, query.type, pageRange, yearRange, ratingRange]);
+  }, [q, type, pageRange, yearRange, ratingRange]);
 
   return (
     <CustomView type="search">

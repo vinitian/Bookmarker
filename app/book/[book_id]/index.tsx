@@ -21,6 +21,7 @@ import fetchUser from "@/lib/fetchUser";
 import rateBook from "@/lib/rateBook";
 import addToTopTen from "@/lib/addToTopTen";
 import { ThemedText } from "@/components/ThemedText";
+import { useAppContext } from "@/app/_layout";
 
 // for formatting published_date
 const dateFormat: { day: "numeric"; month: "long"; year: "numeric" } = {
@@ -31,13 +32,13 @@ const dateFormat: { day: "numeric"; month: "long"; year: "numeric" } = {
 
 export default function BookInfoPage() {
   const router = useRouter();
+  const { queryText, setQueryText, type, setType } = useAppContext();
   const query = useLocalSearchParams<{ book_id: string }>();
   const [book_id, setBookId] = useState(query.book_id ? query.book_id : "");
   const [book, setBookData] = useState<Book | undefined>(undefined);
   useEffect(() => {
     fetchBook({ book_id: book_id, setBookData: setBookData });
   }, [book_id]);
-
   const [userId, setUserId] = useState<string | undefined>(undefined);
   useEffect(
     () =>
@@ -139,27 +140,31 @@ export default function BookInfoPage() {
     </TouchableOpacity>
   );
 
-  const renderGenre = (genre: string) => (
-    <TouchableOpacity
-      onPress={() => {
-        router.navigate(`../../search?genre=${genre}`);
-      }}
-      style={{
-        backgroundColor: "#79AB57",
-        height: 40,
-        padding: 10,
-        paddingHorizontal: 15,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 50,
-      }}
-      key={genre}
-    >
-      <ThemedText style={{ color: "#F7F0DD", fontSize: 16 }}>
-        {genre}
-      </ThemedText>
-    </TouchableOpacity>
-  );
+  const renderGenre = (genre: string) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setQueryText(genre);
+          setType("genre");
+          router.navigate(`../../search?type=genre&q=${encodeURI(genre)}`);
+        }}
+        style={{
+          backgroundColor: "#79AB57",
+          height: 40,
+          padding: 10,
+          paddingHorizontal: 15,
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 50,
+        }}
+        key={genre}
+      >
+        <ThemedText style={{ color: "#F7F0DD", fontSize: 16 }}>
+          {genre}
+        </ThemedText>
+      </TouchableOpacity>
+    );
+  };
 
   const DetailedStarRating = ({ rating }: { rating: number }) => {
     const numberOfUsers = book

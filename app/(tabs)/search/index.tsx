@@ -48,8 +48,13 @@ export default function SearchPage() {
   const query = useLocalSearchParams();
   const { queryText, setQueryText, type, setType } = useAppContext();
   useEffect(() => {
-    setQueryText("");
-    setType("title");
+    if (Object.keys(query).length === 0) {
+      setQueryText("");
+      setType("title");
+    } else {
+      setQueryText(query.q);
+      setType(query.type);
+    }
   }, []);
   const [option, setOption] = useState("alphabetical");
   const [ascending, setAscending] = useState<boolean>(true);
@@ -480,6 +485,8 @@ export default function SearchPage() {
                 // Pass default values
                 <SearchResult
                   n={20}
+                  q={queryText}
+                  type={type}
                   option={option}
                   ascending={ascending}
                   pageRange={pageRange}
