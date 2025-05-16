@@ -47,6 +47,10 @@ export default function TabLayout() {
                 alignItems: "center",
                 gap: 4,
               }}
+              onPress={() => {
+                setQueryText("");
+                setType("title");
+              }}
             >
               <MaterialIcons name="bookmark" size={22} color="#EBDF94" />
               <Text
