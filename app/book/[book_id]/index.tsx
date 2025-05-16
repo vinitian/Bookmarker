@@ -295,7 +295,7 @@ export default function BookInfoPage() {
   const LatestReviews = ({ reviews }: { reviews: number }) => {
     const len = book ? book.rating_list.length : 0;
     const bookReviews = book?.rating_list
-      .slice(len - 3 > 0 ? len - 3 : 0, len)
+      .slice(len - reviews > 0 ? len - reviews : 0, len)
       .reverse();
 
     return len > 0 ? (
