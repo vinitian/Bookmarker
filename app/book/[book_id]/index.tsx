@@ -8,8 +8,8 @@ import {
   Platform,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
-import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
@@ -83,7 +83,14 @@ export default function BookInfoPage() {
         borderRadius: 50,
       }}
     >
-      <ThemedText type="bold" style={{ color: "#fff", fontSize: 18 }}>
+      <ThemedText
+        type="bold"
+        style={{
+          color: "#fff",
+          fontSize: 18,
+          marginTop: Platform.OS === "web" ? 0 : 5,
+        }}
+      >
         Bookmark!
       </ThemedText>
     </TouchableOpacity>
@@ -207,7 +214,7 @@ export default function BookInfoPage() {
             }}
           />
         </View>
-        <ThemedText style={{ fontSize: 20 }}>
+        <ThemedText style={{ fontSize: 20, lineHeight: 32, minWidth: 15 }}>
           {Intl.NumberFormat("en-US").format(numberOfUsers)}
         </ThemedText>
       </View>
@@ -231,6 +238,7 @@ export default function BookInfoPage() {
           display: "flex",
           flexDirection: "row",
           alignContent: "center",
+          minHeight: 40,
         }}
       >
         <TouchableOpacity
@@ -248,7 +256,7 @@ export default function BookInfoPage() {
         <ThemedText style={{ fontSize: 20, alignSelf: "center" }}>
           <ThemedText
             type="bold"
-            style={{ fontSize: 20 }}
+            style={{ fontSize: 20, lineHeight: 28 }}
             onPress={() => {
               router.navigate(`../../profile/user/${user_id}`);
             }}
@@ -266,27 +274,29 @@ export default function BookInfoPage() {
 
   const LatestReviews = ({ reviews }: { reviews: number }) => {
     const len = book ? book.rating_list.length : 0;
+    const bookReviews = book?.rating_list
+      .slice(len - 3 > 0 ? len - 3 : 0, len)
+      .reverse();
 
     return len > 0 ? (
-      <View
-        style={{
+      <FlatList
+        scrollEnabled={false}
+        contentContainerStyle={{
           marginTop: 10,
           gap: 10,
           display: "flex",
           flexDirection: "column",
         }}
-      >
-        {book?.rating_list
-          .slice(len - 3 > 0 ? len - 3 : 0, len)
-          .reverse()
-          .map((obj) => (
-            <UserReview
-              user_id={obj.user_id}
-              rating={obj.rating}
-              key={obj.user_id}
-            />
-          ))}
-      </View>
+        data={bookReviews}
+        keyExtractor={(review: Rating) => review.user_id}
+        renderItem={({ item }: { item: Rating }) => (
+          <UserReview
+            user_id={item.user_id}
+            rating={item.rating}
+            key={item.user_id}
+          />
+        )}
+      />
     ) : (
       <ThemedText style={{ marginTop: 10, fontSize: 20 }}>
         This book has no reviews yet.
@@ -336,6 +346,7 @@ export default function BookInfoPage() {
                   style={{
                     fontSize: 20,
                     marginTop: Platform.OS !== "web" ? -10 : 0,
+                    lineHeight: 28,
                   }}
                 >
                   by {fullAuthorList}
@@ -347,6 +358,7 @@ export default function BookInfoPage() {
                     display: "flex",
                     flexDirection: "row",
                     flexWrap: "wrap",
+                    justifyContent: "center",
                     marginLeft: -5,
                   }}
                 >
@@ -354,22 +366,40 @@ export default function BookInfoPage() {
                     rating={book.avg_rating}
                     color="#e2bd04"
                     starSize={width <= 750 && width > 600 ? 18 : 32}
-                    starStyle={{ alignSelf: "center" }}
-                  />
-                  <ThemedText
-                    style={{
+                    starStyle={{
                       alignSelf: "center",
-                      fontSize: 18,
-                      color: "rgba(60,84,51,0.7)",
+                    }}
+                  />
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      marginTop: Platform.OS === "web" ? 0 : 15,
                     }}
                   >
                     {/* Round avg_rating to 2 decimal places */}
-                    <ThemedText type="bold">
+                    <ThemedText
+                      type="bold"
+                      style={{
+                        fontSize: 28,
+                        lineHeight: 30,
+                      }}
+                    >
                       {+book.avg_rating.toFixed(2)}{" "}
                     </ThemedText>
-                    ({book.rating_list.length} rating
-                    {book.rating_list.length > 1 ? "s" : ""})
-                  </ThemedText>
+                    <ThemedText
+                      style={{
+                        alignSelf: "center",
+                        fontSize: 18,
+                        color: "rgba(60,84,51,0.7)",
+                        marginTop: Platform.OS === "web" ? 0 : -5,
+                        lineHeight: 24,
+                      }}
+                    >
+                      ({book.rating_list.length} rating
+                      {book.rating_list.length > 1 ? "s" : ""})
+                    </ThemedText>
+                  </View>
                 </View>
               </View>
             ) : (
@@ -431,7 +461,7 @@ export default function BookInfoPage() {
                 >
                   You rated this book{" "}
                   <ThemedText type="bold">{rating}</ThemedText> stars
-                  {userId ? "" : "Please sign in to save your rating."}
+                  {userId ? "" : "\nPlease sign in to save your rating."}
                 </ThemedText>
               ) : (
                 <></>
@@ -487,20 +517,33 @@ export default function BookInfoPage() {
                       starSize={32}
                       starStyle={{ alignSelf: "center", marginLeft: -5 }}
                     />
-                    <ThemedText
+                    <View
                       style={{
-                        alignSelf: "center",
-                        fontSize: 18,
-                        color: "rgba(60,84,51,0.7)",
+                        display: "flex",
+                        flexDirection: "row",
                       }}
                     >
                       {/* Round avg_rating to 2 decimal places */}
-                      <ThemedText type="bold">
+                      <ThemedText
+                        type="bold"
+                        style={{
+                          fontSize: 28,
+                          lineHeight: 30,
+                        }}
+                      >
                         {+book.avg_rating.toFixed(2)}{" "}
                       </ThemedText>
-                      ({book.rating_list.length} rating
-                      {book.rating_list.length > 1 ? "s" : ""})
-                    </ThemedText>
+                      <ThemedText
+                        style={{
+                          alignSelf: "center",
+                          fontSize: 18,
+                          color: "rgba(60,84,51,0.7)",
+                        }}
+                      >
+                        ({book.rating_list.length} rating
+                        {book.rating_list.length > 1 ? "s" : ""})
+                      </ThemedText>
+                    </View>
                   </View>
                 </View>
               ) : (
@@ -513,48 +556,52 @@ export default function BookInfoPage() {
                   {isfullDescription ? book.description : cutDescription}
                 </ThemedText>
                 {isShortText ? <></> : <ShowMoreButton />}
+                <View style={{ gap: 10 }}>
+                  {/* Genres */}
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      gap: 5,
+                      alignContent: "center",
+                      alignItems: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    <ThemedText style={styles.otherInfo}>
+                      <ThemedText style={styles.underline}>
+                        Genre{book.genre_list.length > 1 ? "s" : ""}
+                      </ThemedText>
+                      :{" "}
+                    </ThemedText>
+                    {book.genre_list.map((genre) => renderGenre(genre))}
+                  </View>
 
-                {/* Genres */}
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
-                    gap: 5,
-                    alignContent: "center",
-                    alignItems: "center",
-                    marginTop: 10,
-                  }}
-                >
+                  {/* Other info: publisher, published date, number of pages, and ISBN*/}
                   <ThemedText style={styles.otherInfo}>
-                    <ThemedText style={styles.underline}>Genres</ThemedText>:{" "}
+                    <ThemedText style={styles.underline}>Publisher</ThemedText>:{" "}
+                    {book.publisher}
                   </ThemedText>
-                  {book.genre_list.map((genre) => renderGenre(genre))}
-                </View>
 
-                {/* Other info: publisher, published date, number of pages, and ISBN*/}
-                <ThemedText style={styles.otherInfo}>
-                  <ThemedText style={styles.underline}>Publisher</ThemedText>:{" "}
-                  {book.publisher}
-                </ThemedText>
-                <ThemedText style={styles.otherInfo}>
-                  <ThemedText style={styles.underline}>
-                    Published date
+                  <ThemedText style={styles.otherInfo}>
+                    <ThemedText style={styles.underline}>
+                      Published date
+                    </ThemedText>
+                    :{" "}
+                    {new Date(
+                      book.published_date.seconds * 1000
+                    ).toLocaleDateString("en-UK", dateFormat)}
                   </ThemedText>
-                  :{" "}
-                  {new Date(book.published_date).toLocaleDateString(
-                    "en-UK",
-                    dateFormat
-                  )}
-                </ThemedText>
-                <ThemedText style={styles.otherInfo}>
-                  <ThemedText style={styles.underline}>Pages</ThemedText>:{" "}
-                  {book.total_page}
-                </ThemedText>
-                <ThemedText style={styles.otherInfo}>
-                  <ThemedText style={styles.underline}>ISBN</ThemedText>:{" "}
-                  {book_id}
-                </ThemedText>
+                  <ThemedText style={styles.otherInfo}>
+                    <ThemedText style={styles.underline}>Pages</ThemedText>:{" "}
+                    {book.total_page}
+                  </ThemedText>
+                  <ThemedText style={styles.otherInfo}>
+                    <ThemedText style={styles.underline}>ISBN</ThemedText>:{" "}
+                    {book_id}
+                  </ThemedText>
+                </View>
               </View>
             </View>
 
@@ -570,7 +617,7 @@ export default function BookInfoPage() {
               >
                 Ratings
               </ThemedText>
-              <ThemedText style={{ fontSize: 20 }}>
+              <ThemedText style={{ fontSize: 20, lineHeight: 24 }}>
                 {Intl.NumberFormat("en-US").format(book.rating_list.length)}{" "}
                 total rating{book.rating_list.length > 1 ? "s" : ""}
               </ThemedText>
@@ -610,6 +657,5 @@ const styles = StyleSheet.create({
   },
   otherInfo: {
     fontSize: 16,
-    lineHeight: 32,
   },
 });

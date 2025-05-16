@@ -86,6 +86,7 @@ export default function login() {
           fontSize: 20,
           textAlign: "center",
           margin: 5,
+          lineHeight: 32,
         }}
       >
         {title}

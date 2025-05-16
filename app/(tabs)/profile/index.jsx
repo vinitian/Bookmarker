@@ -46,6 +46,7 @@ export default function HomeScreen() {
             fontFamily: "Kanit_500Medium",
             fontSize: 18,
             height: 24,
+            lineHeight: 24
           }}
         >
           Go to login page
