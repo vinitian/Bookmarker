@@ -155,7 +155,9 @@ export default function BookInfoPage() {
         onPress={() => {
           setQueryText(genre);
           setType("genre");
-          router.navigate(`../../search?type=genre&q=${encodeURI(genre)}`);
+          router.navigate(
+            `../../search?type=genre&q=${encodeURIComponent(genre)}`
+          );
         }}
         style={({ pressed }: { pressed: boolean }) => ({
           backgroundColor: "#79AB57",
