@@ -79,7 +79,12 @@ export default function UserProfile() {
           }}
         >
           <MaterialIcons name="arrow-back" size={24} color="#3C5433" />
-          <ThemedText type="bold">Go back to my profile</ThemedText>
+          <ThemedText
+            type="bold"
+            style={{ marginTop: Platform.OS === "web" ? 0 : 4 }}
+          >
+            Go back to my profile
+          </ThemedText>
         </View>
       </TouchableOpacity>
     );
