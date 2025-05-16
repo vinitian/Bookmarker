@@ -3,10 +3,18 @@ import { Text, View, Image, Pressable } from "react-native";
 import { useState } from "react";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
+import { StarRatingDisplay } from "react-native-star-rating-widget";
 
-export default function Book({ bookData }: { bookData: ShortBookData }) {
+export default function Book({
+  bookData,
+}: {
+  bookData: ShortBookData | ShortBookDataWithRating;
+}) {
   const router = useRouter();
   const [isFocused, setIsFocused] = useState(false);
+  const isShortBookDataWithRating = (
+    book: any
+  ): book is ShortBookDataWithRating => book.user_rating;
 
   if (!bookData) return <Text>Loading...</Text>;
   return (
@@ -50,6 +58,24 @@ export default function Book({ bookData }: { bookData: ShortBookData }) {
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
+        {isShortBookDataWithRating(bookData) ? (
+          bookData.user_rating != -1 ? (
+            <StarRatingDisplay
+              rating={bookData.user_rating}
+              color="#e2bd04"
+              starSize={18}
+              starStyle={{
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <ThemedText style={{ fontSize: 14, fontStyle: "italic" }}>
+              No rating
+            </ThemedText>
+          )
+        ) : (
+          <></>
+        )}
         <BookmarkButton thisBookId={bookData.book_id} />
       </View>
     </View>

@@ -2,15 +2,20 @@ import { ThemedText } from "@/components/ThemedText";
 import { Text, View, Image, Pressable, Platform } from "react-native";
 import BookmarkButton from "./BookmarkButton";
 import { useRouter } from "expo-router";
+import { StarRatingDisplay } from "react-native-star-rating-widget";
 
+// For My Shelf and My Top Ten components and pages
 export default function BookSmall({
   bookData,
   handleRemove = null,
 }: {
-  bookData: ShortBookData;
+  bookData: ShortBookData | ShortBookDataWithRating; // accept ShortBookData in case for future uses
   handleRemove: Function | null;
 }) {
   const router = useRouter();
+  const isShortBookDataWithRating = (
+    book: any
+  ): book is ShortBookDataWithRating => book.user_rating;
 
   if (!bookData) return <Text>Loading...</Text>;
   return (
@@ -56,6 +61,25 @@ export default function BookSmall({
             ? `(+${bookData.author_list.length - 1})`
             : ``}
         </ThemedText>
+
+        {isShortBookDataWithRating(bookData) ? (
+          bookData.user_rating != -1 ? (
+            <StarRatingDisplay
+              rating={bookData.user_rating}
+              color="#e2bd04"
+              starSize={18}
+              starStyle={{
+                alignSelf: "center",
+              }}
+            />
+          ) : (
+            <ThemedText style={{ fontSize: 14, fontStyle: "italic" }}>
+              No rating
+            </ThemedText>
+          )
+        ) : (
+          <></>
+        )}
         <BookmarkButton thisBookId={bookData.book_id} />
         {handleRemove != null ? (
           <Pressable

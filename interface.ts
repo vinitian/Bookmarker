@@ -22,6 +22,14 @@ interface ShortBookData {
   author_list: string[];
 }
 
+interface ShortBookDataWithRating {
+  book_id: string;
+  title: string;
+  img_url: string;
+  author_list: string[];
+  user_rating: number;
+}
+
 interface Rating {
   user_id: string;
   rating: number;

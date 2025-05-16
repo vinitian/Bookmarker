@@ -10,19 +10,24 @@ import fetchBooksFromId from "@/lib/fetchBooksFromId";
 export default function MyShelf({
   myProfileName,
   bookList,
+  userId,
 }: {
   myProfileName: string | undefined;
   bookList: PersonalBook[];
+  userId: string;
 }) {
   const router = useRouter();
 
-  const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
+  const [bookDataList, setBookDataList] = useState<ShortBookDataWithRating[]>(
+    []
+  );
 
   useEffect(() => {
     if (bookList.length > 0) {
       fetchBooksFromId({
         book_id_list: bookList.map((book) => book.book_id),
         setBookDataList: setBookDataList,
+        user_id: userId,
       });
     }
   }, [bookList]);

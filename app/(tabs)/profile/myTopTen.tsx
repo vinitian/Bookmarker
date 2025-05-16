@@ -16,7 +16,7 @@ export default function MyTopTen() {
 
   const [user, setUserData] = useState<User | undefined>(undefined);
 
-  const [myUid, setMyUid] = useState<string | null>("");
+  const [myUid, setMyUid] = useState<string>("");
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -36,13 +36,16 @@ export default function MyTopTen() {
   };
 
   // fetch book data
-  const [bookDataList, setBookDataList] = useState<ShortBookData[]>([]);
+  const [bookDataList, setBookDataList] = useState<ShortBookDataWithRating[]>(
+    []
+  );
 
   useEffect(() => {
     if (user && user.fav_list.length > 0) {
       fetchBooksFromId({
         book_id_list: user.fav_list,
         setBookDataList: setBookDataList,
+        user_id: myUid,
       });
     }
   }, [user]);
@@ -109,8 +112,8 @@ export default function MyTopTen() {
                 gridTemplateColumns: "repeat(auto-fit,325px)",
               }}
               data={bookDataList}
-              keyExtractor={(book: ShortBookData) => book.book_id}
-              renderItem={({ item }: { item: ShortBookData }) => (
+              keyExtractor={(book) => book.book_id}
+              renderItem={({ item }: { item: ShortBookDataWithRating }) => (
                 <BookSmall
                   bookData={item}
                   handleRemove={() => {

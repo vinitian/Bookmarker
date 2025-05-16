@@ -174,12 +174,20 @@ export default function UserProfile() {
             )}
           </View>
         </ThemedView>
-        <MyTopTen myProfileName={myProfileName} favList={user.fav_list} />
+        <MyTopTen
+          myProfileName={myProfileName}
+          favList={user.fav_list}
+          userId={user_id}
+        />
         <MyReadingGraph
           myProfileName={myProfileName}
           bookList={user.book_list}
         />
-        <MyShelf myProfileName={myProfileName} bookList={user.book_list} />
+        <MyShelf
+          myProfileName={myProfileName}
+          bookList={user.book_list}
+          userId={user_id}
+        />
       </ThemedView>
     </ScrollView>
   );

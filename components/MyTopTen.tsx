@@ -10,9 +10,11 @@ import { Feather } from "@expo/vector-icons";
 export default function MyTopTen({
   myProfileName,
   favList,
+  userId,
 }: {
   myProfileName: string | undefined;
   favList: string[];
+  userId: string;
 }) {
   const router = useRouter();
 
@@ -23,6 +25,7 @@ export default function MyTopTen({
       fetchBooksFromId({
         book_id_list: favList,
         setBookDataList: setBookDataList,
+        user_id: userId,
       });
     }
   }, [favList]);
