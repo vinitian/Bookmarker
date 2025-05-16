@@ -151,7 +151,10 @@ export default function UserProfile() {
                   borderRadius: 50,
                 }}
               >
-                <ThemedText type="bold" style={{ color: "#EBDF94" }}>
+                <ThemedText
+                  type="bold"
+                  style={{ color: "#EBDF94", paddingTop: 5 }}
+                >
                   {auth.currentUser ? "Sign Out" : "Sign In"}
                 </ThemedText>
               </TouchableOpacity>
