@@ -6,7 +6,6 @@ import fetchBooksByQuery from "@/lib/fetchBooksByQuery";
 import { ThemedText } from "./ThemedText";
 
 export const SearchResult = ({
-  n,
   q,
   type,
   option,
@@ -15,7 +14,6 @@ export const SearchResult = ({
   yearRange,
   ratingRange,
 }: {
-  n: number;
   q: string;
   type: string;
   option: string;
@@ -27,7 +25,6 @@ export const SearchResult = ({
   const [books, setBooks] = useState<ShortBookData[] | undefined>(undefined);
   useEffect(() => {
     fetchBooksByQuery({
-      n: n,
       setBooks: setBooks,
       type: type,
       q: q,

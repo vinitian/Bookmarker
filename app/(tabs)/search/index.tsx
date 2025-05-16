@@ -485,7 +485,6 @@ export default function SearchPage() {
               ) : (
                 // Pass default values
                 <SearchResult
-                  n={20}
                   q={queryText}
                   type={type}
                   option={option}

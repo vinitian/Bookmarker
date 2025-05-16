@@ -32,7 +32,6 @@ const toField = (str: string) =>
       "author_list";
 
 export const fetchBooksByQuery = async ({
-  n,
   setBooks,
   type,
   q,
@@ -42,7 +41,6 @@ export const fetchBooksByQuery = async ({
   yearRange,
   ratingRange,
 }: {
-  n: number;
   setBooks: Function;
   type: string;
   q: string;
@@ -98,8 +96,7 @@ export const fetchBooksByQuery = async ({
         where("published_date", "<=", new Date(yearRange[1] + 1, 0, 1)), // +1 to include dates after 1st january of yearRange[1]
         where("total_page", ">=", pageRange[0]),
         where("total_page", "<=", pageRange[1]),
-        orderBy(toField(option), ascending ? "asc" : "desc"),
-        limit(n)
+        orderBy(toField(option), ascending ? "asc" : "desc")
       );
 
       const bookSnapshot = await getDocs(bookQuery);
