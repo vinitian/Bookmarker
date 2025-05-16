@@ -31,7 +31,7 @@ export default function logBookmark() {
   const query = useLocalSearchParams();
   const [bookId, setBookId] = useState(query.id ? query.id : "");
 
-  const [book, setBookData] = useState<Book|undefined>(undefined);
+  const [book, setBookData] = useState<Book | undefined>(undefined);
   useEffect(() => {
     if (bookId) {
       fetchBook({ book_id: bookId, setBookData: setBookData });
@@ -45,7 +45,8 @@ export default function logBookmark() {
     setShowDatePicker(false);
     setSelectedDate(date);
   };
-  const [showStartTimePicker, setShowStartTimePicker] = useState<boolean>(false);
+  const [showStartTimePicker, setShowStartTimePicker] =
+    useState<boolean>(false);
   const [selectedStartTime, setSelectedStartTime] = useState();
   const onStartTimePickerConfirm = ({ hours, minutes }) => {
     setShowStartTimePicker(false);
@@ -120,7 +121,7 @@ export default function logBookmark() {
             ),
             start_page: startPage,
             end_page: endPage,
-            total_page: endPage - startPage,
+            total_page: endPage - startPage + 1,
           },
           user_id: userId,
           book_id: bookId,
@@ -160,7 +161,7 @@ export default function logBookmark() {
             ),
             start_page: startPage,
             end_page: endPage,
-            total_page: endPage - startPage,
+            total_page: endPage - startPage + 1,
           },
           user_id: userId,
           book_id: bookId,
@@ -179,7 +180,8 @@ export default function logBookmark() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",opacity: pressed ? 0.5 : 1,
+        display: "flex",
+        opacity: pressed ? 0.5 : 1,
       })}
     >
       <ThemedText style={styles.buttonText}>Save Changes</ThemedText>
@@ -200,14 +202,15 @@ export default function logBookmark() {
         setTimeout(() => setErrorMessage(""), 6000);
       }}
       style={({ pressed }) => ({
-         backgroundColor: "#F28A8A",
+        backgroundColor: "#F28A8A",
         height: 30,
         marginTop: 10,
         padding: 16,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",opacity: pressed ? 0.5 : 1,
+        display: "flex",
+        opacity: pressed ? 0.5 : 1,
       })}
     >
       <ThemedText style={styles.buttonText}>Delete Bookmark</ThemedText>
@@ -226,7 +229,8 @@ export default function logBookmark() {
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 50,
-        display: "flex",opacity: pressed ? 0.5 : 1,
+        display: "flex",
+        opacity: pressed ? 0.5 : 1,
       })}
     >
       <ThemedText style={styles.buttonText}>New Bookmark</ThemedText>
@@ -344,7 +348,10 @@ export default function logBookmark() {
                   onPress={() => {
                     setShowDatePicker(true);
                   }}
-                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
+                  style={({ pressed }) => [
+                    styles.dateTimePicker || {},
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
                 >
                   <ThemedText>
                     {selectedDate
@@ -387,7 +394,10 @@ export default function logBookmark() {
                     onPress={() => {
                       setShowStartTimePicker(true);
                     }}
-                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
+                    style={({ pressed }) => [
+                      styles.dateTimePicker || {},
+                      { opacity: pressed ? 0.5 : 1 },
+                    ]}
                   >
                     <ThemedText>From: {selectedStartTime}</ThemedText>
                     <MaterialCommunityIcons
@@ -417,7 +427,10 @@ export default function logBookmark() {
                     onPress={() => {
                       setShowEndTimePicker(true);
                     }}
-                  style={({ pressed }) => [styles.dateTimePicker || {}, {opacity:pressed ? 0.5 : 1}]}
+                    style={({ pressed }) => [
+                      styles.dateTimePicker || {},
+                      { opacity: pressed ? 0.5 : 1 },
+                    ]}
                   >
                     <ThemedText>To: {selectedEndTime}</ThemedText>
                     <MaterialCommunityIcons
