@@ -7,6 +7,7 @@ import {
   useWindowDimensions,
   ScrollView,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -542,20 +543,31 @@ export default function logBookmark() {
               >
                 {userBookData.bookmark_list &&
                 userBookData.bookmark_list.length > 0 ? (
-                  userBookData.bookmark_list.map((bookmark, i) => (
-                    <SavedBookmark
-                      key={i}
-                      bookKey={i}
-                      setSelectedKey={setSelectedKey}
-                      selectedKey={selectedKey}
-                      bookmark={bookmark}
-                      setSelectedDate={setSelectedDate}
-                      setStartHourMin={onStartTimePickerConfirm}
-                      setEndHourMin={onEndTimePickerConfirm}
-                      setStartPage={setStartPage}
-                      setEndPage={setEndPage}
-                    />
-                  ))
+                  <FlatList
+                    scrollEnabled={false}
+                    contentContainerStyle={{
+                      marginTop: 5,
+                      display: "flex",
+                      flexDirection: "column-reverse",
+                      gap: 10,
+                    }}
+                    data={userBookData.bookmark_list}
+                    keyExtractor={(bookmark, i) => i}
+                    renderItem={({ item, index }) => (
+                      <SavedBookmark
+                        // key={i}
+                        bookKey={index}
+                        setSelectedKey={setSelectedKey}
+                        selectedKey={selectedKey}
+                        bookmark={item}
+                        setSelectedDate={setSelectedDate}
+                        setStartHourMin={onStartTimePickerConfirm}
+                        setEndHourMin={onEndTimePickerConfirm}
+                        setStartPage={setStartPage}
+                        setEndPage={setEndPage}
+                      />
+                    )}
+                  />
                 ) : (
                   <ThemedText>No bookmark yet</ThemedText>
                 )}
