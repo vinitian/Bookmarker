@@ -8,12 +8,14 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
+  Animated,
+  Easing,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
 import { ThemedView } from "@/components/ThemedView";
@@ -336,6 +338,22 @@ export default function SearchPage() {
   const SortAndFilter = () => {
     const [isOpened, setIsOpened] = useState<boolean>(true);
 
+    const rotateValue = useRef(new Animated.Value(1)).current;
+
+    const startAnimation = () => {
+      Animated.timing(rotateValue, {
+        toValue: isOpened ? 0 : 1,
+        duration: 200,
+        easing: Easing.ease,
+        useNativeDriver: true,
+      }).start();
+    };
+
+    const rotateInterpolate = rotateValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["0deg", "180deg"],
+    });
+
     return (
       <View style={{ marginHorizontal: 30, minWidth: 250 }}>
         <Pressable
@@ -346,16 +364,21 @@ export default function SearchPage() {
           }}
           onPress={() => {
             setIsOpened(!isOpened);
+            startAnimation();
           }}
         >
           <ThemedText type="subtitle" style={styles.sortFilterHeading}>
             Sort & Filter
           </ThemedText>
-          {isOpened ? (
-            <Entypo name="chevron-thin-up" size={24} color="#3C5433" />
-          ) : (
+          {/* {isOpened ? ( */}
+          {/* <Entypo name="chevron-thin-up" size={24} color="#3C5433" /> */}
+          {/* ) : ( */}
+          <Animated.View
+            style={{ transform: [{ rotateX: rotateInterpolate }] }}
+          >
             <Entypo name="chevron-thin-down" size={24} color="#3C5433" />
-          )}
+          </Animated.View>
+          {/* )} */}
         </Pressable>
         {/* Horizontal line */}
         <View
