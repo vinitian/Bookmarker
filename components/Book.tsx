@@ -16,7 +16,7 @@ export default function Book({ bookData }: { bookData: ShortBookData }) {
         onHoverOut={() => setIsFocused(false)}
         onPress={() => {
           setIsFocused(true);
-          router.navigate(`./book/${bookData.book_id}`);
+          router.navigate(`../../../book/${bookData.book_id}`);
         }}
         style={({ pressed }) => ({
           opacity: pressed ? 0.5 : 1,
@@ -39,7 +39,7 @@ export default function Book({ bookData }: { bookData: ShortBookData }) {
           type="bold"
           style={{ marginTop: 5 }}
           onPress={() => {
-            router.navigate(`./book/${bookData.book_id}`);
+            router.navigate(`../../../book/${bookData.book_id}`);
           }}
         >
           {bookData.title}

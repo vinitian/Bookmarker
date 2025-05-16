@@ -23,7 +23,7 @@ export default function BookSmall({
     >
       <Pressable
         onPress={() => {
-          router.navigate(`./book/${bookData.book_id}`);
+          router.navigate(`../../../book/${bookData.book_id}`);
         }}
         style={({ pressed }: { pressed: boolean }) => ({
           opacity: pressed ? 0.5 : 1,
@@ -45,7 +45,7 @@ export default function BookSmall({
           type="bold"
           style={{ lineHeight: 18, paddingTop: 5 }}
           onPress={() => {
-            router.navigate(`./book/${bookData.book_id}`);
+            router.navigate(`../../../book/${bookData.book_id}`);
           }}
         >
           {bookData.title}

@@ -335,7 +335,7 @@ export default function SearchPage() {
           color: "#fff",
           fontSize: 16,
           textAlign: "center",
-          marginTop: Platform.OS === "web" ? 0 : -4,
+          marginTop: Platform.OS === "web" ? 0 : 3,
         }}
       >
         Reset
