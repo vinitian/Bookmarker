@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import fetchBooksFromId from "@/lib/fetchBooksFromId";
 
 export default function MyShelf({ myProfileName, bookList }) {
-
   const router = useRouter();
 
   const [bookDataList, setBookDataList] = useState([]);
@@ -50,7 +49,7 @@ export default function MyShelf({ myProfileName, bookList }) {
         }}
       >
         <ThemedText
-        type="title"
+          type="title"
           style={{
             fontSize: 28,
             lineHeight: 38,
@@ -90,13 +89,13 @@ export default function MyShelf({ myProfileName, bookList }) {
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
-              display: "flex",
+              display: "grid",
               flexDirection: "row",
-              flexWrap: "wrap",
               columnGap: 14,
               rowGap: 20,
               paddingHorizontal: 10,
               justifyContent: "space-evenly",
+              gridTemplateColumns: "repeat(auto-fit,325px)",
             }}
             data={bookDataList}
             keyExtractor={(book) => book.book_id}

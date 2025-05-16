@@ -8,7 +8,6 @@ import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
 export default function MyTopTen({ myProfileName, favList }) {
-
   const router = useRouter();
 
   const [bookDataList, setBookDataList] = useState([]);
@@ -49,7 +48,7 @@ export default function MyTopTen({ myProfileName, favList }) {
         }}
       >
         <ThemedText
-        type="title"
+          type="title"
           style={{
             fontSize: 32,
             lineHeight: 40,
@@ -89,13 +88,13 @@ export default function MyTopTen({ myProfileName, favList }) {
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
-              display: "flex",
+              display: "grid",
               flexDirection: "row",
-              flexWrap: "wrap",
               columnGap: 10,
               rowGap: 20,
               paddingHorizontal: 10,
               justifyContent: "space-evenly",
+              gridTemplateColumns: "repeat(auto-fit,200px)",
             }}
             data={bookDataList}
             keyExtractor={(book) => book.book_id}

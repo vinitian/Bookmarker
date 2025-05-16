@@ -110,13 +110,13 @@ export default function MyTopTen() {
               <FlatList
                 scrollEnabled={false}
                 contentContainerStyle={{
-                  display: "flex",
+                  display: "grid",
                   flexDirection: "row",
-                  flexWrap: "wrap",
                   columnGap: 14,
                   rowGap: 20,
                   paddingHorizontal: 10,
                   justifyContent: "space-evenly",
+                  gridTemplateColumns: "repeat(auto-fit,325px)",
                 }}
                 data={bookDataList}
                 keyExtractor={(book: ShortBookData) => book.book_id}

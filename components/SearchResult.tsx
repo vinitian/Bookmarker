@@ -53,13 +53,13 @@ export const SearchResult = ({
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
-              display: "flex",
+              display: "grid",
               flexDirection: "row",
-              flexWrap: "wrap",
               columnGap: 14,
               rowGap: 20,
               paddingHorizontal: 10,
-              justifyContent: "flex-start",
+              justifyContent: "space-evenly",
+              gridTemplateColumns: "repeat(auto-fit,200px)",
             }}
             data={books}
             keyExtractor={(book) => book.book_id}

@@ -28,13 +28,13 @@ export default function MostPopularBooks({
         <FlatList
           scrollEnabled={false}
           contentContainerStyle={{
-            display: "flex",
+            display: "grid",
             flexDirection: "row",
-            flexWrap: "wrap",
             columnGap: 14,
             rowGap: 20,
             paddingHorizontal: 10,
             justifyContent: "space-evenly",
+            gridTemplateColumns: "repeat(auto-fit,200px)",
           }}
           data={topNBooks}
           keyExtractor={(book) => book.book_id}
