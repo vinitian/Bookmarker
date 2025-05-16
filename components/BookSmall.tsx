@@ -71,6 +71,7 @@ export default function BookSmall({
               starStyle={{
                 alignSelf: "center",
               }}
+              style={{ marginLeft: -6 }}
             />
           ) : (
             <ThemedText style={{ fontSize: 14, fontStyle: "italic" }}>
