@@ -52,7 +52,7 @@ export default function MyTopTen() {
   const [bookNameToRemove, setBookNameToRemove] = useState("");
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={true}>
       <ThemedView>
         <View
           style={{

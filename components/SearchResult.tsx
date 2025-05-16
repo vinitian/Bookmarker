@@ -48,7 +48,8 @@ export const SearchResult = ({
           <FlatList
             scrollEnabled={false}
             contentContainerStyle={{
-              display: "grid",
+              display: Platform.OS == "web" ? "grid" : "flex",
+              flexWrap: "wrap",
               flexDirection: "row",
               columnGap: 14,
               rowGap: 20,

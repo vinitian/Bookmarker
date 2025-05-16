@@ -236,7 +236,8 @@ export default function logBookmark() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <ThemedView
         style={{
-          paddingVertical: 20,
+          paddingTop: 20,
+          paddingBottom: 150,
           paddingHorizontal: 10,
           minHeight: height,
         }}

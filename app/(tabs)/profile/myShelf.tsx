@@ -52,7 +52,7 @@ export default function MyShelf() {
   const [bookNameToRemove, setBookNameToRemove] = useState("");
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={true}>
       <ThemedView>
         <View
           style={{

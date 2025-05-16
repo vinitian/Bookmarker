@@ -471,7 +471,7 @@ export default function SearchPage() {
           <View
             style={{
               display: "flex",
-              flexShrink: 1,
+              flex: 1,
               maxWidth: 1200,
               alignSelf: "center",
               marginTop: 20,

@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { FlatList } from "react-native";
+import { FlatList, Platform } from "react-native";
 import Book from "./Book";
 import { useState, useEffect } from "react";
 import fetchTopNBooks from "@/lib/fetchTopNBooks";
@@ -28,7 +28,8 @@ export default function MostPopularBooks({
         <FlatList
           scrollEnabled={false}
           contentContainerStyle={{
-            display: "grid",
+            display: Platform.OS == "web" ? "grid" : "flex",
+            flexWrap: "wrap",
             flexDirection: "row",
             columnGap: 14,
             rowGap: 20,
