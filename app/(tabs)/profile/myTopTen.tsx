@@ -76,21 +76,19 @@ export default function MyTopTen() {
           >
             <View>
               <ThemedText
+                type="bold"
                 style={{
                   fontSize: 18,
                   textAlign: "center",
                   marginTop: 5,
-                  fontFamily: "Kanit_500Medium",
                 }}
               >
                 Removing a book
               </ThemedText>
-              <ThemedText style={{ margin: 10, fontFamily: "Kanit_300Light" }}>
+              <ThemedText style={{ margin: 10 }}>
                 Please confirm to remove{" "}
-                <ThemedText style={{ fontFamily: "Kanit_500Medium" }}>
-                  {bookNameToRemove}
-                </ThemedText>{" "}
-                from the Top Ten
+                <ThemedText type="bold">{bookNameToRemove}</ThemedText> from the
+                Top Ten
               </ThemedText>
             </View>
           </AlertModal>
