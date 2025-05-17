@@ -160,11 +160,25 @@ export default function SearchPage() {
     range: number[];
     setRange: Function;
   }) => {
+    // set min and max values for checking
+    let min = pageMin;
+    let max = pageMax;
+    if (text === "Published year") {
+      min = yearMin;
+      max = yearMax;
+    } else if (text === "Rating") {
+      min = ratingMin;
+      max = ratingMax;
+    }
+
     return (
       <View style={{ gap: 5 }}>
         <Pressable
           onPress={() => {
             setCheckboxOption(!option);
+            if (option === false) {
+              setRange([min, max]);
+            }
           }}
           style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
