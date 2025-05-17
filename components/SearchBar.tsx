@@ -19,12 +19,12 @@ const types = [
     label: "Publisher",
   },
   {
-    value: "isbn",
-    label: "ISBN",
-  },
-  {
     value: "genre",
     label: "Genre",
+  },
+  {
+    value: "isbn",
+    label: "ISBN",
   },
 ];
 export const SearchBar = ({ page }: { page: string }) => {
