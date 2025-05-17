@@ -34,7 +34,7 @@ export const SearchResult = ({
       yearRange: yearRange,
       ratingRange: ratingRange,
     });
-  }, [q, type, pageRange, yearRange, ratingRange]);
+  }, [q, type, option, ascending, pageRange, yearRange, ratingRange]);
 
   return (
     <CustomView type="search">

@@ -79,7 +79,11 @@ export default function TabLayout() {
                 <Text style={styles.webTabText}>Home</Text>
               </Pressable>
               <Pressable
-                onPress={() => router.navigate("../../search")}
+                onPress={() => {
+                  setQueryText("");
+                  setType("title");
+                  router.navigate("../../search");
+                }}
                 style={({ pressed }) => [
                   styles.webTab || {},
                   { opacity: pressed ? 0.5 : 1 },

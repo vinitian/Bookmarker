@@ -18,7 +18,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { SearchBar } from "@/components/SearchBar";
 import MostPopularBooks from "@/components/MostPopularBooks";
 import { ThemedView } from "@/components/ThemedView";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import SearchResult from "@/components/SearchResult";
 import { useAppContext } from "@/app/_layout";
 import { ThemedText } from "@/components/ThemedText";
@@ -69,6 +69,15 @@ export default function SearchPage() {
   const [pageRange, setPageRange] = useState([pageMin, pageMax]);
   const [yearRange, setYearRange] = useState([yearMin, yearMax]);
   const [ratingRange, setRatingRange] = useState([ratingMin, ratingMax]);
+
+  const isArrayEqual = (array1: any, array2: any) =>
+    JSON.stringify(array1) === JSON.stringify(array2);
+  const isDefaultValues = () =>
+    option === "alphabetical" &&
+    ascending === true &&
+    isArrayEqual(pageRange, [pageMin, pageMax]) &&
+    isArrayEqual(yearRange, [yearMin, yearMax]) &&
+    isArrayEqual(ratingRange, [ratingMin, ratingMax]);
 
   const SortDropdown = () => (
     <Dropdown
@@ -319,17 +328,14 @@ export default function SearchPage() {
     //style is similar to BookmarkButton.tsx
     <Pressable
       onPress={() => {
-        if (Object.keys(query).length === 0) {
-          router.navigate("./search");
-        } else {
-          setFilterRating(false);
-          setFilterPage(false);
-          setFilterYear(false);
-          setPageRange([pageMin, pageMax]);
-          setYearRange([yearMin, yearMax]);
-          setRatingRange([ratingMin, ratingMax]);
-          router.navigate(`./search?title=${query.title}`);
-        }
+        setOption("alphabetical");
+        setAscending(true);
+        setFilterRating(false);
+        setFilterPage(false);
+        setFilterYear(false);
+        setPageRange([pageMin, pageMax]);
+        setYearRange([yearMin, yearMax]);
+        setRatingRange([ratingMin, ratingMax]);
       }}
       style={({ pressed }: { pressed: boolean }) => ({
         backgroundColor: "#3C5433",
@@ -492,8 +498,8 @@ export default function SearchPage() {
             }}
           >
             {
-              // if no query, show most popular books
-              Object.keys(query).length === 0 ? (
+              // if no query or not sort/filtered, show most popular books
+              Object.keys(query).length === 0 && isDefaultValues() ? (
                 <MostPopularBooks TOP_N={20} type="search" />
               ) : (
                 // Pass default values
