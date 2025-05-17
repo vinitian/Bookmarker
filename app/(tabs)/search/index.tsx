@@ -175,10 +175,10 @@ export default function SearchPage() {
       <View style={{ gap: 5 }}>
         <Pressable
           onPress={() => {
-            setCheckboxOption(!option);
-            if (option === false) {
+            if (option === true) {
               setRange([min, max]);
             }
+            setCheckboxOption(!option);
           }}
           style={({ pressed }: { pressed: boolean }) => ({
             display: "flex",
@@ -198,7 +198,13 @@ export default function SearchPage() {
         {/* Set range */}
         {option ? (
           <View style={{ width: "90%", alignSelf: "flex-end" }}>
-            <Slider text={text} range={range} setRange={setRange} />
+            <Slider
+              text={text}
+              range={range}
+              setRange={setRange}
+              min={min}
+              max={max}
+            />
           </View>
         ) : (
           <></>
@@ -211,22 +217,15 @@ export default function SearchPage() {
     text,
     range,
     setRange,
+    min,
+    max,
   }: {
     text: string;
     range: number[];
     setRange: Function;
+    min: number;
+    max: number;
   }) => {
-    // set min and max values for checking
-    let min = pageMin;
-    let max = pageMax;
-    if (text === "Published year") {
-      min = yearMin;
-      max = yearMax;
-    } else if (text === "Rating") {
-      min = ratingMin;
-      max = ratingMax;
-    }
-
     return (
       <View>
         <View
