@@ -1,5 +1,3 @@
-//TODO: decide whether to keep book_id, user_id
-
 interface Book {
   isbn: string;
   title: string;
