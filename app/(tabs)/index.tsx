@@ -1,4 +1,4 @@
-import { Image, Text, Pressable, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -94,16 +94,16 @@ export default function HomeScreen() {
                 opacity: pressed ? 0.5 : 1,
               })}
             >
-              <Text
+              <ThemedText
+                type="bold"
                 style={{
                   color: "white",
                   fontSize: 20,
-                  fontWeight: "bold",
                   textAlign: "center",
                 }}
               >
                 Sign In / Sign Up
-              </Text>
+              </ThemedText>
             </Pressable>
           </>
         )}
